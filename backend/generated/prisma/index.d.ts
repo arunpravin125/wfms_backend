@@ -14,11 +14,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model User
- * 
- */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>
-/**
  * Model Employee
  * 
  */
@@ -50,31 +45,14 @@ export type FailedLoginAttempt = $Result.DefaultSelection<Prisma.$FailedLoginAtt
 export type LoginOTP = $Result.DefaultSelection<Prisma.$LoginOTPPayload>
 
 /**
- * Enums
- */
-export namespace $Enums {
-  export const Role: {
-  ADMIN: 'ADMIN',
-  EMPLOYEE: 'EMPLOYEE'
-};
-
-export type Role = (typeof Role)[keyof typeof Role]
-
-}
-
-export type Role = $Enums.Role
-
-export const Role: typeof $Enums.Role
-
-/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Employees
+ * const employees = await prisma.employee.findMany()
  * ```
  *
  *
@@ -94,8 +72,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Employees
+   * const employees = await prisma.employee.findMany()
    * ```
    *
    *
@@ -185,16 +163,6 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
-    * ```
-    */
-  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.employee`: Exposes CRUD operations for the **Employee** model.
     * Example usage:
     * ```ts
@@ -694,7 +662,6 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User',
     Employee: 'Employee',
     Education: 'Education',
     EmergencyContact: 'EmergencyContact',
@@ -719,84 +686,10 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "employee" | "education" | "emergencyContact" | "employeeSession" | "failedLoginAttempt" | "loginOTP"
+      modelProps: "employee" | "education" | "emergencyContact" | "employeeSession" | "failedLoginAttempt" | "loginOTP"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>
-        fields: Prisma.UserFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          create: {
-            args: Prisma.UserCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
-          upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
-          }
-          aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUser>
-          }
-          groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UserGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UserCountArgs<ExtArgs>
-            result: $Utils.Optional<UserCountAggregateOutputType> | number
-          }
-        }
-      }
       Employee: {
         payload: Prisma.$EmployeePayload<ExtArgs>
         fields: Prisma.EmployeeFieldRefs
@@ -1337,7 +1230,6 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    user?: UserOmit
     employee?: EmployeeOmit
     education?: EducationOmit
     emergencyContact?: EmergencyContactOmit
@@ -1428,7 +1320,7 @@ export namespace Prisma {
     educations: number
     emergencyContacts: number
     sessions: number
-    failedLoginAttempts: number
+    failedLogins: number
     loginOtps: number
   }
 
@@ -1437,7 +1329,7 @@ export namespace Prisma {
     educations?: boolean | EmployeeCountOutputTypeCountEducationsArgs
     emergencyContacts?: boolean | EmployeeCountOutputTypeCountEmergencyContactsArgs
     sessions?: boolean | EmployeeCountOutputTypeCountSessionsArgs
-    failedLoginAttempts?: boolean | EmployeeCountOutputTypeCountFailedLoginAttemptsArgs
+    failedLogins?: boolean | EmployeeCountOutputTypeCountFailedLoginsArgs
     loginOtps?: boolean | EmployeeCountOutputTypeCountLoginOtpsArgs
   }
 
@@ -1483,7 +1375,7 @@ export namespace Prisma {
   /**
    * EmployeeCountOutputType without action
    */
-  export type EmployeeCountOutputTypeCountFailedLoginAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeCountOutputTypeCountFailedLoginsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FailedLoginAttemptWhereInput
   }
 
@@ -1500,1053 +1392,6 @@ export namespace Prisma {
    */
 
   /**
-   * Model User
-   */
-
-  export type AggregateUser = {
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
-  }
-
-  export type UserMinAggregateOutputType = {
-    id: string | null
-    fullName: string | null
-    username: string | null
-    email: string | null
-    password: string | null
-    role: $Enums.Role | null
-    profilePic: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserMaxAggregateOutputType = {
-    id: string | null
-    fullName: string | null
-    username: string | null
-    email: string | null
-    password: string | null
-    role: $Enums.Role | null
-    profilePic: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserCountAggregateOutputType = {
-    id: number
-    fullName: number
-    username: number
-    email: number
-    password: number
-    role: number
-    profilePic: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type UserMinAggregateInputType = {
-    id?: true
-    fullName?: true
-    username?: true
-    email?: true
-    password?: true
-    role?: true
-    profilePic?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserMaxAggregateInputType = {
-    id?: true
-    fullName?: true
-    username?: true
-    email?: true
-    password?: true
-    role?: true
-    profilePic?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserCountAggregateInputType = {
-    id?: true
-    fullName?: true
-    username?: true
-    email?: true
-    password?: true
-    role?: true
-    profilePic?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type UserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which User to aggregate.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Users
-    **/
-    _count?: true | UserCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: UserMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: UserMaxAggregateInputType
-  }
-
-  export type GetUserAggregateType<T extends UserAggregateArgs> = {
-        [P in keyof T & keyof AggregateUser]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUser[P]>
-      : GetScalarType<T[P], AggregateUser[P]>
-  }
-
-
-
-
-  export type UserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserWhereInput
-    orderBy?: UserOrderByWithAggregationInput | UserOrderByWithAggregationInput[]
-    by: UserScalarFieldEnum[] | UserScalarFieldEnum
-    having?: UserScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: UserCountAggregateInputType | true
-    _min?: UserMinAggregateInputType
-    _max?: UserMaxAggregateInputType
-  }
-
-  export type UserGroupByOutputType = {
-    id: string
-    fullName: string
-    username: string
-    email: string
-    password: string
-    role: $Enums.Role
-    profilePic: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: UserCountAggregateOutputType | null
-    _min: UserMinAggregateOutputType | null
-    _max: UserMaxAggregateOutputType | null
-  }
-
-  type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UserGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UserGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UserGroupByOutputType[P]>
-            : GetScalarType<T[P], UserGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    fullName?: boolean
-    username?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    profilePic?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    fullName?: boolean
-    username?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    profilePic?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    fullName?: boolean
-    username?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    profilePic?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
-
-  export type UserSelectScalar = {
-    id?: boolean
-    fullName?: boolean
-    username?: boolean
-    email?: boolean
-    password?: boolean
-    role?: boolean
-    profilePic?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "username" | "email" | "password" | "role" | "profilePic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
-
-  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "User"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      fullName: string
-      username: string
-      email: string
-      password: string
-      role: $Enums.Role
-      profilePic: string | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["user"]>
-    composites: {}
-  }
-
-  type UserGetPayload<S extends boolean | null | undefined | UserDefaultArgs> = $Result.GetResult<Prisma.$UserPayload, S>
-
-  type UserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<UserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: UserCountAggregateInputType | true
-    }
-
-  export interface UserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['User'], meta: { name: 'User' } }
-    /**
-     * Find zero or one User that matches the filter.
-     * @param {UserFindUniqueArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends UserFindUniqueArgs>(args: SelectSubset<T, UserFindUniqueArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one User that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends UserFindUniqueOrThrowArgs>(args: SelectSubset<T, UserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first User that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends UserFindFirstArgs>(args?: SelectSubset<T, UserFindFirstArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first User that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindFirstOrThrowArgs} args - Arguments to find a User
-     * @example
-     * // Get one User
-     * const user = await prisma.user.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends UserFindFirstOrThrowArgs>(args?: SelectSubset<T, UserFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Users that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Users
-     * const users = await prisma.user.findMany()
-     * 
-     * // Get first 10 Users
-     * const users = await prisma.user.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const userWithIdOnly = await prisma.user.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends UserFindManyArgs>(args?: SelectSubset<T, UserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a User.
-     * @param {UserCreateArgs} args - Arguments to create a User.
-     * @example
-     * // Create one User
-     * const User = await prisma.user.create({
-     *   data: {
-     *     // ... data to create a User
-     *   }
-     * })
-     * 
-     */
-    create<T extends UserCreateArgs>(args: SelectSubset<T, UserCreateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Users.
-     * @param {UserCreateManyArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a User.
-     * @param {UserDeleteArgs} args - Arguments to delete one User.
-     * @example
-     * // Delete one User
-     * const User = await prisma.user.delete({
-     *   where: {
-     *     // ... filter to delete one User
-     *   }
-     * })
-     * 
-     */
-    delete<T extends UserDeleteArgs>(args: SelectSubset<T, UserDeleteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one User.
-     * @param {UserUpdateArgs} args - Arguments to update one User.
-     * @example
-     * // Update one User
-     * const user = await prisma.user.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends UserUpdateArgs>(args: SelectSubset<T, UserUpdateArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Users.
-     * @param {UserDeleteManyArgs} args - Arguments to filter Users to delete.
-     * @example
-     * // Delete a few Users
-     * const { count } = await prisma.user.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends UserDeleteManyArgs>(args?: SelectSubset<T, UserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one User.
-     * @param {UserUpsertArgs} args - Arguments to update or create a User.
-     * @example
-     * // Update or create a User
-     * const user = await prisma.user.upsert({
-     *   create: {
-     *     // ... data to create a User
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the User we want to update
-     *   }
-     * })
-     */
-    upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Users.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserCountArgs} args - Arguments to filter Users to count.
-     * @example
-     * // Count the number of Users
-     * const count = await prisma.user.count({
-     *   where: {
-     *     // ... the filter for the Users we want to count
-     *   }
-     * })
-    **/
-    count<T extends UserCountArgs>(
-      args?: Subset<T, UserCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], UserCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends UserAggregateArgs>(args: Subset<T, UserAggregateArgs>): Prisma.PrismaPromise<GetUserAggregateType<T>>
-
-    /**
-     * Group by User.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends UserGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserGroupByArgs['orderBy'] }
-        : { orderBy?: UserGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, UserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the User model
-   */
-  readonly fields: UserFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for User.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the User model
-   */
-  interface UserFieldRefs {
-    readonly id: FieldRef<"User", 'String'>
-    readonly fullName: FieldRef<"User", 'String'>
-    readonly username: FieldRef<"User", 'String'>
-    readonly email: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
-    readonly role: FieldRef<"User", 'Role'>
-    readonly profilePic: FieldRef<"User", 'String'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * User findUnique
-   */
-  export type UserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User findUniqueOrThrow
-   */
-  export type UserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User findFirst
-   */
-  export type UserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User findFirstOrThrow
-   */
-  export type UserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter, which User to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Users.
-     */
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User findMany
-   */
-  export type UserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter, which Users to fetch.
-     */
-    where?: UserWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Users to fetch.
-     */
-    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Users.
-     */
-    cursor?: UserWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Users from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Users.
-     */
-    skip?: number
-    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
-  }
-
-  /**
-   * User create
-   */
-  export type UserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data needed to create a User.
-     */
-    data: XOR<UserCreateInput, UserUncheckedCreateInput>
-  }
-
-  /**
-   * User createMany
-   */
-  export type UserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * User createManyAndReturn
-   */
-  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * User update
-   */
-  export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data needed to update a User.
-     */
-    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
-    /**
-     * Choose, which User to update.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User updateMany
-   */
-  export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User updateManyAndReturn
-   */
-  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User upsert
-   */
-  export type UserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The filter to search for the User to update in case it exists.
-     */
-    where: UserWhereUniqueInput
-    /**
-     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
-     */
-    create: XOR<UserCreateInput, UserUncheckedCreateInput>
-    /**
-     * In case the User was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
-  }
-
-  /**
-   * User delete
-   */
-  export type UserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Filter which User to delete.
-     */
-    where: UserWhereUniqueInput
-  }
-
-  /**
-   * User deleteMany
-   */
-  export type UserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Users to delete
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * User without action
-   */
-  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model Employee
    */
 
@@ -2559,59 +1404,61 @@ export namespace Prisma {
   }
 
   export type EmployeeAvgAggregateOutputType = {
+    id: number | null
     level: number | null
+    parentId: number | null
   }
 
   export type EmployeeSumAggregateOutputType = {
+    id: number | null
     level: number | null
+    parentId: number | null
   }
 
   export type EmployeeMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     publicId: string | null
     username: string | null
     email: string | null
     phone: string | null
     firstName: string | null
     lastName: string | null
-    otpSecret: string | null
-    mfaEnabled: boolean | null
-    level: number | null
-    parentId: string | null
-    role: string | null
-    department: string | null
+    passwordHash: string | null
     isActive: boolean | null
     isStaff: boolean | null
-    lastLogin: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    isSuperuser: boolean | null
+    role: string | null
+    department: string | null
+    level: number | null
+    parentId: number | null
     dateOfBirth: Date | null
     gender: string | null
     address: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmployeeMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     publicId: string | null
     username: string | null
     email: string | null
     phone: string | null
     firstName: string | null
     lastName: string | null
-    otpSecret: string | null
-    mfaEnabled: boolean | null
-    level: number | null
-    parentId: string | null
-    role: string | null
-    department: string | null
+    passwordHash: string | null
     isActive: boolean | null
     isStaff: boolean | null
-    lastLogin: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    isSuperuser: boolean | null
+    role: string | null
+    department: string | null
+    level: number | null
+    parentId: number | null
     dateOfBirth: Date | null
     gender: string | null
     address: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmployeeCountAggregateOutputType = {
@@ -2622,30 +1469,33 @@ export namespace Prisma {
     phone: number
     firstName: number
     lastName: number
-    otpSecret: number
-    mfaEnabled: number
-    level: number
-    parentId: number
-    role: number
-    department: number
+    passwordHash: number
     isActive: number
     isStaff: number
-    lastLogin: number
-    createdAt: number
-    updatedAt: number
+    isSuperuser: number
+    role: number
+    department: number
+    level: number
+    parentId: number
     dateOfBirth: number
     gender: number
     address: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type EmployeeAvgAggregateInputType = {
+    id?: true
     level?: true
+    parentId?: true
   }
 
   export type EmployeeSumAggregateInputType = {
+    id?: true
     level?: true
+    parentId?: true
   }
 
   export type EmployeeMinAggregateInputType = {
@@ -2656,20 +1506,19 @@ export namespace Prisma {
     phone?: true
     firstName?: true
     lastName?: true
-    otpSecret?: true
-    mfaEnabled?: true
-    level?: true
-    parentId?: true
-    role?: true
-    department?: true
+    passwordHash?: true
     isActive?: true
     isStaff?: true
-    lastLogin?: true
-    createdAt?: true
-    updatedAt?: true
+    isSuperuser?: true
+    role?: true
+    department?: true
+    level?: true
+    parentId?: true
     dateOfBirth?: true
     gender?: true
     address?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EmployeeMaxAggregateInputType = {
@@ -2680,20 +1529,19 @@ export namespace Prisma {
     phone?: true
     firstName?: true
     lastName?: true
-    otpSecret?: true
-    mfaEnabled?: true
-    level?: true
-    parentId?: true
-    role?: true
-    department?: true
+    passwordHash?: true
     isActive?: true
     isStaff?: true
-    lastLogin?: true
-    createdAt?: true
-    updatedAt?: true
+    isSuperuser?: true
+    role?: true
+    department?: true
+    level?: true
+    parentId?: true
     dateOfBirth?: true
     gender?: true
     address?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EmployeeCountAggregateInputType = {
@@ -2704,20 +1552,19 @@ export namespace Prisma {
     phone?: true
     firstName?: true
     lastName?: true
-    otpSecret?: true
-    mfaEnabled?: true
-    level?: true
-    parentId?: true
-    role?: true
-    department?: true
+    passwordHash?: true
     isActive?: true
     isStaff?: true
-    lastLogin?: true
-    createdAt?: true
-    updatedAt?: true
+    isSuperuser?: true
+    role?: true
+    department?: true
+    level?: true
+    parentId?: true
     dateOfBirth?: true
     gender?: true
     address?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2808,27 +1655,26 @@ export namespace Prisma {
   }
 
   export type EmployeeGroupByOutputType = {
-    id: string
+    id: number
     publicId: string
     username: string
     email: string | null
     phone: string | null
     firstName: string | null
     lastName: string | null
-    otpSecret: string | null
-    mfaEnabled: boolean
-    level: number
-    parentId: string | null
-    role: string | null
-    department: string | null
+    passwordHash: string
     isActive: boolean
     isStaff: boolean
-    lastLogin: Date | null
-    createdAt: Date
-    updatedAt: Date
+    isSuperuser: boolean
+    role: string | null
+    department: string | null
+    level: number
+    parentId: number | null
     dateOfBirth: Date | null
     gender: string | null
     address: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: EmployeeCountAggregateOutputType | null
     _avg: EmployeeAvgAggregateOutputType | null
     _sum: EmployeeSumAggregateOutputType | null
@@ -2858,26 +1704,25 @@ export namespace Prisma {
     phone?: boolean
     firstName?: boolean
     lastName?: boolean
-    otpSecret?: boolean
-    mfaEnabled?: boolean
-    level?: boolean
-    parentId?: boolean
-    role?: boolean
-    department?: boolean
+    passwordHash?: boolean
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isSuperuser?: boolean
+    role?: boolean
+    department?: boolean
+    level?: boolean
+    parentId?: boolean
     dateOfBirth?: boolean
     gender?: boolean
     address?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
     children?: boolean | Employee$childrenArgs<ExtArgs>
     educations?: boolean | Employee$educationsArgs<ExtArgs>
     emergencyContacts?: boolean | Employee$emergencyContactsArgs<ExtArgs>
     sessions?: boolean | Employee$sessionsArgs<ExtArgs>
-    failedLoginAttempts?: boolean | Employee$failedLoginAttemptsArgs<ExtArgs>
+    failedLogins?: boolean | Employee$failedLoginsArgs<ExtArgs>
     loginOtps?: boolean | Employee$loginOtpsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
@@ -2890,20 +1735,19 @@ export namespace Prisma {
     phone?: boolean
     firstName?: boolean
     lastName?: boolean
-    otpSecret?: boolean
-    mfaEnabled?: boolean
-    level?: boolean
-    parentId?: boolean
-    role?: boolean
-    department?: boolean
+    passwordHash?: boolean
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isSuperuser?: boolean
+    role?: boolean
+    department?: boolean
+    level?: boolean
+    parentId?: boolean
     dateOfBirth?: boolean
     gender?: boolean
     address?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -2915,20 +1759,19 @@ export namespace Prisma {
     phone?: boolean
     firstName?: boolean
     lastName?: boolean
-    otpSecret?: boolean
-    mfaEnabled?: boolean
-    level?: boolean
-    parentId?: boolean
-    role?: boolean
-    department?: boolean
+    passwordHash?: boolean
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isSuperuser?: boolean
+    role?: boolean
+    department?: boolean
+    level?: boolean
+    parentId?: boolean
     dateOfBirth?: boolean
     gender?: boolean
     address?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -2940,30 +1783,29 @@ export namespace Prisma {
     phone?: boolean
     firstName?: boolean
     lastName?: boolean
-    otpSecret?: boolean
-    mfaEnabled?: boolean
-    level?: boolean
-    parentId?: boolean
-    role?: boolean
-    department?: boolean
+    passwordHash?: boolean
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isSuperuser?: boolean
+    role?: boolean
+    department?: boolean
+    level?: boolean
+    parentId?: boolean
     dateOfBirth?: boolean
     gender?: boolean
     address?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "publicId" | "username" | "email" | "phone" | "firstName" | "lastName" | "otpSecret" | "mfaEnabled" | "level" | "parentId" | "role" | "department" | "isActive" | "isStaff" | "lastLogin" | "createdAt" | "updatedAt" | "dateOfBirth" | "gender" | "address", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "publicId" | "username" | "email" | "phone" | "firstName" | "lastName" | "passwordHash" | "isActive" | "isStaff" | "isSuperuser" | "role" | "department" | "level" | "parentId" | "dateOfBirth" | "gender" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Employee$parentArgs<ExtArgs>
     children?: boolean | Employee$childrenArgs<ExtArgs>
     educations?: boolean | Employee$educationsArgs<ExtArgs>
     emergencyContacts?: boolean | Employee$emergencyContactsArgs<ExtArgs>
     sessions?: boolean | Employee$sessionsArgs<ExtArgs>
-    failedLoginAttempts?: boolean | Employee$failedLoginAttemptsArgs<ExtArgs>
+    failedLogins?: boolean | Employee$failedLoginsArgs<ExtArgs>
     loginOtps?: boolean | Employee$loginOtpsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2982,31 +1824,30 @@ export namespace Prisma {
       educations: Prisma.$EducationPayload<ExtArgs>[]
       emergencyContacts: Prisma.$EmergencyContactPayload<ExtArgs>[]
       sessions: Prisma.$EmployeeSessionPayload<ExtArgs>[]
-      failedLoginAttempts: Prisma.$FailedLoginAttemptPayload<ExtArgs>[]
+      failedLogins: Prisma.$FailedLoginAttemptPayload<ExtArgs>[]
       loginOtps: Prisma.$LoginOTPPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       publicId: string
       username: string
       email: string | null
       phone: string | null
       firstName: string | null
       lastName: string | null
-      otpSecret: string | null
-      mfaEnabled: boolean
-      level: number
-      parentId: string | null
-      role: string | null
-      department: string | null
+      passwordHash: string
       isActive: boolean
       isStaff: boolean
-      lastLogin: Date | null
-      createdAt: Date
-      updatedAt: Date
+      isSuperuser: boolean
+      role: string | null
+      department: string | null
+      level: number
+      parentId: number | null
       dateOfBirth: Date | null
       gender: string | null
       address: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["employee"]>
     composites: {}
   }
@@ -3406,7 +2247,7 @@ export namespace Prisma {
     educations<T extends Employee$educationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$educationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     emergencyContacts<T extends Employee$emergencyContactsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$emergencyContactsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmergencyContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends Employee$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeeSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    failedLoginAttempts<T extends Employee$failedLoginAttemptsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$failedLoginAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FailedLoginAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    failedLogins<T extends Employee$failedLoginsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$failedLoginsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FailedLoginAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loginOtps<T extends Employee$loginOtpsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loginOtpsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoginOTPPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3437,27 +2278,26 @@ export namespace Prisma {
    * Fields of the Employee model
    */
   interface EmployeeFieldRefs {
-    readonly id: FieldRef<"Employee", 'String'>
+    readonly id: FieldRef<"Employee", 'Int'>
     readonly publicId: FieldRef<"Employee", 'String'>
     readonly username: FieldRef<"Employee", 'String'>
     readonly email: FieldRef<"Employee", 'String'>
     readonly phone: FieldRef<"Employee", 'String'>
     readonly firstName: FieldRef<"Employee", 'String'>
     readonly lastName: FieldRef<"Employee", 'String'>
-    readonly otpSecret: FieldRef<"Employee", 'String'>
-    readonly mfaEnabled: FieldRef<"Employee", 'Boolean'>
-    readonly level: FieldRef<"Employee", 'Int'>
-    readonly parentId: FieldRef<"Employee", 'String'>
-    readonly role: FieldRef<"Employee", 'String'>
-    readonly department: FieldRef<"Employee", 'String'>
+    readonly passwordHash: FieldRef<"Employee", 'String'>
     readonly isActive: FieldRef<"Employee", 'Boolean'>
     readonly isStaff: FieldRef<"Employee", 'Boolean'>
-    readonly lastLogin: FieldRef<"Employee", 'DateTime'>
-    readonly createdAt: FieldRef<"Employee", 'DateTime'>
-    readonly updatedAt: FieldRef<"Employee", 'DateTime'>
+    readonly isSuperuser: FieldRef<"Employee", 'Boolean'>
+    readonly role: FieldRef<"Employee", 'String'>
+    readonly department: FieldRef<"Employee", 'String'>
+    readonly level: FieldRef<"Employee", 'Int'>
+    readonly parentId: FieldRef<"Employee", 'Int'>
     readonly dateOfBirth: FieldRef<"Employee", 'DateTime'>
     readonly gender: FieldRef<"Employee", 'String'>
     readonly address: FieldRef<"Employee", 'String'>
+    readonly createdAt: FieldRef<"Employee", 'DateTime'>
+    readonly updatedAt: FieldRef<"Employee", 'DateTime'>
   }
     
 
@@ -3969,9 +2809,9 @@ export namespace Prisma {
   }
 
   /**
-   * Employee.failedLoginAttempts
+   * Employee.failedLogins
    */
-  export type Employee$failedLoginAttemptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Employee$failedLoginsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the FailedLoginAttempt
      */
@@ -4048,91 +2888,73 @@ export namespace Prisma {
   }
 
   export type EducationAvgAggregateOutputType = {
-    startYear: number | null
-    endYear: number | null
+    id: number | null
+    employeeId: number | null
   }
 
   export type EducationSumAggregateOutputType = {
-    startYear: number | null
-    endYear: number | null
+    id: number | null
+    employeeId: number | null
   }
 
   export type EducationMinAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
-    school: string | null
+    id: number | null
+    employeeId: number | null
     degree: string | null
-    startYear: number | null
-    endYear: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    university: string | null
+    graduationYear: string | null
   }
 
   export type EducationMaxAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
-    school: string | null
+    id: number | null
+    employeeId: number | null
     degree: string | null
-    startYear: number | null
-    endYear: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    university: string | null
+    graduationYear: string | null
   }
 
   export type EducationCountAggregateOutputType = {
     id: number
     employeeId: number
-    school: number
     degree: number
-    startYear: number
-    endYear: number
-    createdAt: number
-    updatedAt: number
+    university: number
+    graduationYear: number
     _all: number
   }
 
 
   export type EducationAvgAggregateInputType = {
-    startYear?: true
-    endYear?: true
+    id?: true
+    employeeId?: true
   }
 
   export type EducationSumAggregateInputType = {
-    startYear?: true
-    endYear?: true
+    id?: true
+    employeeId?: true
   }
 
   export type EducationMinAggregateInputType = {
     id?: true
     employeeId?: true
-    school?: true
     degree?: true
-    startYear?: true
-    endYear?: true
-    createdAt?: true
-    updatedAt?: true
+    university?: true
+    graduationYear?: true
   }
 
   export type EducationMaxAggregateInputType = {
     id?: true
     employeeId?: true
-    school?: true
     degree?: true
-    startYear?: true
-    endYear?: true
-    createdAt?: true
-    updatedAt?: true
+    university?: true
+    graduationYear?: true
   }
 
   export type EducationCountAggregateInputType = {
     id?: true
     employeeId?: true
-    school?: true
     degree?: true
-    startYear?: true
-    endYear?: true
-    createdAt?: true
-    updatedAt?: true
+    university?: true
+    graduationYear?: true
     _all?: true
   }
 
@@ -4223,14 +3045,11 @@ export namespace Prisma {
   }
 
   export type EducationGroupByOutputType = {
-    id: string
-    employeeId: string
-    school: string | null
-    degree: string | null
-    startYear: number | null
-    endYear: number | null
-    createdAt: Date
-    updatedAt: Date
+    id: number
+    employeeId: number
+    degree: string
+    university: string
+    graduationYear: string | null
     _count: EducationCountAggregateOutputType | null
     _avg: EducationAvgAggregateOutputType | null
     _sum: EducationSumAggregateOutputType | null
@@ -4255,51 +3074,39 @@ export namespace Prisma {
   export type EducationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    school?: boolean
     degree?: boolean
-    startYear?: boolean
-    endYear?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    university?: boolean
+    graduationYear?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    school?: boolean
     degree?: boolean
-    startYear?: boolean
-    endYear?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    university?: boolean
+    graduationYear?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    school?: boolean
     degree?: boolean
-    startYear?: boolean
-    endYear?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    university?: boolean
+    graduationYear?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectScalar = {
     id?: boolean
     employeeId?: boolean
-    school?: boolean
     degree?: boolean
-    startYear?: boolean
-    endYear?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    university?: boolean
+    graduationYear?: boolean
   }
 
-  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "school" | "degree" | "startYear" | "endYear" | "createdAt" | "updatedAt", ExtArgs["result"]["education"]>
+  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "degree" | "university" | "graduationYear", ExtArgs["result"]["education"]>
   export type EducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -4316,14 +3123,11 @@ export namespace Prisma {
       employee: Prisma.$EmployeePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      employeeId: string
-      school: string | null
-      degree: string | null
-      startYear: number | null
-      endYear: number | null
-      createdAt: Date
-      updatedAt: Date
+      id: number
+      employeeId: number
+      degree: string
+      university: string
+      graduationYear: string | null
     }, ExtArgs["result"]["education"]>
     composites: {}
   }
@@ -4748,14 +3552,11 @@ export namespace Prisma {
    * Fields of the Education model
    */
   interface EducationFieldRefs {
-    readonly id: FieldRef<"Education", 'String'>
-    readonly employeeId: FieldRef<"Education", 'String'>
-    readonly school: FieldRef<"Education", 'String'>
+    readonly id: FieldRef<"Education", 'Int'>
+    readonly employeeId: FieldRef<"Education", 'Int'>
     readonly degree: FieldRef<"Education", 'String'>
-    readonly startYear: FieldRef<"Education", 'Int'>
-    readonly endYear: FieldRef<"Education", 'Int'>
-    readonly createdAt: FieldRef<"Education", 'DateTime'>
-    readonly updatedAt: FieldRef<"Education", 'DateTime'>
+    readonly university: FieldRef<"Education", 'String'>
+    readonly graduationYear: FieldRef<"Education", 'String'>
   }
     
 
@@ -5176,26 +3977,36 @@ export namespace Prisma {
 
   export type AggregateEmergencyContact = {
     _count: EmergencyContactCountAggregateOutputType | null
+    _avg: EmergencyContactAvgAggregateOutputType | null
+    _sum: EmergencyContactSumAggregateOutputType | null
     _min: EmergencyContactMinAggregateOutputType | null
     _max: EmergencyContactMaxAggregateOutputType | null
   }
 
+  export type EmergencyContactAvgAggregateOutputType = {
+    id: number | null
+    employeeId: number | null
+  }
+
+  export type EmergencyContactSumAggregateOutputType = {
+    id: number | null
+    employeeId: number | null
+  }
+
   export type EmergencyContactMinAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    employeeId: number | null
     name: string | null
     phone: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    address: string | null
   }
 
   export type EmergencyContactMaxAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    employeeId: number | null
     name: string | null
     phone: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    address: string | null
   }
 
   export type EmergencyContactCountAggregateOutputType = {
@@ -5203,19 +4014,27 @@ export namespace Prisma {
     employeeId: number
     name: number
     phone: number
-    createdAt: number
-    updatedAt: number
+    address: number
     _all: number
   }
 
+
+  export type EmergencyContactAvgAggregateInputType = {
+    id?: true
+    employeeId?: true
+  }
+
+  export type EmergencyContactSumAggregateInputType = {
+    id?: true
+    employeeId?: true
+  }
 
   export type EmergencyContactMinAggregateInputType = {
     id?: true
     employeeId?: true
     name?: true
     phone?: true
-    createdAt?: true
-    updatedAt?: true
+    address?: true
   }
 
   export type EmergencyContactMaxAggregateInputType = {
@@ -5223,8 +4042,7 @@ export namespace Prisma {
     employeeId?: true
     name?: true
     phone?: true
-    createdAt?: true
-    updatedAt?: true
+    address?: true
   }
 
   export type EmergencyContactCountAggregateInputType = {
@@ -5232,8 +4050,7 @@ export namespace Prisma {
     employeeId?: true
     name?: true
     phone?: true
-    createdAt?: true
-    updatedAt?: true
+    address?: true
     _all?: true
   }
 
@@ -5275,6 +4092,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: EmergencyContactAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EmergencyContactSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: EmergencyContactMinAggregateInputType
@@ -5305,18 +4134,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: EmergencyContactCountAggregateInputType | true
+    _avg?: EmergencyContactAvgAggregateInputType
+    _sum?: EmergencyContactSumAggregateInputType
     _min?: EmergencyContactMinAggregateInputType
     _max?: EmergencyContactMaxAggregateInputType
   }
 
   export type EmergencyContactGroupByOutputType = {
-    id: string
-    employeeId: string
+    id: number
+    employeeId: number
     name: string
     phone: string
-    createdAt: Date
-    updatedAt: Date
+    address: string | null
     _count: EmergencyContactCountAggregateOutputType | null
+    _avg: EmergencyContactAvgAggregateOutputType | null
+    _sum: EmergencyContactSumAggregateOutputType | null
     _min: EmergencyContactMinAggregateOutputType | null
     _max: EmergencyContactMaxAggregateOutputType | null
   }
@@ -5340,8 +4172,7 @@ export namespace Prisma {
     employeeId?: boolean
     name?: boolean
     phone?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    address?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emergencyContact"]>
 
@@ -5350,8 +4181,7 @@ export namespace Prisma {
     employeeId?: boolean
     name?: boolean
     phone?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    address?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emergencyContact"]>
 
@@ -5360,8 +4190,7 @@ export namespace Prisma {
     employeeId?: boolean
     name?: boolean
     phone?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    address?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emergencyContact"]>
 
@@ -5370,11 +4199,10 @@ export namespace Prisma {
     employeeId?: boolean
     name?: boolean
     phone?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    address?: boolean
   }
 
-  export type EmergencyContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "name" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["emergencyContact"]>
+  export type EmergencyContactOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "name" | "phone" | "address", ExtArgs["result"]["emergencyContact"]>
   export type EmergencyContactInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -5391,12 +4219,11 @@ export namespace Prisma {
       employee: Prisma.$EmployeePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      employeeId: string
+      id: number
+      employeeId: number
       name: string
       phone: string
-      createdAt: Date
-      updatedAt: Date
+      address: string | null
     }, ExtArgs["result"]["emergencyContact"]>
     composites: {}
   }
@@ -5821,12 +4648,11 @@ export namespace Prisma {
    * Fields of the EmergencyContact model
    */
   interface EmergencyContactFieldRefs {
-    readonly id: FieldRef<"EmergencyContact", 'String'>
-    readonly employeeId: FieldRef<"EmergencyContact", 'String'>
+    readonly id: FieldRef<"EmergencyContact", 'Int'>
+    readonly employeeId: FieldRef<"EmergencyContact", 'Int'>
     readonly name: FieldRef<"EmergencyContact", 'String'>
     readonly phone: FieldRef<"EmergencyContact", 'String'>
-    readonly createdAt: FieldRef<"EmergencyContact", 'DateTime'>
-    readonly updatedAt: FieldRef<"EmergencyContact", 'DateTime'>
+    readonly address: FieldRef<"EmergencyContact", 'String'>
   }
     
 
@@ -6247,13 +5073,26 @@ export namespace Prisma {
 
   export type AggregateEmployeeSession = {
     _count: EmployeeSessionCountAggregateOutputType | null
+    _avg: EmployeeSessionAvgAggregateOutputType | null
+    _sum: EmployeeSessionSumAggregateOutputType | null
     _min: EmployeeSessionMinAggregateOutputType | null
     _max: EmployeeSessionMaxAggregateOutputType | null
   }
 
+  export type EmployeeSessionAvgAggregateOutputType = {
+    id: number | null
+    employeeId: number | null
+  }
+
+  export type EmployeeSessionSumAggregateOutputType = {
+    id: number | null
+    employeeId: number | null
+  }
+
   export type EmployeeSessionMinAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    sessionId: string | null
+    employeeId: number | null
     refreshToken: string | null
     createdAt: Date | null
     expiresAt: Date | null
@@ -6262,8 +5101,9 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionMaxAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    sessionId: string | null
+    employeeId: number | null
     refreshToken: string | null
     createdAt: Date | null
     expiresAt: Date | null
@@ -6273,6 +5113,7 @@ export namespace Prisma {
 
   export type EmployeeSessionCountAggregateOutputType = {
     id: number
+    sessionId: number
     employeeId: number
     refreshToken: number
     createdAt: number
@@ -6283,8 +5124,19 @@ export namespace Prisma {
   }
 
 
+  export type EmployeeSessionAvgAggregateInputType = {
+    id?: true
+    employeeId?: true
+  }
+
+  export type EmployeeSessionSumAggregateInputType = {
+    id?: true
+    employeeId?: true
+  }
+
   export type EmployeeSessionMinAggregateInputType = {
     id?: true
+    sessionId?: true
     employeeId?: true
     refreshToken?: true
     createdAt?: true
@@ -6295,6 +5147,7 @@ export namespace Prisma {
 
   export type EmployeeSessionMaxAggregateInputType = {
     id?: true
+    sessionId?: true
     employeeId?: true
     refreshToken?: true
     createdAt?: true
@@ -6305,6 +5158,7 @@ export namespace Prisma {
 
   export type EmployeeSessionCountAggregateInputType = {
     id?: true
+    sessionId?: true
     employeeId?: true
     refreshToken?: true
     createdAt?: true
@@ -6352,6 +5206,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: EmployeeSessionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: EmployeeSessionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: EmployeeSessionMinAggregateInputType
@@ -6382,19 +5248,24 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: EmployeeSessionCountAggregateInputType | true
+    _avg?: EmployeeSessionAvgAggregateInputType
+    _sum?: EmployeeSessionSumAggregateInputType
     _min?: EmployeeSessionMinAggregateInputType
     _max?: EmployeeSessionMaxAggregateInputType
   }
 
   export type EmployeeSessionGroupByOutputType = {
-    id: string
-    employeeId: string
+    id: number
+    sessionId: string
+    employeeId: number
     refreshToken: string
     createdAt: Date
     expiresAt: Date | null
     isHibernated: boolean
     lastActive: Date
     _count: EmployeeSessionCountAggregateOutputType | null
+    _avg: EmployeeSessionAvgAggregateOutputType | null
+    _sum: EmployeeSessionSumAggregateOutputType | null
     _min: EmployeeSessionMinAggregateOutputType | null
     _max: EmployeeSessionMaxAggregateOutputType | null
   }
@@ -6415,6 +5286,7 @@ export namespace Prisma {
 
   export type EmployeeSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    sessionId?: boolean
     employeeId?: boolean
     refreshToken?: boolean
     createdAt?: boolean
@@ -6426,6 +5298,7 @@ export namespace Prisma {
 
   export type EmployeeSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    sessionId?: boolean
     employeeId?: boolean
     refreshToken?: boolean
     createdAt?: boolean
@@ -6437,6 +5310,7 @@ export namespace Prisma {
 
   export type EmployeeSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    sessionId?: boolean
     employeeId?: boolean
     refreshToken?: boolean
     createdAt?: boolean
@@ -6448,6 +5322,7 @@ export namespace Prisma {
 
   export type EmployeeSessionSelectScalar = {
     id?: boolean
+    sessionId?: boolean
     employeeId?: boolean
     refreshToken?: boolean
     createdAt?: boolean
@@ -6456,7 +5331,7 @@ export namespace Prisma {
     lastActive?: boolean
   }
 
-  export type EmployeeSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "refreshToken" | "createdAt" | "expiresAt" | "isHibernated" | "lastActive", ExtArgs["result"]["employeeSession"]>
+  export type EmployeeSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionId" | "employeeId" | "refreshToken" | "createdAt" | "expiresAt" | "isHibernated" | "lastActive", ExtArgs["result"]["employeeSession"]>
   export type EmployeeSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -6473,8 +5348,9 @@ export namespace Prisma {
       employee: Prisma.$EmployeePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      employeeId: string
+      id: number
+      sessionId: string
+      employeeId: number
       refreshToken: string
       createdAt: Date
       expiresAt: Date | null
@@ -6904,8 +5780,9 @@ export namespace Prisma {
    * Fields of the EmployeeSession model
    */
   interface EmployeeSessionFieldRefs {
-    readonly id: FieldRef<"EmployeeSession", 'String'>
-    readonly employeeId: FieldRef<"EmployeeSession", 'String'>
+    readonly id: FieldRef<"EmployeeSession", 'Int'>
+    readonly sessionId: FieldRef<"EmployeeSession", 'String'>
+    readonly employeeId: FieldRef<"EmployeeSession", 'Int'>
     readonly refreshToken: FieldRef<"EmployeeSession", 'String'>
     readonly createdAt: FieldRef<"EmployeeSession", 'DateTime'>
     readonly expiresAt: FieldRef<"EmployeeSession", 'DateTime'>
@@ -7338,75 +6215,61 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptAvgAggregateOutputType = {
-    count: number | null
+    id: number | null
+    employeeId: number | null
   }
 
   export type FailedLoginAttemptSumAggregateOutputType = {
-    count: number | null
+    id: number | null
+    employeeId: number | null
   }
 
   export type FailedLoginAttemptMinAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
-    ipAddress: string | null
-    count: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    id: number | null
+    employeeId: number | null
+    timestamp: Date | null
   }
 
   export type FailedLoginAttemptMaxAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
-    ipAddress: string | null
-    count: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    id: number | null
+    employeeId: number | null
+    timestamp: Date | null
   }
 
   export type FailedLoginAttemptCountAggregateOutputType = {
     id: number
     employeeId: number
-    ipAddress: number
-    count: number
-    createdAt: number
-    updatedAt: number
+    timestamp: number
     _all: number
   }
 
 
   export type FailedLoginAttemptAvgAggregateInputType = {
-    count?: true
+    id?: true
+    employeeId?: true
   }
 
   export type FailedLoginAttemptSumAggregateInputType = {
-    count?: true
+    id?: true
+    employeeId?: true
   }
 
   export type FailedLoginAttemptMinAggregateInputType = {
     id?: true
     employeeId?: true
-    ipAddress?: true
-    count?: true
-    createdAt?: true
-    updatedAt?: true
+    timestamp?: true
   }
 
   export type FailedLoginAttemptMaxAggregateInputType = {
     id?: true
     employeeId?: true
-    ipAddress?: true
-    count?: true
-    createdAt?: true
-    updatedAt?: true
+    timestamp?: true
   }
 
   export type FailedLoginAttemptCountAggregateInputType = {
     id?: true
     employeeId?: true
-    ipAddress?: true
-    count?: true
-    createdAt?: true
-    updatedAt?: true
+    timestamp?: true
     _all?: true
   }
 
@@ -7497,12 +6360,9 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptGroupByOutputType = {
-    id: string
-    employeeId: string | null
-    ipAddress: string | null
-    count: number
-    createdAt: Date
-    updatedAt: Date
+    id: number
+    employeeId: number
+    timestamp: Date
     _count: FailedLoginAttemptCountAggregateOutputType | null
     _avg: FailedLoginAttemptAvgAggregateOutputType | null
     _sum: FailedLoginAttemptSumAggregateOutputType | null
@@ -7527,65 +6387,50 @@ export namespace Prisma {
   export type FailedLoginAttemptSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    ipAddress?: boolean
-    count?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    timestamp?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["failedLoginAttempt"]>
 
   export type FailedLoginAttemptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    ipAddress?: boolean
-    count?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    timestamp?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["failedLoginAttempt"]>
 
   export type FailedLoginAttemptSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    ipAddress?: boolean
-    count?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    timestamp?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["failedLoginAttempt"]>
 
   export type FailedLoginAttemptSelectScalar = {
     id?: boolean
     employeeId?: boolean
-    ipAddress?: boolean
-    count?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    timestamp?: boolean
   }
 
-  export type FailedLoginAttemptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "ipAddress" | "count" | "createdAt" | "updatedAt", ExtArgs["result"]["failedLoginAttempt"]>
+  export type FailedLoginAttemptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "timestamp", ExtArgs["result"]["failedLoginAttempt"]>
   export type FailedLoginAttemptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
   export type FailedLoginAttemptIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
   export type FailedLoginAttemptIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | FailedLoginAttempt$employeeArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
   export type $FailedLoginAttemptPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FailedLoginAttempt"
     objects: {
-      employee: Prisma.$EmployeePayload<ExtArgs> | null
+      employee: Prisma.$EmployeePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      employeeId: string | null
-      ipAddress: string | null
-      count: number
-      createdAt: Date
-      updatedAt: Date
+      id: number
+      employeeId: number
+      timestamp: Date
     }, ExtArgs["result"]["failedLoginAttempt"]>
     composites: {}
   }
@@ -7980,7 +6825,7 @@ export namespace Prisma {
    */
   export interface Prisma__FailedLoginAttemptClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    employee<T extends FailedLoginAttempt$employeeArgs<ExtArgs> = {}>(args?: Subset<T, FailedLoginAttempt$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8010,12 +6855,9 @@ export namespace Prisma {
    * Fields of the FailedLoginAttempt model
    */
   interface FailedLoginAttemptFieldRefs {
-    readonly id: FieldRef<"FailedLoginAttempt", 'String'>
-    readonly employeeId: FieldRef<"FailedLoginAttempt", 'String'>
-    readonly ipAddress: FieldRef<"FailedLoginAttempt", 'String'>
-    readonly count: FieldRef<"FailedLoginAttempt", 'Int'>
-    readonly createdAt: FieldRef<"FailedLoginAttempt", 'DateTime'>
-    readonly updatedAt: FieldRef<"FailedLoginAttempt", 'DateTime'>
+    readonly id: FieldRef<"FailedLoginAttempt", 'Int'>
+    readonly employeeId: FieldRef<"FailedLoginAttempt", 'Int'>
+    readonly timestamp: FieldRef<"FailedLoginAttempt", 'DateTime'>
   }
     
 
@@ -8412,25 +7254,6 @@ export namespace Prisma {
   }
 
   /**
-   * FailedLoginAttempt.employee
-   */
-  export type FailedLoginAttempt$employeeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
-  }
-
-  /**
    * FailedLoginAttempt without action
    */
   export type FailedLoginAttemptDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8455,58 +7278,80 @@ export namespace Prisma {
 
   export type AggregateLoginOTP = {
     _count: LoginOTPCountAggregateOutputType | null
+    _avg: LoginOTPAvgAggregateOutputType | null
+    _sum: LoginOTPSumAggregateOutputType | null
     _min: LoginOTPMinAggregateOutputType | null
     _max: LoginOTPMaxAggregateOutputType | null
   }
 
+  export type LoginOTPAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type LoginOTPSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
   export type LoginOTPMinAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    userId: number | null
     otp: string | null
-    expiresAt: Date | null
     createdAt: Date | null
+    expiresAt: Date | null
   }
 
   export type LoginOTPMaxAggregateOutputType = {
-    id: string | null
-    employeeId: string | null
+    id: number | null
+    userId: number | null
     otp: string | null
-    expiresAt: Date | null
     createdAt: Date | null
+    expiresAt: Date | null
   }
 
   export type LoginOTPCountAggregateOutputType = {
     id: number
-    employeeId: number
+    userId: number
     otp: number
-    expiresAt: number
     createdAt: number
+    expiresAt: number
     _all: number
   }
 
 
+  export type LoginOTPAvgAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type LoginOTPSumAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
   export type LoginOTPMinAggregateInputType = {
     id?: true
-    employeeId?: true
+    userId?: true
     otp?: true
-    expiresAt?: true
     createdAt?: true
+    expiresAt?: true
   }
 
   export type LoginOTPMaxAggregateInputType = {
     id?: true
-    employeeId?: true
+    userId?: true
     otp?: true
-    expiresAt?: true
     createdAt?: true
+    expiresAt?: true
   }
 
   export type LoginOTPCountAggregateInputType = {
     id?: true
-    employeeId?: true
+    userId?: true
     otp?: true
-    expiresAt?: true
     createdAt?: true
+    expiresAt?: true
     _all?: true
   }
 
@@ -8548,6 +7393,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: LoginOTPAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoginOTPSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: LoginOTPMinAggregateInputType
@@ -8578,17 +7435,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: LoginOTPCountAggregateInputType | true
+    _avg?: LoginOTPAvgAggregateInputType
+    _sum?: LoginOTPSumAggregateInputType
     _min?: LoginOTPMinAggregateInputType
     _max?: LoginOTPMaxAggregateInputType
   }
 
   export type LoginOTPGroupByOutputType = {
-    id: string
-    employeeId: string
+    id: number
+    userId: number
     otp: string
-    expiresAt: Date
     createdAt: Date
+    expiresAt: Date
     _count: LoginOTPCountAggregateOutputType | null
+    _avg: LoginOTPAvgAggregateOutputType | null
+    _sum: LoginOTPSumAggregateOutputType | null
     _min: LoginOTPMinAggregateOutputType | null
     _max: LoginOTPMaxAggregateOutputType | null
   }
@@ -8609,61 +7470,61 @@ export namespace Prisma {
 
   export type LoginOTPSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
+    userId?: boolean
     otp?: boolean
-    expiresAt?: boolean
     createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    expiresAt?: boolean
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loginOTP"]>
 
   export type LoginOTPSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
+    userId?: boolean
     otp?: boolean
-    expiresAt?: boolean
     createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    expiresAt?: boolean
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loginOTP"]>
 
   export type LoginOTPSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
+    userId?: boolean
     otp?: boolean
-    expiresAt?: boolean
     createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    expiresAt?: boolean
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loginOTP"]>
 
   export type LoginOTPSelectScalar = {
     id?: boolean
-    employeeId?: boolean
+    userId?: boolean
     otp?: boolean
-    expiresAt?: boolean
     createdAt?: boolean
+    expiresAt?: boolean
   }
 
-  export type LoginOTPOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "otp" | "expiresAt" | "createdAt", ExtArgs["result"]["loginOTP"]>
+  export type LoginOTPOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "otp" | "createdAt" | "expiresAt", ExtArgs["result"]["loginOTP"]>
   export type LoginOTPInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
   export type LoginOTPIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
   export type LoginOTPIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    user?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
   export type $LoginOTPPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LoginOTP"
     objects: {
-      employee: Prisma.$EmployeePayload<ExtArgs>
+      user: Prisma.$EmployeePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      employeeId: string
+      id: number
+      userId: number
       otp: string
-      expiresAt: Date
       createdAt: Date
+      expiresAt: Date
     }, ExtArgs["result"]["loginOTP"]>
     composites: {}
   }
@@ -9058,7 +7919,7 @@ export namespace Prisma {
    */
   export interface Prisma__LoginOTPClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9088,11 +7949,11 @@ export namespace Prisma {
    * Fields of the LoginOTP model
    */
   interface LoginOTPFieldRefs {
-    readonly id: FieldRef<"LoginOTP", 'String'>
-    readonly employeeId: FieldRef<"LoginOTP", 'String'>
+    readonly id: FieldRef<"LoginOTP", 'Int'>
+    readonly userId: FieldRef<"LoginOTP", 'Int'>
     readonly otp: FieldRef<"LoginOTP", 'String'>
-    readonly expiresAt: FieldRef<"LoginOTP", 'DateTime'>
     readonly createdAt: FieldRef<"LoginOTP", 'DateTime'>
+    readonly expiresAt: FieldRef<"LoginOTP", 'DateTime'>
   }
     
 
@@ -9521,21 +8382,6 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const UserScalarFieldEnum: {
-    id: 'id',
-    fullName: 'fullName',
-    username: 'username',
-    email: 'email',
-    password: 'password',
-    role: 'role',
-    profilePic: 'profilePic',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
   export const EmployeeScalarFieldEnum: {
     id: 'id',
     publicId: 'publicId',
@@ -9544,20 +8390,19 @@ export namespace Prisma {
     phone: 'phone',
     firstName: 'firstName',
     lastName: 'lastName',
-    otpSecret: 'otpSecret',
-    mfaEnabled: 'mfaEnabled',
-    level: 'level',
-    parentId: 'parentId',
-    role: 'role',
-    department: 'department',
+    passwordHash: 'passwordHash',
     isActive: 'isActive',
     isStaff: 'isStaff',
-    lastLogin: 'lastLogin',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    isSuperuser: 'isSuperuser',
+    role: 'role',
+    department: 'department',
+    level: 'level',
+    parentId: 'parentId',
     dateOfBirth: 'dateOfBirth',
     gender: 'gender',
-    address: 'address'
+    address: 'address',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
@@ -9566,12 +8411,9 @@ export namespace Prisma {
   export const EducationScalarFieldEnum: {
     id: 'id',
     employeeId: 'employeeId',
-    school: 'school',
     degree: 'degree',
-    startYear: 'startYear',
-    endYear: 'endYear',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    university: 'university',
+    graduationYear: 'graduationYear'
   };
 
   export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
@@ -9582,8 +8424,7 @@ export namespace Prisma {
     employeeId: 'employeeId',
     name: 'name',
     phone: 'phone',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    address: 'address'
   };
 
   export type EmergencyContactScalarFieldEnum = (typeof EmergencyContactScalarFieldEnum)[keyof typeof EmergencyContactScalarFieldEnum]
@@ -9591,6 +8432,7 @@ export namespace Prisma {
 
   export const EmployeeSessionScalarFieldEnum: {
     id: 'id',
+    sessionId: 'sessionId',
     employeeId: 'employeeId',
     refreshToken: 'refreshToken',
     createdAt: 'createdAt',
@@ -9605,10 +8447,7 @@ export namespace Prisma {
   export const FailedLoginAttemptScalarFieldEnum: {
     id: 'id',
     employeeId: 'employeeId',
-    ipAddress: 'ipAddress',
-    count: 'count',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    timestamp: 'timestamp'
   };
 
   export type FailedLoginAttemptScalarFieldEnum = (typeof FailedLoginAttemptScalarFieldEnum)[keyof typeof FailedLoginAttemptScalarFieldEnum]
@@ -9616,10 +8455,10 @@ export namespace Prisma {
 
   export const LoginOTPScalarFieldEnum: {
     id: 'id',
-    employeeId: 'employeeId',
+    userId: 'userId',
     otp: 'otp',
-    expiresAt: 'expiresAt',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    expiresAt: 'expiresAt'
   };
 
   export type LoginOTPScalarFieldEnum = (typeof LoginOTPScalarFieldEnum)[keyof typeof LoginOTPScalarFieldEnum]
@@ -9655,6 +8494,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'String'
    */
   export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
@@ -9669,16 +8522,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Role'
+   * Reference to a field of type 'Boolean'
    */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -9693,27 +8539,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -9734,109 +8559,36 @@ export namespace Prisma {
    */
 
 
-  export type UserWhereInput = {
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    id?: StringFilter<"User"> | string
-    fullName?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    profilePic?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }
-
-  export type UserOrderByWithRelationInput = {
-    id?: SortOrder
-    fullName?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    profilePic?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    username?: string
-    email?: string
-    AND?: UserWhereInput | UserWhereInput[]
-    OR?: UserWhereInput[]
-    NOT?: UserWhereInput | UserWhereInput[]
-    fullName?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
-    role?: EnumRoleFilter<"User"> | $Enums.Role
-    profilePic?: StringNullableFilter<"User"> | string | null
-    createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
-  }, "id" | "username" | "email">
-
-  export type UserOrderByWithAggregationInput = {
-    id?: SortOrder
-    fullName?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    profilePic?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: UserCountOrderByAggregateInput
-    _max?: UserMaxOrderByAggregateInput
-    _min?: UserMinOrderByAggregateInput
-  }
-
-  export type UserScalarWhereWithAggregatesInput = {
-    AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    OR?: UserScalarWhereWithAggregatesInput[]
-    NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"User"> | string
-    fullName?: StringWithAggregatesFilter<"User"> | string
-    username?: StringWithAggregatesFilter<"User"> | string
-    email?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
-    role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-    profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-  }
-
   export type EmployeeWhereInput = {
     AND?: EmployeeWhereInput | EmployeeWhereInput[]
     OR?: EmployeeWhereInput[]
     NOT?: EmployeeWhereInput | EmployeeWhereInput[]
-    id?: StringFilter<"Employee"> | string
+    id?: IntFilter<"Employee"> | number
     publicId?: StringFilter<"Employee"> | string
     username?: StringFilter<"Employee"> | string
     email?: StringNullableFilter<"Employee"> | string | null
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    otpSecret?: StringNullableFilter<"Employee"> | string | null
-    mfaEnabled?: BoolFilter<"Employee"> | boolean
-    level?: IntFilter<"Employee"> | number
-    parentId?: StringNullableFilter<"Employee"> | string | null
-    role?: StringNullableFilter<"Employee"> | string | null
-    department?: StringNullableFilter<"Employee"> | string | null
+    passwordHash?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
-    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    createdAt?: DateTimeFilter<"Employee"> | Date | string
-    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    isSuperuser?: BoolFilter<"Employee"> | boolean
+    role?: StringNullableFilter<"Employee"> | string | null
+    department?: StringNullableFilter<"Employee"> | string | null
+    level?: IntFilter<"Employee"> | number
+    parentId?: IntNullableFilter<"Employee"> | number | null
     dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
     gender?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
     parent?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     children?: EmployeeListRelationFilter
     educations?: EducationListRelationFilter
     emergencyContacts?: EmergencyContactListRelationFilter
     sessions?: EmployeeSessionListRelationFilter
-    failedLoginAttempts?: FailedLoginAttemptListRelationFilter
+    failedLogins?: FailedLoginAttemptListRelationFilter
     loginOtps?: LoginOTPListRelationFilter
   }
 
@@ -9848,31 +8600,30 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    otpSecret?: SortOrderInput | SortOrder
-    mfaEnabled?: SortOrder
-    level?: SortOrder
-    parentId?: SortOrderInput | SortOrder
-    role?: SortOrderInput | SortOrder
-    department?: SortOrderInput | SortOrder
+    passwordHash?: SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
-    lastLogin?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isSuperuser?: SortOrder
+    role?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    level?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     dateOfBirth?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     parent?: EmployeeOrderByWithRelationInput
     children?: EmployeeOrderByRelationAggregateInput
     educations?: EducationOrderByRelationAggregateInput
     emergencyContacts?: EmergencyContactOrderByRelationAggregateInput
     sessions?: EmployeeSessionOrderByRelationAggregateInput
-    failedLoginAttempts?: FailedLoginAttemptOrderByRelationAggregateInput
+    failedLogins?: FailedLoginAttemptOrderByRelationAggregateInput
     loginOtps?: LoginOTPOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     publicId?: string
     username?: string
     email?: string
@@ -9882,26 +8633,25 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    otpSecret?: StringNullableFilter<"Employee"> | string | null
-    mfaEnabled?: BoolFilter<"Employee"> | boolean
-    level?: IntFilter<"Employee"> | number
-    parentId?: StringNullableFilter<"Employee"> | string | null
-    role?: StringNullableFilter<"Employee"> | string | null
-    department?: StringNullableFilter<"Employee"> | string | null
+    passwordHash?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
-    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    createdAt?: DateTimeFilter<"Employee"> | Date | string
-    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    isSuperuser?: BoolFilter<"Employee"> | boolean
+    role?: StringNullableFilter<"Employee"> | string | null
+    department?: StringNullableFilter<"Employee"> | string | null
+    level?: IntFilter<"Employee"> | number
+    parentId?: IntNullableFilter<"Employee"> | number | null
     dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
     gender?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
     parent?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     children?: EmployeeListRelationFilter
     educations?: EducationListRelationFilter
     emergencyContacts?: EmergencyContactListRelationFilter
     sessions?: EmployeeSessionListRelationFilter
-    failedLoginAttempts?: FailedLoginAttemptListRelationFilter
+    failedLogins?: FailedLoginAttemptListRelationFilter
     loginOtps?: LoginOTPListRelationFilter
   }, "id" | "publicId" | "username" | "email">
 
@@ -9913,20 +8663,19 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    otpSecret?: SortOrderInput | SortOrder
-    mfaEnabled?: SortOrder
-    level?: SortOrder
-    parentId?: SortOrderInput | SortOrder
-    role?: SortOrderInput | SortOrder
-    department?: SortOrderInput | SortOrder
+    passwordHash?: SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
-    lastLogin?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isSuperuser?: SortOrder
+    role?: SortOrderInput | SortOrder
+    department?: SortOrderInput | SortOrder
+    level?: SortOrder
+    parentId?: SortOrderInput | SortOrder
     dateOfBirth?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: EmployeeCountOrderByAggregateInput
     _avg?: EmployeeAvgOrderByAggregateInput
     _max?: EmployeeMaxOrderByAggregateInput
@@ -9938,80 +8687,67 @@ export namespace Prisma {
     AND?: EmployeeScalarWhereWithAggregatesInput | EmployeeScalarWhereWithAggregatesInput[]
     OR?: EmployeeScalarWhereWithAggregatesInput[]
     NOT?: EmployeeScalarWhereWithAggregatesInput | EmployeeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Employee"> | string
+    id?: IntWithAggregatesFilter<"Employee"> | number
     publicId?: StringWithAggregatesFilter<"Employee"> | string
     username?: StringWithAggregatesFilter<"Employee"> | string
     email?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     firstName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    otpSecret?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    mfaEnabled?: BoolWithAggregatesFilter<"Employee"> | boolean
-    level?: IntWithAggregatesFilter<"Employee"> | number
-    parentId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    role?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    department?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    passwordHash?: StringWithAggregatesFilter<"Employee"> | string
     isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
     isStaff?: BoolWithAggregatesFilter<"Employee"> | boolean
-    lastLogin?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    isSuperuser?: BoolWithAggregatesFilter<"Employee"> | boolean
+    role?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    department?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    level?: IntWithAggregatesFilter<"Employee"> | number
+    parentId?: IntNullableWithAggregatesFilter<"Employee"> | number | null
     dateOfBirth?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
     gender?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     address?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
   }
 
   export type EducationWhereInput = {
     AND?: EducationWhereInput | EducationWhereInput[]
     OR?: EducationWhereInput[]
     NOT?: EducationWhereInput | EducationWhereInput[]
-    id?: StringFilter<"Education"> | string
-    employeeId?: StringFilter<"Education"> | string
-    school?: StringNullableFilter<"Education"> | string | null
-    degree?: StringNullableFilter<"Education"> | string | null
-    startYear?: IntNullableFilter<"Education"> | number | null
-    endYear?: IntNullableFilter<"Education"> | number | null
-    createdAt?: DateTimeFilter<"Education"> | Date | string
-    updatedAt?: DateTimeFilter<"Education"> | Date | string
+    id?: IntFilter<"Education"> | number
+    employeeId?: IntFilter<"Education"> | number
+    degree?: StringFilter<"Education"> | string
+    university?: StringFilter<"Education"> | string
+    graduationYear?: StringNullableFilter<"Education"> | string | null
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
 
   export type EducationOrderByWithRelationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    school?: SortOrderInput | SortOrder
-    degree?: SortOrderInput | SortOrder
-    startYear?: SortOrderInput | SortOrder
-    endYear?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    degree?: SortOrder
+    university?: SortOrder
+    graduationYear?: SortOrderInput | SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
 
   export type EducationWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: EducationWhereInput | EducationWhereInput[]
     OR?: EducationWhereInput[]
     NOT?: EducationWhereInput | EducationWhereInput[]
-    employeeId?: StringFilter<"Education"> | string
-    school?: StringNullableFilter<"Education"> | string | null
-    degree?: StringNullableFilter<"Education"> | string | null
-    startYear?: IntNullableFilter<"Education"> | number | null
-    endYear?: IntNullableFilter<"Education"> | number | null
-    createdAt?: DateTimeFilter<"Education"> | Date | string
-    updatedAt?: DateTimeFilter<"Education"> | Date | string
+    employeeId?: IntFilter<"Education"> | number
+    degree?: StringFilter<"Education"> | string
+    university?: StringFilter<"Education"> | string
+    graduationYear?: StringNullableFilter<"Education"> | string | null
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
 
   export type EducationOrderByWithAggregationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    school?: SortOrderInput | SortOrder
-    degree?: SortOrderInput | SortOrder
-    startYear?: SortOrderInput | SortOrder
-    endYear?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    degree?: SortOrder
+    university?: SortOrder
+    graduationYear?: SortOrderInput | SortOrder
     _count?: EducationCountOrderByAggregateInput
     _avg?: EducationAvgOrderByAggregateInput
     _max?: EducationMaxOrderByAggregateInput
@@ -10023,26 +8759,22 @@ export namespace Prisma {
     AND?: EducationScalarWhereWithAggregatesInput | EducationScalarWhereWithAggregatesInput[]
     OR?: EducationScalarWhereWithAggregatesInput[]
     NOT?: EducationScalarWhereWithAggregatesInput | EducationScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Education"> | string
-    employeeId?: StringWithAggregatesFilter<"Education"> | string
-    school?: StringNullableWithAggregatesFilter<"Education"> | string | null
-    degree?: StringNullableWithAggregatesFilter<"Education"> | string | null
-    startYear?: IntNullableWithAggregatesFilter<"Education"> | number | null
-    endYear?: IntNullableWithAggregatesFilter<"Education"> | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"Education"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Education"> | Date | string
+    id?: IntWithAggregatesFilter<"Education"> | number
+    employeeId?: IntWithAggregatesFilter<"Education"> | number
+    degree?: StringWithAggregatesFilter<"Education"> | string
+    university?: StringWithAggregatesFilter<"Education"> | string
+    graduationYear?: StringNullableWithAggregatesFilter<"Education"> | string | null
   }
 
   export type EmergencyContactWhereInput = {
     AND?: EmergencyContactWhereInput | EmergencyContactWhereInput[]
     OR?: EmergencyContactWhereInput[]
     NOT?: EmergencyContactWhereInput | EmergencyContactWhereInput[]
-    id?: StringFilter<"EmergencyContact"> | string
-    employeeId?: StringFilter<"EmergencyContact"> | string
+    id?: IntFilter<"EmergencyContact"> | number
+    employeeId?: IntFilter<"EmergencyContact"> | number
     name?: StringFilter<"EmergencyContact"> | string
     phone?: StringFilter<"EmergencyContact"> | string
-    createdAt?: DateTimeFilter<"EmergencyContact"> | Date | string
-    updatedAt?: DateTimeFilter<"EmergencyContact"> | Date | string
+    address?: StringNullableFilter<"EmergencyContact"> | string | null
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
 
@@ -10051,21 +8783,19 @@ export namespace Prisma {
     employeeId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    address?: SortOrderInput | SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
 
   export type EmergencyContactWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: EmergencyContactWhereInput | EmergencyContactWhereInput[]
     OR?: EmergencyContactWhereInput[]
     NOT?: EmergencyContactWhereInput | EmergencyContactWhereInput[]
-    employeeId?: StringFilter<"EmergencyContact"> | string
+    employeeId?: IntFilter<"EmergencyContact"> | number
     name?: StringFilter<"EmergencyContact"> | string
     phone?: StringFilter<"EmergencyContact"> | string
-    createdAt?: DateTimeFilter<"EmergencyContact"> | Date | string
-    updatedAt?: DateTimeFilter<"EmergencyContact"> | Date | string
+    address?: StringNullableFilter<"EmergencyContact"> | string | null
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
 
@@ -10074,31 +8804,32 @@ export namespace Prisma {
     employeeId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    address?: SortOrderInput | SortOrder
     _count?: EmergencyContactCountOrderByAggregateInput
+    _avg?: EmergencyContactAvgOrderByAggregateInput
     _max?: EmergencyContactMaxOrderByAggregateInput
     _min?: EmergencyContactMinOrderByAggregateInput
+    _sum?: EmergencyContactSumOrderByAggregateInput
   }
 
   export type EmergencyContactScalarWhereWithAggregatesInput = {
     AND?: EmergencyContactScalarWhereWithAggregatesInput | EmergencyContactScalarWhereWithAggregatesInput[]
     OR?: EmergencyContactScalarWhereWithAggregatesInput[]
     NOT?: EmergencyContactScalarWhereWithAggregatesInput | EmergencyContactScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"EmergencyContact"> | string
-    employeeId?: StringWithAggregatesFilter<"EmergencyContact"> | string
+    id?: IntWithAggregatesFilter<"EmergencyContact"> | number
+    employeeId?: IntWithAggregatesFilter<"EmergencyContact"> | number
     name?: StringWithAggregatesFilter<"EmergencyContact"> | string
     phone?: StringWithAggregatesFilter<"EmergencyContact"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"EmergencyContact"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"EmergencyContact"> | Date | string
+    address?: StringNullableWithAggregatesFilter<"EmergencyContact"> | string | null
   }
 
   export type EmployeeSessionWhereInput = {
     AND?: EmployeeSessionWhereInput | EmployeeSessionWhereInput[]
     OR?: EmployeeSessionWhereInput[]
     NOT?: EmployeeSessionWhereInput | EmployeeSessionWhereInput[]
-    id?: StringFilter<"EmployeeSession"> | string
-    employeeId?: StringFilter<"EmployeeSession"> | string
+    id?: IntFilter<"EmployeeSession"> | number
+    sessionId?: StringFilter<"EmployeeSession"> | string
+    employeeId?: IntFilter<"EmployeeSession"> | number
     refreshToken?: StringFilter<"EmployeeSession"> | string
     createdAt?: DateTimeFilter<"EmployeeSession"> | Date | string
     expiresAt?: DateTimeNullableFilter<"EmployeeSession"> | Date | string | null
@@ -10109,6 +8840,7 @@ export namespace Prisma {
 
   export type EmployeeSessionOrderByWithRelationInput = {
     id?: SortOrder
+    sessionId?: SortOrder
     employeeId?: SortOrder
     refreshToken?: SortOrder
     createdAt?: SortOrder
@@ -10119,21 +8851,23 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
+    sessionId?: string
     refreshToken?: string
     AND?: EmployeeSessionWhereInput | EmployeeSessionWhereInput[]
     OR?: EmployeeSessionWhereInput[]
     NOT?: EmployeeSessionWhereInput | EmployeeSessionWhereInput[]
-    employeeId?: StringFilter<"EmployeeSession"> | string
+    employeeId?: IntFilter<"EmployeeSession"> | number
     createdAt?: DateTimeFilter<"EmployeeSession"> | Date | string
     expiresAt?: DateTimeNullableFilter<"EmployeeSession"> | Date | string | null
     isHibernated?: BoolFilter<"EmployeeSession"> | boolean
     lastActive?: DateTimeFilter<"EmployeeSession"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
-  }, "id" | "refreshToken">
+  }, "id" | "sessionId" | "refreshToken">
 
   export type EmployeeSessionOrderByWithAggregationInput = {
     id?: SortOrder
+    sessionId?: SortOrder
     employeeId?: SortOrder
     refreshToken?: SortOrder
     createdAt?: SortOrder
@@ -10141,16 +8875,19 @@ export namespace Prisma {
     isHibernated?: SortOrder
     lastActive?: SortOrder
     _count?: EmployeeSessionCountOrderByAggregateInput
+    _avg?: EmployeeSessionAvgOrderByAggregateInput
     _max?: EmployeeSessionMaxOrderByAggregateInput
     _min?: EmployeeSessionMinOrderByAggregateInput
+    _sum?: EmployeeSessionSumOrderByAggregateInput
   }
 
   export type EmployeeSessionScalarWhereWithAggregatesInput = {
     AND?: EmployeeSessionScalarWhereWithAggregatesInput | EmployeeSessionScalarWhereWithAggregatesInput[]
     OR?: EmployeeSessionScalarWhereWithAggregatesInput[]
     NOT?: EmployeeSessionScalarWhereWithAggregatesInput | EmployeeSessionScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"EmployeeSession"> | string
-    employeeId?: StringWithAggregatesFilter<"EmployeeSession"> | string
+    id?: IntWithAggregatesFilter<"EmployeeSession"> | number
+    sessionId?: StringWithAggregatesFilter<"EmployeeSession"> | string
+    employeeId?: IntWithAggregatesFilter<"EmployeeSession"> | number
     refreshToken?: StringWithAggregatesFilter<"EmployeeSession"> | string
     createdAt?: DateTimeWithAggregatesFilter<"EmployeeSession"> | Date | string
     expiresAt?: DateTimeNullableWithAggregatesFilter<"EmployeeSession"> | Date | string | null
@@ -10162,45 +8899,33 @@ export namespace Prisma {
     AND?: FailedLoginAttemptWhereInput | FailedLoginAttemptWhereInput[]
     OR?: FailedLoginAttemptWhereInput[]
     NOT?: FailedLoginAttemptWhereInput | FailedLoginAttemptWhereInput[]
-    id?: StringFilter<"FailedLoginAttempt"> | string
-    employeeId?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    ipAddress?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    count?: IntFilter<"FailedLoginAttempt"> | number
-    createdAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
-    updatedAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
-    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    id?: IntFilter<"FailedLoginAttempt"> | number
+    employeeId?: IntFilter<"FailedLoginAttempt"> | number
+    timestamp?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
 
   export type FailedLoginAttemptOrderByWithRelationInput = {
     id?: SortOrder
-    employeeId?: SortOrderInput | SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    count?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    employeeId?: SortOrder
+    timestamp?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
 
   export type FailedLoginAttemptWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: FailedLoginAttemptWhereInput | FailedLoginAttemptWhereInput[]
     OR?: FailedLoginAttemptWhereInput[]
     NOT?: FailedLoginAttemptWhereInput | FailedLoginAttemptWhereInput[]
-    employeeId?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    ipAddress?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    count?: IntFilter<"FailedLoginAttempt"> | number
-    createdAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
-    updatedAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
-    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    employeeId?: IntFilter<"FailedLoginAttempt"> | number
+    timestamp?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
 
   export type FailedLoginAttemptOrderByWithAggregationInput = {
     id?: SortOrder
-    employeeId?: SortOrderInput | SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    count?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    employeeId?: SortOrder
+    timestamp?: SortOrder
     _count?: FailedLoginAttemptCountOrderByAggregateInput
     _avg?: FailedLoginAttemptAvgOrderByAggregateInput
     _max?: FailedLoginAttemptMaxOrderByAggregateInput
@@ -10212,484 +8937,355 @@ export namespace Prisma {
     AND?: FailedLoginAttemptScalarWhereWithAggregatesInput | FailedLoginAttemptScalarWhereWithAggregatesInput[]
     OR?: FailedLoginAttemptScalarWhereWithAggregatesInput[]
     NOT?: FailedLoginAttemptScalarWhereWithAggregatesInput | FailedLoginAttemptScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"FailedLoginAttempt"> | string
-    employeeId?: StringNullableWithAggregatesFilter<"FailedLoginAttempt"> | string | null
-    ipAddress?: StringNullableWithAggregatesFilter<"FailedLoginAttempt"> | string | null
-    count?: IntWithAggregatesFilter<"FailedLoginAttempt"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"FailedLoginAttempt"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"FailedLoginAttempt"> | Date | string
+    id?: IntWithAggregatesFilter<"FailedLoginAttempt"> | number
+    employeeId?: IntWithAggregatesFilter<"FailedLoginAttempt"> | number
+    timestamp?: DateTimeWithAggregatesFilter<"FailedLoginAttempt"> | Date | string
   }
 
   export type LoginOTPWhereInput = {
     AND?: LoginOTPWhereInput | LoginOTPWhereInput[]
     OR?: LoginOTPWhereInput[]
     NOT?: LoginOTPWhereInput | LoginOTPWhereInput[]
-    id?: StringFilter<"LoginOTP"> | string
-    employeeId?: StringFilter<"LoginOTP"> | string
+    id?: IntFilter<"LoginOTP"> | number
+    userId?: IntFilter<"LoginOTP"> | number
     otp?: StringFilter<"LoginOTP"> | string
-    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
     createdAt?: DateTimeFilter<"LoginOTP"> | Date | string
-    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
+    user?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
 
   export type LoginOTPOrderByWithRelationInput = {
     id?: SortOrder
-    employeeId?: SortOrder
+    userId?: SortOrder
     otp?: SortOrder
-    expiresAt?: SortOrder
     createdAt?: SortOrder
-    employee?: EmployeeOrderByWithRelationInput
+    expiresAt?: SortOrder
+    user?: EmployeeOrderByWithRelationInput
   }
 
   export type LoginOTPWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     AND?: LoginOTPWhereInput | LoginOTPWhereInput[]
     OR?: LoginOTPWhereInput[]
     NOT?: LoginOTPWhereInput | LoginOTPWhereInput[]
-    employeeId?: StringFilter<"LoginOTP"> | string
+    userId?: IntFilter<"LoginOTP"> | number
     otp?: StringFilter<"LoginOTP"> | string
-    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
     createdAt?: DateTimeFilter<"LoginOTP"> | Date | string
-    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
+    user?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
 
   export type LoginOTPOrderByWithAggregationInput = {
     id?: SortOrder
-    employeeId?: SortOrder
+    userId?: SortOrder
     otp?: SortOrder
-    expiresAt?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
     _count?: LoginOTPCountOrderByAggregateInput
+    _avg?: LoginOTPAvgOrderByAggregateInput
     _max?: LoginOTPMaxOrderByAggregateInput
     _min?: LoginOTPMinOrderByAggregateInput
+    _sum?: LoginOTPSumOrderByAggregateInput
   }
 
   export type LoginOTPScalarWhereWithAggregatesInput = {
     AND?: LoginOTPScalarWhereWithAggregatesInput | LoginOTPScalarWhereWithAggregatesInput[]
     OR?: LoginOTPScalarWhereWithAggregatesInput[]
     NOT?: LoginOTPScalarWhereWithAggregatesInput | LoginOTPScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"LoginOTP"> | string
-    employeeId?: StringWithAggregatesFilter<"LoginOTP"> | string
+    id?: IntWithAggregatesFilter<"LoginOTP"> | number
+    userId?: IntWithAggregatesFilter<"LoginOTP"> | number
     otp?: StringWithAggregatesFilter<"LoginOTP"> | string
-    expiresAt?: DateTimeWithAggregatesFilter<"LoginOTP"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"LoginOTP"> | Date | string
-  }
-
-  export type UserCreateInput = {
-    id?: string
-    fullName: string
-    username: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    profilePic?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUncheckedCreateInput = {
-    id?: string
-    fullName: string
-    username: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    profilePic?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserCreateManyInput = {
-    id?: string
-    fullName: string
-    username: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    profilePic?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"LoginOTP"> | Date | string
   }
 
   export type EmployeeCreateInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeCreateManyInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EmployeeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmployeeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EducationCreateInput = {
-    id?: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    degree: string
+    university: string
+    graduationYear?: string | null
     employee: EmployeeCreateNestedOneWithoutEducationsInput
   }
 
   export type EducationUncheckedCreateInput = {
-    id?: string
-    employeeId: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    employeeId: number
+    degree: string
+    university: string
+    graduationYear?: string | null
   }
 
   export type EducationUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
     employee?: EmployeeUpdateOneRequiredWithoutEducationsNestedInput
   }
 
   export type EducationUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EducationCreateManyInput = {
-    id?: string
-    employeeId: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    employeeId: number
+    degree: string
+    university: string
+    graduationYear?: string | null
   }
 
   export type EducationUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EducationUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactCreateInput = {
-    id?: string
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
     employee: EmployeeCreateNestedOneWithoutEmergencyContactsInput
   }
 
   export type EmergencyContactUncheckedCreateInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    employeeId: number
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
   }
 
   export type EmergencyContactUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     employee?: EmployeeUpdateOneRequiredWithoutEmergencyContactsNestedInput
   }
 
   export type EmergencyContactUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactCreateManyInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    employeeId: number
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
   }
 
   export type EmergencyContactUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmployeeSessionCreateInput = {
-    id?: string
+    sessionId: string
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -10699,8 +9295,9 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedCreateInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    sessionId: string
+    employeeId: number
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -10709,7 +9306,7 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10719,8 +9316,9 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    sessionId?: StringFieldUpdateOperationsInput | string
+    employeeId?: IntFieldUpdateOperationsInput | number
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10729,8 +9327,9 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionCreateManyInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    sessionId: string
+    employeeId: number
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -10739,7 +9338,7 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10748,8 +9347,9 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    sessionId?: StringFieldUpdateOperationsInput | string
+    employeeId?: IntFieldUpdateOperationsInput | number
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10758,120 +9358,104 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptCreateInput = {
-    id?: string
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    employee?: EmployeeCreateNestedOneWithoutFailedLoginAttemptsInput
+    timestamp?: Date | string
+    employee: EmployeeCreateNestedOneWithoutFailedLoginsInput
   }
 
   export type FailedLoginAttemptUncheckedCreateInput = {
-    id?: string
-    employeeId?: string | null
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    employeeId: number
+    timestamp?: Date | string
   }
 
   export type FailedLoginAttemptUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneWithoutFailedLoginAttemptsNestedInput
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutFailedLoginsNestedInput
   }
 
   export type FailedLoginAttemptUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FailedLoginAttemptCreateManyInput = {
-    id?: string
-    employeeId?: string | null
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    employeeId: number
+    timestamp?: Date | string
   }
 
   export type FailedLoginAttemptUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FailedLoginAttemptUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoginOTPCreateInput = {
-    id?: string
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
-    employee: EmployeeCreateNestedOneWithoutLoginOtpsInput
+    expiresAt: Date | string
+    user: EmployeeCreateNestedOneWithoutLoginOtpsInput
   }
 
   export type LoginOTPUncheckedCreateInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    userId: number
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type LoginOTPUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneRequiredWithoutLoginOtpsNestedInput
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: EmployeeUpdateOneRequiredWithoutLoginOtpsNestedInput
   }
 
   export type LoginOTPUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoginOTPCreateManyInput = {
-    id?: string
-    employeeId: string
+    id?: number
+    userId: number
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type LoginOTPUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LoginOTPUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10889,13 +9473,6 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -10911,132 +9488,20 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type UserCountOrderByAggregateInput = {
-    id?: SortOrder
-    fullName?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    profilePic?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserMaxOrderByAggregateInput = {
-    id?: SortOrder
-    fullName?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    profilePic?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserMinOrderByAggregateInput = {
-    id?: SortOrder
-    fullName?: SortOrder
-    username?: SortOrder
-    email?: SortOrder
-    password?: SortOrder
-    role?: SortOrder
-    profilePic?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -11048,6 +9513,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type EmployeeNullableScalarRelationFilter = {
@@ -11091,6 +9567,11 @@ export namespace Prisma {
     none?: LoginOTPWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type EmployeeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11123,24 +9604,25 @@ export namespace Prisma {
     phone?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    otpSecret?: SortOrder
-    mfaEnabled?: SortOrder
-    level?: SortOrder
-    parentId?: SortOrder
-    role?: SortOrder
-    department?: SortOrder
+    passwordHash?: SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
-    lastLogin?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isSuperuser?: SortOrder
+    role?: SortOrder
+    department?: SortOrder
+    level?: SortOrder
+    parentId?: SortOrder
     dateOfBirth?: SortOrder
     gender?: SortOrder
     address?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeAvgOrderByAggregateInput = {
+    id?: SortOrder
     level?: SortOrder
+    parentId?: SortOrder
   }
 
   export type EmployeeMaxOrderByAggregateInput = {
@@ -11151,20 +9633,19 @@ export namespace Prisma {
     phone?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    otpSecret?: SortOrder
-    mfaEnabled?: SortOrder
-    level?: SortOrder
-    parentId?: SortOrder
-    role?: SortOrder
-    department?: SortOrder
+    passwordHash?: SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
-    lastLogin?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isSuperuser?: SortOrder
+    role?: SortOrder
+    department?: SortOrder
+    level?: SortOrder
+    parentId?: SortOrder
     dateOfBirth?: SortOrder
     gender?: SortOrder
     address?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeMinOrderByAggregateInput = {
@@ -11175,32 +9656,25 @@ export namespace Prisma {
     phone?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
-    otpSecret?: SortOrder
-    mfaEnabled?: SortOrder
-    level?: SortOrder
-    parentId?: SortOrder
-    role?: SortOrder
-    department?: SortOrder
+    passwordHash?: SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
-    lastLogin?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isSuperuser?: SortOrder
+    role?: SortOrder
+    department?: SortOrder
+    level?: SortOrder
+    parentId?: SortOrder
     dateOfBirth?: SortOrder
     gender?: SortOrder
     address?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeSumOrderByAggregateInput = {
+    id?: SortOrder
     level?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    parentId?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -11219,77 +9693,48 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type EmployeeScalarRelationFilter = {
-    is?: EmployeeWhereInput
-    isNot?: EmployeeWhereInput
-  }
-
-  export type EducationCountOrderByAggregateInput = {
-    id?: SortOrder
-    employeeId?: SortOrder
-    school?: SortOrder
-    degree?: SortOrder
-    startYear?: SortOrder
-    endYear?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EducationAvgOrderByAggregateInput = {
-    startYear?: SortOrder
-    endYear?: SortOrder
-  }
-
-  export type EducationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    employeeId?: SortOrder
-    school?: SortOrder
-    degree?: SortOrder
-    startYear?: SortOrder
-    endYear?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EducationMinOrderByAggregateInput = {
-    id?: SortOrder
-    employeeId?: SortOrder
-    school?: SortOrder
-    degree?: SortOrder
-    startYear?: SortOrder
-    endYear?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EducationSumOrderByAggregateInput = {
-    startYear?: SortOrder
-    endYear?: SortOrder
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -11308,13 +9753,84 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type EmployeeScalarRelationFilter = {
+    is?: EmployeeWhereInput
+    isNot?: EmployeeWhereInput
+  }
+
+  export type EducationCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    degree?: SortOrder
+    university?: SortOrder
+    graduationYear?: SortOrder
+  }
+
+  export type EducationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+  }
+
+  export type EducationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    degree?: SortOrder
+    university?: SortOrder
+    graduationYear?: SortOrder
+  }
+
+  export type EducationMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    degree?: SortOrder
+    university?: SortOrder
+    graduationYear?: SortOrder
+  }
+
+  export type EducationSumOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+  }
+
   export type EmergencyContactCountOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    address?: SortOrder
+  }
+
+  export type EmergencyContactAvgOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EmergencyContactMaxOrderByAggregateInput = {
@@ -11322,8 +9838,7 @@ export namespace Prisma {
     employeeId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    address?: SortOrder
   }
 
   export type EmergencyContactMinOrderByAggregateInput = {
@@ -11331,12 +9846,17 @@ export namespace Prisma {
     employeeId?: SortOrder
     name?: SortOrder
     phone?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    address?: SortOrder
+  }
+
+  export type EmergencyContactSumOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EmployeeSessionCountOrderByAggregateInput = {
     id?: SortOrder
+    sessionId?: SortOrder
     employeeId?: SortOrder
     refreshToken?: SortOrder
     createdAt?: SortOrder
@@ -11345,8 +9865,14 @@ export namespace Prisma {
     lastActive?: SortOrder
   }
 
+  export type EmployeeSessionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+  }
+
   export type EmployeeSessionMaxOrderByAggregateInput = {
     id?: SortOrder
+    sessionId?: SortOrder
     employeeId?: SortOrder
     refreshToken?: SortOrder
     createdAt?: SortOrder
@@ -11357,6 +9883,7 @@ export namespace Prisma {
 
   export type EmployeeSessionMinOrderByAggregateInput = {
     id?: SortOrder
+    sessionId?: SortOrder
     employeeId?: SortOrder
     refreshToken?: SortOrder
     createdAt?: SortOrder
@@ -11365,79 +9892,71 @@ export namespace Prisma {
     lastActive?: SortOrder
   }
 
+  export type EmployeeSessionSumOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+  }
+
   export type FailedLoginAttemptCountOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    ipAddress?: SortOrder
-    count?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    timestamp?: SortOrder
   }
 
   export type FailedLoginAttemptAvgOrderByAggregateInput = {
-    count?: SortOrder
+    id?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type FailedLoginAttemptMaxOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    ipAddress?: SortOrder
-    count?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    timestamp?: SortOrder
   }
 
   export type FailedLoginAttemptMinOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    ipAddress?: SortOrder
-    count?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    timestamp?: SortOrder
   }
 
   export type FailedLoginAttemptSumOrderByAggregateInput = {
-    count?: SortOrder
+    id?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type LoginOTPCountOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
+    userId?: SortOrder
     otp?: SortOrder
-    expiresAt?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type LoginOTPAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
   }
 
   export type LoginOTPMaxOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
+    userId?: SortOrder
     otp?: SortOrder
-    expiresAt?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
   }
 
   export type LoginOTPMinOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
+    userId?: SortOrder
     otp?: SortOrder
-    expiresAt?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type LoginOTPSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
   }
 
   export type EmployeeCreateNestedOneWithoutChildrenInput = {
@@ -11481,10 +10000,10 @@ export namespace Prisma {
     connect?: FailedLoginAttemptWhereUniqueInput | FailedLoginAttemptWhereUniqueInput[]
   }
 
-  export type LoginOTPCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput> | LoginOTPCreateWithoutEmployeeInput[] | LoginOTPUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoginOTPCreateOrConnectWithoutEmployeeInput | LoginOTPCreateOrConnectWithoutEmployeeInput[]
-    createMany?: LoginOTPCreateManyEmployeeInputEnvelope
+  export type LoginOTPCreateNestedManyWithoutUserInput = {
+    create?: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput> | LoginOTPCreateWithoutUserInput[] | LoginOTPUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginOTPCreateOrConnectWithoutUserInput | LoginOTPCreateOrConnectWithoutUserInput[]
+    createMany?: LoginOTPCreateManyUserInputEnvelope
     connect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
   }
 
@@ -11523,11 +10042,19 @@ export namespace Prisma {
     connect?: FailedLoginAttemptWhereUniqueInput | FailedLoginAttemptWhereUniqueInput[]
   }
 
-  export type LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput> | LoginOTPCreateWithoutEmployeeInput[] | LoginOTPUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoginOTPCreateOrConnectWithoutEmployeeInput | LoginOTPCreateOrConnectWithoutEmployeeInput[]
-    createMany?: LoginOTPCreateManyEmployeeInputEnvelope
+  export type LoginOTPUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput> | LoginOTPCreateWithoutUserInput[] | LoginOTPUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginOTPCreateOrConnectWithoutUserInput | LoginOTPCreateOrConnectWithoutUserInput[]
+    createMany?: LoginOTPCreateManyUserInputEnvelope
     connect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -11544,6 +10071,10 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type EmployeeUpdateOneWithoutChildrenNestedInput = {
@@ -11626,18 +10157,26 @@ export namespace Prisma {
     deleteMany?: FailedLoginAttemptScalarWhereInput | FailedLoginAttemptScalarWhereInput[]
   }
 
-  export type LoginOTPUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput> | LoginOTPCreateWithoutEmployeeInput[] | LoginOTPUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoginOTPCreateOrConnectWithoutEmployeeInput | LoginOTPCreateOrConnectWithoutEmployeeInput[]
-    upsert?: LoginOTPUpsertWithWhereUniqueWithoutEmployeeInput | LoginOTPUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: LoginOTPCreateManyEmployeeInputEnvelope
+  export type LoginOTPUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput> | LoginOTPCreateWithoutUserInput[] | LoginOTPUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginOTPCreateOrConnectWithoutUserInput | LoginOTPCreateOrConnectWithoutUserInput[]
+    upsert?: LoginOTPUpsertWithWhereUniqueWithoutUserInput | LoginOTPUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LoginOTPCreateManyUserInputEnvelope
     set?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     disconnect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     delete?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     connect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
-    update?: LoginOTPUpdateWithWhereUniqueWithoutEmployeeInput | LoginOTPUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: LoginOTPUpdateManyWithWhereWithoutEmployeeInput | LoginOTPUpdateManyWithWhereWithoutEmployeeInput[]
+    update?: LoginOTPUpdateWithWhereUniqueWithoutUserInput | LoginOTPUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LoginOTPUpdateManyWithWhereWithoutUserInput | LoginOTPUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LoginOTPScalarWhereInput | LoginOTPScalarWhereInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type EmployeeUncheckedUpdateManyWithoutParentNestedInput = {
@@ -11710,17 +10249,17 @@ export namespace Prisma {
     deleteMany?: FailedLoginAttemptScalarWhereInput | FailedLoginAttemptScalarWhereInput[]
   }
 
-  export type LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput> | LoginOTPCreateWithoutEmployeeInput[] | LoginOTPUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoginOTPCreateOrConnectWithoutEmployeeInput | LoginOTPCreateOrConnectWithoutEmployeeInput[]
-    upsert?: LoginOTPUpsertWithWhereUniqueWithoutEmployeeInput | LoginOTPUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: LoginOTPCreateManyEmployeeInputEnvelope
+  export type LoginOTPUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput> | LoginOTPCreateWithoutUserInput[] | LoginOTPUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LoginOTPCreateOrConnectWithoutUserInput | LoginOTPCreateOrConnectWithoutUserInput[]
+    upsert?: LoginOTPUpsertWithWhereUniqueWithoutUserInput | LoginOTPUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LoginOTPCreateManyUserInputEnvelope
     set?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     disconnect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     delete?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
     connect?: LoginOTPWhereUniqueInput | LoginOTPWhereUniqueInput[]
-    update?: LoginOTPUpdateWithWhereUniqueWithoutEmployeeInput | LoginOTPUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: LoginOTPUpdateManyWithWhereWithoutEmployeeInput | LoginOTPUpdateManyWithWhereWithoutEmployeeInput[]
+    update?: LoginOTPUpdateWithWhereUniqueWithoutUserInput | LoginOTPUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LoginOTPUpdateManyWithWhereWithoutUserInput | LoginOTPUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: LoginOTPScalarWhereInput | LoginOTPScalarWhereInput[]
   }
 
@@ -11728,14 +10267,6 @@ export namespace Prisma {
     create?: XOR<EmployeeCreateWithoutEducationsInput, EmployeeUncheckedCreateWithoutEducationsInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutEducationsInput
     connect?: EmployeeWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EmployeeUpdateOneRequiredWithoutEducationsNestedInput = {
@@ -11774,20 +10305,18 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutSessionsInput, EmployeeUpdateWithoutSessionsInput>, EmployeeUncheckedUpdateWithoutSessionsInput>
   }
 
-  export type EmployeeCreateNestedOneWithoutFailedLoginAttemptsInput = {
-    create?: XOR<EmployeeCreateWithoutFailedLoginAttemptsInput, EmployeeUncheckedCreateWithoutFailedLoginAttemptsInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutFailedLoginAttemptsInput
+  export type EmployeeCreateNestedOneWithoutFailedLoginsInput = {
+    create?: XOR<EmployeeCreateWithoutFailedLoginsInput, EmployeeUncheckedCreateWithoutFailedLoginsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutFailedLoginsInput
     connect?: EmployeeWhereUniqueInput
   }
 
-  export type EmployeeUpdateOneWithoutFailedLoginAttemptsNestedInput = {
-    create?: XOR<EmployeeCreateWithoutFailedLoginAttemptsInput, EmployeeUncheckedCreateWithoutFailedLoginAttemptsInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutFailedLoginAttemptsInput
-    upsert?: EmployeeUpsertWithoutFailedLoginAttemptsInput
-    disconnect?: EmployeeWhereInput | boolean
-    delete?: EmployeeWhereInput | boolean
+  export type EmployeeUpdateOneRequiredWithoutFailedLoginsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutFailedLoginsInput, EmployeeUncheckedCreateWithoutFailedLoginsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutFailedLoginsInput
+    upsert?: EmployeeUpsertWithoutFailedLoginsInput
     connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutFailedLoginAttemptsInput, EmployeeUpdateWithoutFailedLoginAttemptsInput>, EmployeeUncheckedUpdateWithoutFailedLoginAttemptsInput>
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutFailedLoginsInput, EmployeeUpdateWithoutFailedLoginsInput>, EmployeeUncheckedUpdateWithoutFailedLoginsInput>
   }
 
   export type EmployeeCreateNestedOneWithoutLoginOtpsInput = {
@@ -11804,6 +10333,17 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLoginOtpsInput, EmployeeUpdateWithoutLoginOtpsInput>, EmployeeUncheckedUpdateWithoutLoginOtpsInput>
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11816,13 +10356,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -11839,70 +10372,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -11916,25 +10388,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -11946,12 +10399,15 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -11981,18 +10437,46 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12022,62 +10506,87 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type EmployeeCreateWithoutChildrenInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateWithoutChildrenInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeCreateOrConnectWithoutChildrenInput = {
@@ -12086,61 +10595,58 @@ export namespace Prisma {
   }
 
   export type EmployeeCreateWithoutParentInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateWithoutParentInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeCreateOrConnectWithoutParentInput = {
@@ -12154,23 +10660,16 @@ export namespace Prisma {
   }
 
   export type EducationCreateWithoutEmployeeInput = {
-    id?: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    degree: string
+    university: string
+    graduationYear?: string | null
   }
 
   export type EducationUncheckedCreateWithoutEmployeeInput = {
-    id?: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    degree: string
+    university: string
+    graduationYear?: string | null
   }
 
   export type EducationCreateOrConnectWithoutEmployeeInput = {
@@ -12184,19 +10683,16 @@ export namespace Prisma {
   }
 
   export type EmergencyContactCreateWithoutEmployeeInput = {
-    id?: string
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
   }
 
   export type EmergencyContactUncheckedCreateWithoutEmployeeInput = {
-    id?: string
+    id?: number
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
   }
 
   export type EmergencyContactCreateOrConnectWithoutEmployeeInput = {
@@ -12210,7 +10706,7 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionCreateWithoutEmployeeInput = {
-    id?: string
+    sessionId: string
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -12219,7 +10715,8 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedCreateWithoutEmployeeInput = {
-    id?: string
+    id?: number
+    sessionId: string
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -12238,19 +10735,12 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptCreateWithoutEmployeeInput = {
-    id?: string
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    timestamp?: Date | string
   }
 
   export type FailedLoginAttemptUncheckedCreateWithoutEmployeeInput = {
-    id?: string
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    timestamp?: Date | string
   }
 
   export type FailedLoginAttemptCreateOrConnectWithoutEmployeeInput = {
@@ -12263,27 +10753,26 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type LoginOTPCreateWithoutEmployeeInput = {
-    id?: string
+  export type LoginOTPCreateWithoutUserInput = {
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
+    expiresAt: Date | string
   }
 
-  export type LoginOTPUncheckedCreateWithoutEmployeeInput = {
-    id?: string
+  export type LoginOTPUncheckedCreateWithoutUserInput = {
+    id?: number
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
+    expiresAt: Date | string
   }
 
-  export type LoginOTPCreateOrConnectWithoutEmployeeInput = {
+  export type LoginOTPCreateOrConnectWithoutUserInput = {
     where: LoginOTPWhereUniqueInput
-    create: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput>
+    create: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput>
   }
 
-  export type LoginOTPCreateManyEmployeeInputEnvelope = {
-    data: LoginOTPCreateManyEmployeeInput | LoginOTPCreateManyEmployeeInput[]
+  export type LoginOTPCreateManyUserInputEnvelope = {
+    data: LoginOTPCreateManyUserInput | LoginOTPCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -12299,61 +10788,58 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutChildrenInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutChildrenInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUpsertWithWhereUniqueWithoutParentInput = {
@@ -12376,27 +10862,26 @@ export namespace Prisma {
     AND?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
     OR?: EmployeeScalarWhereInput[]
     NOT?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
-    id?: StringFilter<"Employee"> | string
+    id?: IntFilter<"Employee"> | number
     publicId?: StringFilter<"Employee"> | string
     username?: StringFilter<"Employee"> | string
     email?: StringNullableFilter<"Employee"> | string | null
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    otpSecret?: StringNullableFilter<"Employee"> | string | null
-    mfaEnabled?: BoolFilter<"Employee"> | boolean
-    level?: IntFilter<"Employee"> | number
-    parentId?: StringNullableFilter<"Employee"> | string | null
-    role?: StringNullableFilter<"Employee"> | string | null
-    department?: StringNullableFilter<"Employee"> | string | null
+    passwordHash?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
-    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    createdAt?: DateTimeFilter<"Employee"> | Date | string
-    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    isSuperuser?: BoolFilter<"Employee"> | boolean
+    role?: StringNullableFilter<"Employee"> | string | null
+    department?: StringNullableFilter<"Employee"> | string | null
+    level?: IntFilter<"Employee"> | number
+    parentId?: IntNullableFilter<"Employee"> | number | null
     dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
     gender?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
   }
 
   export type EducationUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -12419,14 +10904,11 @@ export namespace Prisma {
     AND?: EducationScalarWhereInput | EducationScalarWhereInput[]
     OR?: EducationScalarWhereInput[]
     NOT?: EducationScalarWhereInput | EducationScalarWhereInput[]
-    id?: StringFilter<"Education"> | string
-    employeeId?: StringFilter<"Education"> | string
-    school?: StringNullableFilter<"Education"> | string | null
-    degree?: StringNullableFilter<"Education"> | string | null
-    startYear?: IntNullableFilter<"Education"> | number | null
-    endYear?: IntNullableFilter<"Education"> | number | null
-    createdAt?: DateTimeFilter<"Education"> | Date | string
-    updatedAt?: DateTimeFilter<"Education"> | Date | string
+    id?: IntFilter<"Education"> | number
+    employeeId?: IntFilter<"Education"> | number
+    degree?: StringFilter<"Education"> | string
+    university?: StringFilter<"Education"> | string
+    graduationYear?: StringNullableFilter<"Education"> | string | null
   }
 
   export type EmergencyContactUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -12449,12 +10931,11 @@ export namespace Prisma {
     AND?: EmergencyContactScalarWhereInput | EmergencyContactScalarWhereInput[]
     OR?: EmergencyContactScalarWhereInput[]
     NOT?: EmergencyContactScalarWhereInput | EmergencyContactScalarWhereInput[]
-    id?: StringFilter<"EmergencyContact"> | string
-    employeeId?: StringFilter<"EmergencyContact"> | string
+    id?: IntFilter<"EmergencyContact"> | number
+    employeeId?: IntFilter<"EmergencyContact"> | number
     name?: StringFilter<"EmergencyContact"> | string
     phone?: StringFilter<"EmergencyContact"> | string
-    createdAt?: DateTimeFilter<"EmergencyContact"> | Date | string
-    updatedAt?: DateTimeFilter<"EmergencyContact"> | Date | string
+    address?: StringNullableFilter<"EmergencyContact"> | string | null
   }
 
   export type EmployeeSessionUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -12477,8 +10958,9 @@ export namespace Prisma {
     AND?: EmployeeSessionScalarWhereInput | EmployeeSessionScalarWhereInput[]
     OR?: EmployeeSessionScalarWhereInput[]
     NOT?: EmployeeSessionScalarWhereInput | EmployeeSessionScalarWhereInput[]
-    id?: StringFilter<"EmployeeSession"> | string
-    employeeId?: StringFilter<"EmployeeSession"> | string
+    id?: IntFilter<"EmployeeSession"> | number
+    sessionId?: StringFilter<"EmployeeSession"> | string
+    employeeId?: IntFilter<"EmployeeSession"> | number
     refreshToken?: StringFilter<"EmployeeSession"> | string
     createdAt?: DateTimeFilter<"EmployeeSession"> | Date | string
     expiresAt?: DateTimeNullableFilter<"EmployeeSession"> | Date | string | null
@@ -12506,97 +10988,91 @@ export namespace Prisma {
     AND?: FailedLoginAttemptScalarWhereInput | FailedLoginAttemptScalarWhereInput[]
     OR?: FailedLoginAttemptScalarWhereInput[]
     NOT?: FailedLoginAttemptScalarWhereInput | FailedLoginAttemptScalarWhereInput[]
-    id?: StringFilter<"FailedLoginAttempt"> | string
-    employeeId?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    ipAddress?: StringNullableFilter<"FailedLoginAttempt"> | string | null
-    count?: IntFilter<"FailedLoginAttempt"> | number
-    createdAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
-    updatedAt?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
+    id?: IntFilter<"FailedLoginAttempt"> | number
+    employeeId?: IntFilter<"FailedLoginAttempt"> | number
+    timestamp?: DateTimeFilter<"FailedLoginAttempt"> | Date | string
   }
 
-  export type LoginOTPUpsertWithWhereUniqueWithoutEmployeeInput = {
+  export type LoginOTPUpsertWithWhereUniqueWithoutUserInput = {
     where: LoginOTPWhereUniqueInput
-    update: XOR<LoginOTPUpdateWithoutEmployeeInput, LoginOTPUncheckedUpdateWithoutEmployeeInput>
-    create: XOR<LoginOTPCreateWithoutEmployeeInput, LoginOTPUncheckedCreateWithoutEmployeeInput>
+    update: XOR<LoginOTPUpdateWithoutUserInput, LoginOTPUncheckedUpdateWithoutUserInput>
+    create: XOR<LoginOTPCreateWithoutUserInput, LoginOTPUncheckedCreateWithoutUserInput>
   }
 
-  export type LoginOTPUpdateWithWhereUniqueWithoutEmployeeInput = {
+  export type LoginOTPUpdateWithWhereUniqueWithoutUserInput = {
     where: LoginOTPWhereUniqueInput
-    data: XOR<LoginOTPUpdateWithoutEmployeeInput, LoginOTPUncheckedUpdateWithoutEmployeeInput>
+    data: XOR<LoginOTPUpdateWithoutUserInput, LoginOTPUncheckedUpdateWithoutUserInput>
   }
 
-  export type LoginOTPUpdateManyWithWhereWithoutEmployeeInput = {
+  export type LoginOTPUpdateManyWithWhereWithoutUserInput = {
     where: LoginOTPScalarWhereInput
-    data: XOR<LoginOTPUpdateManyMutationInput, LoginOTPUncheckedUpdateManyWithoutEmployeeInput>
+    data: XOR<LoginOTPUpdateManyMutationInput, LoginOTPUncheckedUpdateManyWithoutUserInput>
   }
 
   export type LoginOTPScalarWhereInput = {
     AND?: LoginOTPScalarWhereInput | LoginOTPScalarWhereInput[]
     OR?: LoginOTPScalarWhereInput[]
     NOT?: LoginOTPScalarWhereInput | LoginOTPScalarWhereInput[]
-    id?: StringFilter<"LoginOTP"> | string
-    employeeId?: StringFilter<"LoginOTP"> | string
+    id?: IntFilter<"LoginOTP"> | number
+    userId?: IntFilter<"LoginOTP"> | number
     otp?: StringFilter<"LoginOTP"> | string
-    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
     createdAt?: DateTimeFilter<"LoginOTP"> | Date | string
+    expiresAt?: DateTimeFilter<"LoginOTP"> | Date | string
   }
 
   export type EmployeeCreateWithoutEducationsInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateWithoutEducationsInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeCreateOrConnectWithoutEducationsInput = {
@@ -12616,119 +11092,113 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutEducationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutEducationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeCreateWithoutEmergencyContactsInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateWithoutEmergencyContactsInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeCreateOrConnectWithoutEmergencyContactsInput = {
@@ -12748,119 +11218,113 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutEmergencyContactsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutEmergencyContactsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeCreateWithoutSessionsInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeUncheckedCreateWithoutSessionsInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type EmployeeCreateOrConnectWithoutSessionsInput = {
@@ -12880,251 +11344,239 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutSessionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSessionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type EmployeeCreateWithoutFailedLoginAttemptsInput = {
-    id?: string
-    publicId?: string
+  export type EmployeeCreateWithoutFailedLoginsInput = {
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPCreateNestedManyWithoutUserInput
   }
 
-  export type EmployeeUncheckedCreateWithoutFailedLoginAttemptsInput = {
-    id?: string
-    publicId?: string
+  export type EmployeeUncheckedCreateWithoutFailedLoginsInput = {
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutEmployeeInput
+    loginOtps?: LoginOTPUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type EmployeeCreateOrConnectWithoutFailedLoginAttemptsInput = {
+  export type EmployeeCreateOrConnectWithoutFailedLoginsInput = {
     where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutFailedLoginAttemptsInput, EmployeeUncheckedCreateWithoutFailedLoginAttemptsInput>
+    create: XOR<EmployeeCreateWithoutFailedLoginsInput, EmployeeUncheckedCreateWithoutFailedLoginsInput>
   }
 
-  export type EmployeeUpsertWithoutFailedLoginAttemptsInput = {
-    update: XOR<EmployeeUpdateWithoutFailedLoginAttemptsInput, EmployeeUncheckedUpdateWithoutFailedLoginAttemptsInput>
-    create: XOR<EmployeeCreateWithoutFailedLoginAttemptsInput, EmployeeUncheckedCreateWithoutFailedLoginAttemptsInput>
+  export type EmployeeUpsertWithoutFailedLoginsInput = {
+    update: XOR<EmployeeUpdateWithoutFailedLoginsInput, EmployeeUncheckedUpdateWithoutFailedLoginsInput>
+    create: XOR<EmployeeCreateWithoutFailedLoginsInput, EmployeeUncheckedCreateWithoutFailedLoginsInput>
     where?: EmployeeWhereInput
   }
 
-  export type EmployeeUpdateToOneWithWhereWithoutFailedLoginAttemptsInput = {
+  export type EmployeeUpdateToOneWithWhereWithoutFailedLoginsInput = {
     where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutFailedLoginAttemptsInput, EmployeeUncheckedUpdateWithoutFailedLoginAttemptsInput>
+    data: XOR<EmployeeUpdateWithoutFailedLoginsInput, EmployeeUncheckedUpdateWithoutFailedLoginsInput>
   }
 
-  export type EmployeeUpdateWithoutFailedLoginAttemptsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type EmployeeUpdateWithoutFailedLoginsInput = {
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
-  export type EmployeeUncheckedUpdateWithoutFailedLoginAttemptsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type EmployeeUncheckedUpdateWithoutFailedLoginsInput = {
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeCreateWithoutLoginOtpsInput = {
-    id?: string
-    publicId?: string
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLoginOtpsInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    parentId?: string | null
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
+    parentId?: number | null
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
+    failedLogins?: FailedLoginAttemptUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLoginOtpsInput = {
@@ -13144,106 +11596,99 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLoginOtpsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLoginOtpsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
+    parentId?: NullableIntFieldUpdateOperationsInput | number | null
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyParentInput = {
-    id?: string
-    publicId?: string
+    id?: number
+    publicId: string
     username: string
     email?: string | null
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    otpSecret?: string | null
-    mfaEnabled?: boolean
-    level?: number
-    role?: string | null
-    department?: string | null
+    passwordHash: string
     isActive?: boolean
     isStaff?: boolean
-    lastLogin?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isSuperuser?: boolean
+    role?: string | null
+    department?: string | null
+    level?: number
     dateOfBirth?: Date | string | null
     gender?: string | null
     address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EducationCreateManyEmployeeInput = {
-    id?: string
-    school?: string | null
-    degree?: string | null
-    startYear?: number | null
-    endYear?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    degree: string
+    university: string
+    graduationYear?: string | null
   }
 
   export type EmergencyContactCreateManyEmployeeInput = {
-    id?: string
+    id?: number
     name: string
     phone: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    address?: string | null
   }
 
   export type EmployeeSessionCreateManyEmployeeInput = {
-    id?: string
+    id?: number
+    sessionId: string
     refreshToken: string
     createdAt?: Date | string
     expiresAt?: Date | string | null
@@ -13252,157 +11697,136 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptCreateManyEmployeeInput = {
-    id?: string
-    ipAddress?: string | null
-    count?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    id?: number
+    timestamp?: Date | string
   }
 
-  export type LoginOTPCreateManyEmployeeInput = {
-    id?: string
+  export type LoginOTPCreateManyUserInput = {
+    id?: number
     otp: string
-    expiresAt: Date | string
     createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type EmployeeUpdateWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
-    failedLoginAttempts?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
-    loginOtps?: LoginOTPUncheckedUpdateManyWithoutEmployeeNestedInput
+    failedLogins?: FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeNestedInput
+    loginOtps?: LoginOTPUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutParentInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     publicId?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    otpSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
-    level?: IntFieldUpdateOperationsInput | number
-    role?: NullableStringFieldUpdateOperationsInput | string | null
-    department?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
-    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isSuperuser?: BoolFieldUpdateOperationsInput | boolean
+    role?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: IntFieldUpdateOperationsInput | number
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EducationUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EducationUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EducationUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    school?: NullableStringFieldUpdateOperationsInput | string | null
-    degree?: NullableStringFieldUpdateOperationsInput | string | null
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
-    endYear?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    degree?: StringFieldUpdateOperationsInput | string
+    university?: StringFieldUpdateOperationsInput | string
+    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmergencyContactUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     phone?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmployeeSessionUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    sessionId?: StringFieldUpdateOperationsInput | string
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13411,7 +11835,8 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    sessionId?: StringFieldUpdateOperationsInput | string
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13420,7 +11845,8 @@ export namespace Prisma {
   }
 
   export type EmployeeSessionUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
+    sessionId?: StringFieldUpdateOperationsInput | string
     refreshToken?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13429,48 +11855,37 @@ export namespace Prisma {
   }
 
   export type FailedLoginAttemptUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FailedLoginAttemptUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FailedLoginAttemptUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    count?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    id?: IntFieldUpdateOperationsInput | number
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoginOTPUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type LoginOTPUpdateWithoutUserInput = {
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoginOTPUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type LoginOTPUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoginOTPUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
+  export type LoginOTPUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
     otp?: StringFieldUpdateOperationsInput | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

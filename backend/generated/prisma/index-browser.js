@@ -121,18 +121,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  fullName: 'fullName',
-  username: 'username',
-  email: 'email',
-  password: 'password',
-  role: 'role',
-  profilePic: 'profilePic',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.EmployeeScalarFieldEnum = {
   id: 'id',
   publicId: 'publicId',
@@ -141,31 +129,27 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   phone: 'phone',
   firstName: 'firstName',
   lastName: 'lastName',
-  otpSecret: 'otpSecret',
-  mfaEnabled: 'mfaEnabled',
-  level: 'level',
-  parentId: 'parentId',
-  role: 'role',
-  department: 'department',
+  passwordHash: 'passwordHash',
   isActive: 'isActive',
   isStaff: 'isStaff',
-  lastLogin: 'lastLogin',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  isSuperuser: 'isSuperuser',
+  role: 'role',
+  department: 'department',
+  level: 'level',
+  parentId: 'parentId',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
-  address: 'address'
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.EducationScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
-  school: 'school',
   degree: 'degree',
-  startYear: 'startYear',
-  endYear: 'endYear',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  university: 'university',
+  graduationYear: 'graduationYear'
 };
 
 exports.Prisma.EmergencyContactScalarFieldEnum = {
@@ -173,12 +157,12 @@ exports.Prisma.EmergencyContactScalarFieldEnum = {
   employeeId: 'employeeId',
   name: 'name',
   phone: 'phone',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  address: 'address'
 };
 
 exports.Prisma.EmployeeSessionScalarFieldEnum = {
   id: 'id',
+  sessionId: 'sessionId',
   employeeId: 'employeeId',
   refreshToken: 'refreshToken',
   createdAt: 'createdAt',
@@ -190,18 +174,15 @@ exports.Prisma.EmployeeSessionScalarFieldEnum = {
 exports.Prisma.FailedLoginAttemptScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
-  ipAddress: 'ipAddress',
-  count: 'count',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  timestamp: 'timestamp'
 };
 
 exports.Prisma.LoginOTPScalarFieldEnum = {
   id: 'id',
-  employeeId: 'employeeId',
+  userId: 'userId',
   otp: 'otp',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -218,13 +199,9 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Role = exports.$Enums.Role = {
-  ADMIN: 'ADMIN',
-  EMPLOYEE: 'EMPLOYEE'
-};
+
 
 exports.Prisma.ModelName = {
-  User: 'User',
   Employee: 'Employee',
   Education: 'Education',
   EmergencyContact: 'EmergencyContact',

@@ -5,6 +5,7 @@ export const developerCreateUser = async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 };
+
 export const developerGetUser = async (req, res) => {
   try {
   } catch (error) {

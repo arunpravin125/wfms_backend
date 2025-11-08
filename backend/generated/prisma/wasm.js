@@ -93,18 +93,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  fullName: 'fullName',
-  username: 'username',
-  email: 'email',
-  password: 'password',
-  role: 'role',
-  profilePic: 'profilePic',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.EmployeeScalarFieldEnum = {
   id: 'id',
   publicId: 'publicId',
@@ -113,31 +101,27 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   phone: 'phone',
   firstName: 'firstName',
   lastName: 'lastName',
-  otpSecret: 'otpSecret',
-  mfaEnabled: 'mfaEnabled',
-  level: 'level',
-  parentId: 'parentId',
-  role: 'role',
-  department: 'department',
+  passwordHash: 'passwordHash',
   isActive: 'isActive',
   isStaff: 'isStaff',
-  lastLogin: 'lastLogin',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  isSuperuser: 'isSuperuser',
+  role: 'role',
+  department: 'department',
+  level: 'level',
+  parentId: 'parentId',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
-  address: 'address'
+  address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.EducationScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
-  school: 'school',
   degree: 'degree',
-  startYear: 'startYear',
-  endYear: 'endYear',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  university: 'university',
+  graduationYear: 'graduationYear'
 };
 
 exports.Prisma.EmergencyContactScalarFieldEnum = {
@@ -145,12 +129,12 @@ exports.Prisma.EmergencyContactScalarFieldEnum = {
   employeeId: 'employeeId',
   name: 'name',
   phone: 'phone',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  address: 'address'
 };
 
 exports.Prisma.EmployeeSessionScalarFieldEnum = {
   id: 'id',
+  sessionId: 'sessionId',
   employeeId: 'employeeId',
   refreshToken: 'refreshToken',
   createdAt: 'createdAt',
@@ -162,18 +146,15 @@ exports.Prisma.EmployeeSessionScalarFieldEnum = {
 exports.Prisma.FailedLoginAttemptScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
-  ipAddress: 'ipAddress',
-  count: 'count',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  timestamp: 'timestamp'
 };
 
 exports.Prisma.LoginOTPScalarFieldEnum = {
   id: 'id',
-  employeeId: 'employeeId',
+  userId: 'userId',
   otp: 'otp',
-  expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -190,13 +171,9 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.Role = exports.$Enums.Role = {
-  ADMIN: 'ADMIN',
-  EMPLOYEE: 'EMPLOYEE'
-};
+
 
 exports.Prisma.ModelName = {
-  User: 'User',
   Employee: 'Employee',
   Education: 'Education',
   EmergencyContact: 'EmergencyContact',
@@ -251,13 +228,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// prisma/schema.prisma\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../backend/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id         String   @id @default(cuid())\n  fullName   String\n  username   String   @unique\n  email      String   @unique\n  password   String\n  role       Role     @default(EMPLOYEE)\n  profilePic String?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n\nenum Role {\n  ADMIN\n  EMPLOYEE\n}\n\nmodel Employee {\n  id         String    @id @default(cuid()) // internal id\n  publicId   String    @unique @default(cuid()) // maps to public_id (shortcode generator can be used at create)\n  username   String    @unique\n  email      String?   @unique\n  phone      String?\n  firstName  String?\n  lastName   String?\n  otpSecret  String?\n  mfaEnabled Boolean   @default(false)\n  level      Int       @default(1)\n  parentId   String?\n  role       String?\n  department String?\n  isActive   Boolean   @default(true)\n  isStaff    Boolean   @default(false)\n  lastLogin  DateTime?\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n\n  dateOfBirth DateTime?\n  gender      String? // 'male'|'female'|'other'\n  address     String?\n\n  // relations\n  parent   Employee?  @relation(\"EmployeeParent\", fields: [parentId], references: [id])\n  children Employee[] @relation(\"EmployeeParent\")\n\n  educations          Education[]\n  emergencyContacts   EmergencyContact[]\n  sessions            EmployeeSession[]\n  failedLoginAttempts FailedLoginAttempt[]\n  loginOtps           LoginOTP[]\n  // if you need messages model later\n}\n\nmodel Education {\n  id         String   @id @default(cuid())\n  employee   Employee @relation(fields: [employeeId], references: [id])\n  employeeId String\n  school     String?\n  degree     String?\n  startYear  Int?\n  endYear    Int?\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n\nmodel EmergencyContact {\n  id         String   @id @default(cuid())\n  employee   Employee @relation(fields: [employeeId], references: [id])\n  employeeId String\n  name       String\n  phone      String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n\nmodel EmployeeSession {\n  id           String    @id @default(cuid())\n  employee     Employee  @relation(fields: [employeeId], references: [id])\n  employeeId   String\n  refreshToken String    @unique\n  createdAt    DateTime  @default(now())\n  expiresAt    DateTime?\n  isHibernated Boolean   @default(false)\n  lastActive   DateTime  @default(now())\n}\n\nmodel FailedLoginAttempt {\n  id         String    @id @default(cuid())\n  employee   Employee? @relation(fields: [employeeId], references: [id])\n  employeeId String?\n  ipAddress  String?\n  count      Int       @default(0)\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n}\n\nmodel LoginOTP {\n  id         String   @id @default(cuid())\n  employee   Employee @relation(fields: [employeeId], references: [id])\n  employeeId String\n  otp        String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "e73f7ff3278ad04ab2d08dc6483b21d67dc0eb50282acac18c9d9ae14ca9be7e",
+  "inlineSchema": "// prisma/schema.prisma\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../backend/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Employee {\n  id           Int        @id @default(autoincrement())\n  publicId     String     @unique\n  username     String     @unique\n  email        String?    @unique\n  phone        String?\n  firstName    String?\n  lastName     String?\n  passwordHash String\n  isActive     Boolean    @default(true)\n  isStaff      Boolean    @default(false)\n  isSuperuser  Boolean    @default(false)\n  role         String?\n  department   String?\n  level        Int        @default(1)\n  parentId     Int?\n  parent       Employee?  @relation(\"ParentChildren\", fields: [parentId], references: [id])\n  children     Employee[] @relation(\"ParentChildren\")\n  dateOfBirth  DateTime?\n  gender       String?\n  address      String?\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n\n  educations        Education[]\n  emergencyContacts EmergencyContact[]\n  sessions          EmployeeSession[]\n  failedLogins      FailedLoginAttempt[]\n  loginOtps         LoginOTP[]\n}\n\nmodel Education {\n  id             Int      @id @default(autoincrement())\n  employee       Employee @relation(fields: [employeeId], references: [id])\n  employeeId     Int\n  degree         String\n  university     String\n  graduationYear String?\n}\n\nmodel EmergencyContact {\n  id         Int      @id @default(autoincrement())\n  employee   Employee @relation(fields: [employeeId], references: [id])\n  employeeId Int\n  name       String\n  phone      String\n  address    String?\n}\n\nmodel EmployeeSession {\n  id           Int       @id @default(autoincrement())\n  sessionId    String    @unique\n  employee     Employee  @relation(fields: [employeeId], references: [id])\n  employeeId   Int\n  refreshToken String    @unique\n  createdAt    DateTime  @default(now())\n  expiresAt    DateTime?\n  isHibernated Boolean   @default(false)\n  lastActive   DateTime  @default(now())\n}\n\nmodel FailedLoginAttempt {\n  id         Int      @id @default(autoincrement())\n  employee   Employee @relation(fields: [employeeId], references: [id])\n  employeeId Int\n  timestamp  DateTime @default(now())\n}\n\nmodel LoginOTP {\n  id        Int      @id @default(autoincrement())\n  user      Employee @relation(fields: [userId], references: [id])\n  userId    Int\n  otp       String\n  createdAt DateTime @default(now())\n  expiresAt DateTime\n}\n",
+  "inlineSchemaHash": "d9258a45d7a323f81c186cc791daa122119634f7e0c908011154184031de2ef4",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"profilePic\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Employee\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"publicId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otpSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mfaEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"level\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isStaff\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastLogin\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeParent\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeParent\"},{\"name\":\"educations\",\"kind\":\"object\",\"type\":\"Education\",\"relationName\":\"EducationToEmployee\"},{\"name\":\"emergencyContacts\",\"kind\":\"object\",\"type\":\"EmergencyContact\",\"relationName\":\"EmergencyContactToEmployee\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"EmployeeSession\",\"relationName\":\"EmployeeToEmployeeSession\"},{\"name\":\"failedLoginAttempts\",\"kind\":\"object\",\"type\":\"FailedLoginAttempt\",\"relationName\":\"EmployeeToFailedLoginAttempt\"},{\"name\":\"loginOtps\",\"kind\":\"object\",\"type\":\"LoginOTP\",\"relationName\":\"EmployeeToLoginOTP\"}],\"dbName\":null},\"Education\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EducationToEmployee\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"school\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"degree\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startYear\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"endYear\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"EmergencyContact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmergencyContactToEmployee\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"EmployeeSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToEmployeeSession\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isHibernated\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastActive\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"FailedLoginAttempt\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToFailedLoginAttempt\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"count\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"LoginOTP\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToLoginOTP\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Employee\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"publicId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isStaff\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isSuperuser\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"level\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"ParentChildren\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"ParentChildren\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"gender\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"educations\",\"kind\":\"object\",\"type\":\"Education\",\"relationName\":\"EducationToEmployee\"},{\"name\":\"emergencyContacts\",\"kind\":\"object\",\"type\":\"EmergencyContact\",\"relationName\":\"EmergencyContactToEmployee\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"EmployeeSession\",\"relationName\":\"EmployeeToEmployeeSession\"},{\"name\":\"failedLogins\",\"kind\":\"object\",\"type\":\"FailedLoginAttempt\",\"relationName\":\"EmployeeToFailedLoginAttempt\"},{\"name\":\"loginOtps\",\"kind\":\"object\",\"type\":\"LoginOTP\",\"relationName\":\"EmployeeToLoginOTP\"}],\"dbName\":null},\"Education\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EducationToEmployee\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"degree\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"university\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"graduationYear\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"EmergencyContact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmergencyContactToEmployee\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"EmployeeSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"sessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToEmployeeSession\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isHibernated\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastActive\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"FailedLoginAttempt\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToFailedLoginAttempt\"},{\"name\":\"employeeId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"LoginOTP\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToLoginOTP\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"otp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

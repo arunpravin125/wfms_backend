@@ -1,11 +1,12 @@
 // backend/src/controllers/employeeController.js
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { prisma } from "../db/prisma.js";
+
 import { shortId } from "../utils/generateId.js";
 // import { saveOtp, verifyOtp } from "../services/otpService.js";
 
 import { saveOtp, verifyOtp, clearOtp } from "../services/otpServices.js";
+import { prisma } from "../db/prisma.js";
 const ACCESS_EXPIRES_SECONDS = 60 * 15; // 15 min
 const REFRESH_EXPIRES_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const JWT_SECRET = process.env.JWT_SECRET || "changeme";
@@ -141,12 +142,12 @@ export const forgotPassword = async (req, res) => {
   return res.json({ message: "OTP sent", publicId: user.publicId });
 };
 
-export const verifyOtpController = async (req, res) => {
-  const { publicId, otp } = req.body;
-  if (!verifyOtp(publicId, otp))
-    return res.status(400).json({ error: "Invalid or expired OTP" });
-  return res.json({ message: "OTP verified" });
-};
+// export const verifyOtpController = async (req, res) => {
+//   const { publicId, otp } = req.body;
+//   if (!verifyOtp(publicId, otp))
+//     return res.status(400).json({ error: "Invalid or expired OTP" });
+//   return res.json({ message: "OTP verified" });
+// };
 
 export async function resetPassword(req, res) {
   const { publicId, otp, newPassword } = req.body;
@@ -233,4 +234,101 @@ export const amsList = async (req, res) => {
     },
   });
   res.json(employees);
+};
+
+// ===============================================
+// ✅ Add this at the bottom of employeeController.js
+// ===============================================
+
+export const verifyLoginOtp = async (req, res) => {
+  try {
+    const { username, otp } = req.body;
+    if (!username || !otp)
+      return res.status(400).json({ error: "username and otp required" });
+
+    const user = await prisma.employee.findUnique({ where: { username } });
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const valid = verifyOtp(user.publicId, otp);
+    if (!valid)
+      return res.status(400).json({ error: "Invalid or expired OTP" });
+
+    // delete used OTP
+    clearOtp(user.publicId);
+
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
+
+    await prisma.employeeSession.create({
+      data: {
+        employeeId: user.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + REFRESH_EXPIRES_SECONDS * 1000),
+        lastActive: new Date(),
+      },
+    });
+
+    res.cookie(COOKIE_NAME, refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: REFRESH_EXPIRES_SECONDS * 1000,
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return res.json({
+      message: "Login successful",
+      tokens: { access: accessToken, refresh: refreshToken },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Simple OTP verify (used for /verify-otp/)
+export const verifyOtpController = async (req, res) => {
+  try {
+    const { publicId, otp } = req.body;
+    if (!publicId || !otp)
+      return res.status(400).json({ error: "publicId and otp required" });
+
+    const valid = verifyOtp(publicId, otp);
+    if (!valid)
+      return res.status(400).json({ error: "Invalid or expired OTP" });
+
+    clearOtp(publicId);
+    return res.json({ message: "OTP verified successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Update profile (used for /update-profile/)
+export const updateProfile = async (req, res) => {
+  try {
+    const user = req.user;
+    const { firstName, lastName, email, phone, gender } = req.body;
+
+    const updated = await prisma.employee.update({
+      where: { id: user.id },
+      data: { firstName, lastName, email, phone, gender },
+    });
+
+    return res.json({
+      message: "Profile updated successfully",
+      employee: {
+        publicId: updated.publicId,
+        username: updated.username,
+        firstName: updated.firstName,
+        lastName: updated.lastName,
+        email: updated.email,
+        phone: updated.phone,
+        gender: updated.gender,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
 };
