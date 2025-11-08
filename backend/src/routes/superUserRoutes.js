@@ -1,5 +1,5 @@
 import express from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import {
   requireSuperuser,
   signSuperuserPayload,
@@ -168,7 +168,7 @@ superUserRouter.post("/auth/login", async (req, res) => {
 // ============================================================
 // 4️⃣ Verify OTP (superuser login) → issue JWT cookie
 // ============================================================
-superUserRouter.post("/auth/verify-otp", async (req, res) => {
+superUserRouter.post("/authSuperUser/verify-otp", async (req, res) => {
   try {
     const { username, otp } = req.body;
     if (!username || !otp)
@@ -207,11 +207,12 @@ superUserRouter.post("/auth/verify-otp", async (req, res) => {
 // ============================================================
 // 5️⃣ Create L1 Admin (CEO) — Protected
 // ============================================================
-superUserRouter.post("/admin/create-l1", requireSuperuser, async (req, res) => {
+superUserRouter.post("/admin/create_L1", requireSuperuser, async (req, res) => {
   try {
     const exists = await prisma.employee.findFirst({
       where: { level: 1, role: "CEO" },
     });
+    console.log("create_L1", exists);
     if (exists)
       return res.status(409).json({ error: "L1 Admin (CEO) already exists" });
 
@@ -251,6 +252,7 @@ superUserRouter.post("/admin/create-l1", requireSuperuser, async (req, res) => {
 
     const newUser = await prisma.employee.create({
       data: {
+        publicId: uuidv4(),
         username,
         email,
         phone,

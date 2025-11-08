@@ -1,13 +1,14 @@
 // backend/src/controllers/employeeController.js
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 
 import { shortId } from "../utils/generateId.js";
 // import { saveOtp, verifyOtp } from "../services/otpService.js";
 
 import { saveOtp, verifyOtp, clearOtp } from "../services/otpServices.js";
 import { prisma } from "../db/prisma.js";
-const ACCESS_EXPIRES_SECONDS = 60 * 15; // 15 min
+const ACCESS_EXPIRES_SECONDS = 60 * 30; // 30 min
 const REFRESH_EXPIRES_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const JWT_SECRET = process.env.JWT_SECRET || "changeme";
 const COOKIE_NAME = "refresh_token";
@@ -25,84 +26,145 @@ function signRefreshToken(user) {
   );
 }
 
-export const createEmployee = async (req, res) => {
-  const { fullName, username, password, gender } = req.body;
-  if (!fullName || !username || !password || !gender)
-    return res.status(400).json({ error: "Missing fields" });
-
-  const existing = await prisma.employee.findUnique({ where: { username } });
-  if (existing) return res.status(400).json({ error: "Username taken" });
-
-  const [firstName, ...rest] = fullName.split(" ");
-  const hashed = await bcrypt.hash(password, 10);
-  const newUser = await prisma.employee.create({
-    data: {
-      publicId: shortId(8),
-      username,
-      password: hashed,
-      firstName,
-      lastName: rest.join(" "),
-      gender,
-      profilePic: "",
-    },
-  });
-  return res.status(201).json({
-    message: "Employee created",
-    employee: { id: newUser.publicId, username: newUser.username },
-  });
-};
-
 export const login = async (req, res) => {
   const { username, password } = req.body;
-  if (!username || !password)
-    return res.status(400).json({ error: "Missing username/password" });
+  console.log("login" + { username, password });
+  try {
+    if (!username || !password)
+      return res.status(400).json({ error: "Missing username/password" });
 
-  const user = await prisma.employee.findUnique({ where: { username } });
-  if (!user) return res.status(401).json({ error: "Invalid credentials" });
+    const user = await prisma.employee.findUnique({ where: { username } });
+    if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
-  const ok = await bcrypt.compare(password, user.password);
-  if (!ok) return res.status(401).json({ error: "Invalid credentials" });
+    const ok = await bcrypt.compare(password, user.passwordHash);
+    if (!ok) return res.status(401).json({ error: "Invalid credentials" });
 
-  // remove old sessions (as Django code did)
-  await prisma.employeeSession.deleteMany({ where: { employeeId: user.id } });
+    // remove old sessions (as Django code did)
+    await prisma.employeeSession.deleteMany({ where: { employeeId: user.id } });
 
-  // mark login (update lastLogin)
-  await prisma.employee.update({
-    where: { id: user.id },
-    data: { lastLogin: new Date() },
-  });
+    // mark login (update lastLogin)
+    await prisma.employee.update({
+      where: { id: user.id },
+      data: { lastLogin: new Date() },
+    });
 
-  const refreshToken = signRefreshToken(user);
-  const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
+    const accessToken = signAccessToken(user);
+    console.log({ refreshToken, accessToken });
+    // store session
+    await prisma.employeeSession.create({
+      data: {
+        sessionId: uuidv4(),
+        employeeId: user.id,
+        refreshToken,
+        expiresAt: new Date(Date.now() + REFRESH_EXPIRES_SECONDS * 1000),
+        lastActive: new Date(),
+        isHibernated: false,
+      },
+    });
 
-  // store session
-  await prisma.employeeSession.create({
-    data: {
-      employeeId: user.id,
-      refreshToken,
-      expiresAt: new Date(Date.now() + REFRESH_EXPIRES_SECONDS * 1000),
-      lastActive: new Date(),
-      isHibernated: false,
-    },
-  });
+    // set refresh cookie (httpOnly)
+    res.cookie(COOKIE_NAME, refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: REFRESH_EXPIRES_SECONDS * 1000,
+      secure: process.env.NODE_ENV === "production",
+    });
+    res.cookie("access_token", accessToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 30 * 60 * 1000, // 30 mins
+      secure: process.env.NODE_ENV === "production",
+    });
 
-  // set refresh cookie (httpOnly)
-  res.cookie(COOKIE_NAME, refreshToken, {
-    httpOnly: true,
-    sameSite: "lax",
-    maxAge: REFRESH_EXPIRES_SECONDS * 1000,
-    secure: process.env.NODE_ENV === "production",
-  });
+    return res.json({
+      user,
+      tokens: { access: accessToken, refresh: refreshToken },
+    });
+  } catch (error) {
+    console.log("error in login", error);
+    res.status(400).json({ error });
+  }
+};
 
-  return res.json({
-    id: user.publicId,
-    username: user.username,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    role: user.role,
-    level: user.level,
-    tokens: { access: accessToken, refresh: refreshToken },
-  });
+export const createEmployee = async (req, res) => {
+  const {
+    fullName,
+    username,
+    password,
+    gender,
+    email,
+    phone,
+    dateOfBirth,
+    address,
+    department,
+    role,
+    level,
+    educations = [],
+    emergencyContacts = [],
+    profilePic,
+  } = req.body;
+  try {
+    // if (!fullName || !username || !password || !gender) {
+    //   return res.status(400).json({ error: "Missing fields" });
+    // }
+
+    const existing = await prisma.employee.findUnique({ where: { username } });
+    if (existing) return res.status(400).json({ error: "Username taken" });
+
+    const [firstName, ...rest] = fullName.split(" ");
+    const hashed = await bcrypt.hash(password, 10);
+    const newUser = await prisma.employee.create({
+      data: {
+        publicId: shortId(8),
+        username,
+        passwordHash: hashed,
+        firstName,
+        lastName: rest.join(" "),
+        email,
+        profilePic,
+        phone,
+        department,
+        role,
+        level,
+        gender,
+        dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+        address,
+      },
+    });
+    // Educations
+    for (const e of educations) {
+      if (!e.degree) continue;
+      await prisma.education.create({
+        data: {
+          employeeId: newUser.id,
+          degree: e.degree,
+          university: e.university || "",
+          graduationYear: e.graduationYear || "",
+        },
+      });
+    }
+
+    // Emergency Contacts
+    for (const ec of emergencyContacts) {
+      if (!ec.name || !ec.phone) continue;
+      await prisma.emergencyContact.create({
+        data: {
+          employeeId: newUser.id,
+          name: ec.name,
+          phone: ec.phone,
+          address: ec.address || null,
+        },
+      });
+    }
+    return res.status(201).json({
+      message: "Employee created",
+      employee: { id: newUser.publicId, username: newUser.username },
+    });
+  } catch (error) {
+    console.log("error in createEmployee", error);
+    res.status(500).json({ error });
+  }
 };
 
 export const logout = async (req, res) => {
@@ -141,13 +203,6 @@ export const forgotPassword = async (req, res) => {
   // send OTP via email/sms (not implemented)
   return res.json({ message: "OTP sent", publicId: user.publicId });
 };
-
-// export const verifyOtpController = async (req, res) => {
-//   const { publicId, otp } = req.body;
-//   if (!verifyOtp(publicId, otp))
-//     return res.status(400).json({ error: "Invalid or expired OTP" });
-//   return res.json({ message: "OTP verified" });
-// };
 
 export async function resetPassword(req, res) {
   const { publicId, otp, newPassword } = req.body;
@@ -281,7 +336,7 @@ export const verifyLoginOtp = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error " + err });
   }
 };
 

@@ -141,7 +141,8 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   gender: 'gender',
   address: 'address',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  lastLogin: 'lastLogin'
 };
 
 exports.Prisma.EducationScalarFieldEnum = {

@@ -10,67 +10,60 @@ datasource db {
 }
 
 model Employee {
-  id         String    @id @default(cuid()) // internal id
-  publicId   String    @unique @default(cuid()) // maps to public_id (shortcode generator can be used at create)
-  username   String    @unique
-  email      String?   @unique
-  phone      String?
-  firstName  String?
-  lastName   String?
-  otpSecret  String?
-  mfaEnabled Boolean   @default(false)
-  level      Int       @default(1)
-  parentId   String?
-  role       String?
-  department String?
-  isActive   Boolean   @default(true)
-  isStaff    Boolean   @default(false)
-  lastLogin  DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id           Int        @id @default(autoincrement())
+  publicId     String     @unique
+  username     String     @unique
+  email        String?    @unique
+  phone        String?
+  firstName    String?
+  lastName     String?
+  passwordHash String?
+  isActive     Boolean    @default(true)
+  isStaff      Boolean    @default(false)
+  isSuperuser  Boolean    @default(false)
+  role         String?
+  department   String?
+  level        Int        @default(1)
+  parentId     Int?
+  parent       Employee?  @relation("ParentChildren", fields: [parentId], references: [id])
+  children     Employee[] @relation("ParentChildren")
+  dateOfBirth  DateTime?
+  gender       String?
+  address      String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
-  dateOfBirth DateTime?
-  gender      String? // 'male'|'female'|'other'
-  address     String?
-
-  // relations
-  parent   Employee?  @relation("EmployeeParent", fields: [parentId], references: [id])
-  children Employee[] @relation("EmployeeParent")
-
-  educations          Education[]
-  emergencyContacts   EmergencyContact[]
-  sessions            EmployeeSession[]
-  failedLoginAttempts FailedLoginAttempt[]
-  loginOtps           LoginOTP[]
-  // if you need messages model later
+  educations        Education[]
+  emergencyContacts EmergencyContact[]
+  sessions          EmployeeSession[]
+  failedLogins      FailedLoginAttempt[]
+  loginOtps         LoginOTP[]
+  lastLogin         DateTime?
 }
 
 model Education {
-  id         String   @id @default(cuid())
-  employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String
-  school     String?
-  degree     String?
-  startYear  Int?
-  endYear    Int?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  employeeId     Int
+  degree         String
+  university     String
+  graduationYear String?
 }
 
 model EmergencyContact {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String
+  employeeId Int
   name       String
   phone      String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  address    String?
 }
 
 model EmployeeSession {
-  id           String    @id @default(cuid())
+  id           Int       @id @default(autoincrement())
+  sessionId    String    @unique
   employee     Employee  @relation(fields: [employeeId], references: [id])
-  employeeId   String
+  employeeId   Int
   refreshToken String    @unique
   createdAt    DateTime  @default(now())
   expiresAt    DateTime?
@@ -79,20 +72,17 @@ model EmployeeSession {
 }
 
 model FailedLoginAttempt {
-  id         String    @id @default(cuid())
-  employee   Employee? @relation(fields: [employeeId], references: [id])
-  employeeId String?
-  ipAddress  String?
-  count      Int       @default(0)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId Int
+  timestamp  DateTime @default(now())
 }
 
 model LoginOTP {
-  id         String   @id @default(cuid())
-  employee   Employee @relation(fields: [employeeId], references: [id])
-  employeeId String
-  otp        String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  user      Employee @relation(fields: [userId], references: [id])
+  userId    Int
+  otp       String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }

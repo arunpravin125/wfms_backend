@@ -19,7 +19,7 @@ model Employee {
   phone              String?
   firstName          String?
   lastName           String?
-  passwordHash       String
+  passwordHash       String?
   isActive           Boolean             @default(true)
   isStaff            Boolean             @default(false)
   isSuperuser        Boolean             @default(false)
@@ -34,12 +34,16 @@ model Employee {
   address            String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-
+  
   educations         Education[]
   emergencyContacts  EmergencyContact[]
   sessions           EmployeeSession[]
   failedLogins       FailedLoginAttempt[]
   loginOtps          LoginOTP[]
+lastLogin DateTime?
+
+
+
 }
 
 model Education {

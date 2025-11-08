@@ -1436,6 +1436,7 @@ export namespace Prisma {
     address: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    lastLogin: Date | null
   }
 
   export type EmployeeMaxAggregateOutputType = {
@@ -1459,6 +1460,7 @@ export namespace Prisma {
     address: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    lastLogin: Date | null
   }
 
   export type EmployeeCountAggregateOutputType = {
@@ -1482,6 +1484,7 @@ export namespace Prisma {
     address: number
     createdAt: number
     updatedAt: number
+    lastLogin: number
     _all: number
   }
 
@@ -1519,6 +1522,7 @@ export namespace Prisma {
     address?: true
     createdAt?: true
     updatedAt?: true
+    lastLogin?: true
   }
 
   export type EmployeeMaxAggregateInputType = {
@@ -1542,6 +1546,7 @@ export namespace Prisma {
     address?: true
     createdAt?: true
     updatedAt?: true
+    lastLogin?: true
   }
 
   export type EmployeeCountAggregateInputType = {
@@ -1565,6 +1570,7 @@ export namespace Prisma {
     address?: true
     createdAt?: true
     updatedAt?: true
+    lastLogin?: true
     _all?: true
   }
 
@@ -1662,7 +1668,7 @@ export namespace Prisma {
     phone: string | null
     firstName: string | null
     lastName: string | null
-    passwordHash: string
+    passwordHash: string | null
     isActive: boolean
     isStaff: boolean
     isSuperuser: boolean
@@ -1675,6 +1681,7 @@ export namespace Prisma {
     address: string | null
     createdAt: Date
     updatedAt: Date
+    lastLogin: Date | null
     _count: EmployeeCountAggregateOutputType | null
     _avg: EmployeeAvgAggregateOutputType | null
     _sum: EmployeeSumAggregateOutputType | null
@@ -1717,6 +1724,7 @@ export namespace Prisma {
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    lastLogin?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
     children?: boolean | Employee$childrenArgs<ExtArgs>
     educations?: boolean | Employee$educationsArgs<ExtArgs>
@@ -1748,6 +1756,7 @@ export namespace Prisma {
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    lastLogin?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -1772,6 +1781,7 @@ export namespace Prisma {
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    lastLogin?: boolean
     parent?: boolean | Employee$parentArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -1796,9 +1806,10 @@ export namespace Prisma {
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    lastLogin?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "publicId" | "username" | "email" | "phone" | "firstName" | "lastName" | "passwordHash" | "isActive" | "isStaff" | "isSuperuser" | "role" | "department" | "level" | "parentId" | "dateOfBirth" | "gender" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "publicId" | "username" | "email" | "phone" | "firstName" | "lastName" | "passwordHash" | "isActive" | "isStaff" | "isSuperuser" | "role" | "department" | "level" | "parentId" | "dateOfBirth" | "gender" | "address" | "createdAt" | "updatedAt" | "lastLogin", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Employee$parentArgs<ExtArgs>
     children?: boolean | Employee$childrenArgs<ExtArgs>
@@ -1835,7 +1846,7 @@ export namespace Prisma {
       phone: string | null
       firstName: string | null
       lastName: string | null
-      passwordHash: string
+      passwordHash: string | null
       isActive: boolean
       isStaff: boolean
       isSuperuser: boolean
@@ -1848,6 +1859,7 @@ export namespace Prisma {
       address: string | null
       createdAt: Date
       updatedAt: Date
+      lastLogin: Date | null
     }, ExtArgs["result"]["employee"]>
     composites: {}
   }
@@ -2298,6 +2310,7 @@ export namespace Prisma {
     readonly address: FieldRef<"Employee", 'String'>
     readonly createdAt: FieldRef<"Employee", 'DateTime'>
     readonly updatedAt: FieldRef<"Employee", 'DateTime'>
+    readonly lastLogin: FieldRef<"Employee", 'DateTime'>
   }
     
 
@@ -8402,7 +8415,8 @@ export namespace Prisma {
     gender: 'gender',
     address: 'address',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    lastLogin: 'lastLogin'
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
@@ -8570,7 +8584,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    passwordHash?: StringFilter<"Employee"> | string
+    passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
     isSuperuser?: BoolFilter<"Employee"> | boolean
@@ -8583,6 +8597,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
     parent?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     children?: EmployeeListRelationFilter
     educations?: EducationListRelationFilter
@@ -8600,7 +8615,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    passwordHash?: SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
     isSuperuser?: SortOrder
@@ -8613,6 +8628,7 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastLogin?: SortOrderInput | SortOrder
     parent?: EmployeeOrderByWithRelationInput
     children?: EmployeeOrderByRelationAggregateInput
     educations?: EducationOrderByRelationAggregateInput
@@ -8633,7 +8649,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    passwordHash?: StringFilter<"Employee"> | string
+    passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
     isSuperuser?: BoolFilter<"Employee"> | boolean
@@ -8646,6 +8662,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
     parent?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     children?: EmployeeListRelationFilter
     educations?: EducationListRelationFilter
@@ -8663,7 +8680,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
     lastName?: SortOrderInput | SortOrder
-    passwordHash?: SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
     isSuperuser?: SortOrder
@@ -8676,6 +8693,7 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastLogin?: SortOrderInput | SortOrder
     _count?: EmployeeCountOrderByAggregateInput
     _avg?: EmployeeAvgOrderByAggregateInput
     _max?: EmployeeMaxOrderByAggregateInput
@@ -8694,7 +8712,7 @@ export namespace Prisma {
     phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     firstName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     lastName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    passwordHash?: StringWithAggregatesFilter<"Employee"> | string
+    passwordHash?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
     isStaff?: BoolWithAggregatesFilter<"Employee"> | boolean
     isSuperuser?: BoolWithAggregatesFilter<"Employee"> | boolean
@@ -8707,6 +8725,7 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    lastLogin?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
   }
 
   export type EducationWhereInput = {
@@ -9006,7 +9025,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -9018,6 +9037,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
@@ -9035,7 +9055,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -9048,6 +9068,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
@@ -9063,7 +9084,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -9075,6 +9096,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
@@ -9092,7 +9114,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -9105,6 +9127,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -9121,7 +9144,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -9134,6 +9157,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
   }
 
   export type EmployeeUpdateManyMutationInput = {
@@ -9143,7 +9167,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -9155,6 +9179,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EmployeeUncheckedUpdateManyInput = {
@@ -9165,7 +9190,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -9178,6 +9203,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EducationCreateInput = {
@@ -9617,6 +9643,7 @@ export namespace Prisma {
     address?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type EmployeeAvgOrderByAggregateInput = {
@@ -9646,6 +9673,7 @@ export namespace Prisma {
     address?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type EmployeeMinOrderByAggregateInput = {
@@ -9669,6 +9697,7 @@ export namespace Prisma {
     address?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastLogin?: SortOrder
   }
 
   export type EmployeeSumOrderByAggregateInput = {
@@ -10541,7 +10570,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -10553,6 +10582,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
@@ -10569,7 +10599,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -10582,6 +10612,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
@@ -10601,7 +10632,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -10613,6 +10644,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
@@ -10629,7 +10661,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -10641,6 +10673,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
@@ -10794,7 +10827,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -10806,6 +10839,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
@@ -10822,7 +10856,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -10835,6 +10869,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -10869,7 +10904,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
     lastName?: StringNullableFilter<"Employee"> | string | null
-    passwordHash?: StringFilter<"Employee"> | string
+    passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
     isSuperuser?: BoolFilter<"Employee"> | boolean
@@ -10882,6 +10917,7 @@ export namespace Prisma {
     address?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    lastLogin?: DateTimeNullableFilter<"Employee"> | Date | string | null
   }
 
   export type EducationUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -11027,7 +11063,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11039,6 +11075,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     emergencyContacts?: EmergencyContactCreateNestedManyWithoutEmployeeInput
@@ -11055,7 +11092,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11068,6 +11105,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11098,7 +11136,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11110,6 +11148,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
@@ -11126,7 +11165,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11139,6 +11178,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11153,7 +11193,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11165,6 +11205,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
@@ -11181,7 +11222,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11194,6 +11235,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     sessions?: EmployeeSessionUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11224,7 +11266,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11236,6 +11278,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
@@ -11252,7 +11295,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11265,6 +11308,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     sessions?: EmployeeSessionUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11279,7 +11323,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11291,6 +11335,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
@@ -11307,7 +11352,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11320,6 +11365,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11350,7 +11396,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11362,6 +11408,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
@@ -11378,7 +11425,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11391,6 +11438,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11405,7 +11453,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11417,6 +11465,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
@@ -11433,7 +11482,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11446,6 +11495,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11476,7 +11526,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11488,6 +11538,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
@@ -11504,7 +11555,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11517,6 +11568,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11531,7 +11583,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11543,6 +11595,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     parent?: EmployeeCreateNestedOneWithoutChildrenInput
     children?: EmployeeCreateNestedManyWithoutParentInput
     educations?: EducationCreateNestedManyWithoutEmployeeInput
@@ -11559,7 +11612,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11572,6 +11625,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
     children?: EmployeeUncheckedCreateNestedManyWithoutParentInput
     educations?: EducationUncheckedCreateNestedManyWithoutEmployeeInput
     emergencyContacts?: EmergencyContactUncheckedCreateNestedManyWithoutEmployeeInput
@@ -11602,7 +11656,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11614,6 +11668,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parent?: EmployeeUpdateOneWithoutChildrenNestedInput
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
@@ -11630,7 +11685,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11643,6 +11698,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11658,7 +11714,7 @@ export namespace Prisma {
     phone?: string | null
     firstName?: string | null
     lastName?: string | null
-    passwordHash: string
+    passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
     isSuperuser?: boolean
@@ -11670,6 +11726,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    lastLogin?: Date | string | null
   }
 
   export type EducationCreateManyEmployeeInput = {
@@ -11715,7 +11772,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11727,6 +11784,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUpdateManyWithoutParentNestedInput
     educations?: EducationUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUpdateManyWithoutEmployeeNestedInput
@@ -11743,7 +11801,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11755,6 +11813,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     children?: EmployeeUncheckedUpdateManyWithoutParentNestedInput
     educations?: EducationUncheckedUpdateManyWithoutEmployeeNestedInput
     emergencyContacts?: EmergencyContactUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -11771,7 +11830,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
     lastName?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
     isSuperuser?: BoolFieldUpdateOperationsInput | boolean
@@ -11783,6 +11842,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type EducationUpdateWithoutEmployeeInput = {

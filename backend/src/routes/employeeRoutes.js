@@ -28,7 +28,12 @@ employeeRoutes.get("/me/", requireAuth, me);
 employeeRoutes.post("/hibernate/", requireAuth, hibernate);
 employeeRoutes.post("/reauth/", reauth);
 // create employee (requires L1 or HOD)
-employeeRoutes.post("/create/", requireAuth, requireL1OrHOD, createEmployee);
+employeeRoutes.post(
+  "/createEmployee",
+  requireAuth,
+  requireL1OrHOD,
+  createEmployee
+);
 
 // // backend/src/routes/employee.js
 // import express from "express";
