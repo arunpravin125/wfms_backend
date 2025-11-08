@@ -1,0 +1,31 @@
+{
+  "name": "prisma-node-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon --watch backend/src --exec node --trace-warnings --experimental-vm-modules ./backend/src/index.js",
+    "start": "node ./backend/src/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^7.0.10",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prisma": "^6.19.0"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
