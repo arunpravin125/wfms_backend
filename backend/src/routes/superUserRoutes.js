@@ -83,7 +83,7 @@ superUserRouter.get("/setup/SuperUserInit", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error" + err });
   }
 });
 
@@ -122,7 +122,7 @@ superUserRouter.post("/setup/superuser-verify", async (req, res) => {
     return res.json({ message: "Superuser activated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error" + err });
   }
 });
 
@@ -161,7 +161,7 @@ superUserRouter.post("/auth/login", async (req, res) => {
     return res.json({ message: `OTP sent to ${user.email}` });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error" + err });
   }
 });
 
@@ -200,7 +200,7 @@ superUserRouter.post("/authSuperUser/verify-otp", async (req, res) => {
     return res.json({ message: "Login successful" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error" + err });
   }
 });
 
@@ -304,7 +304,7 @@ superUserRouter.post("/admin/create_L1", requireSuperuser, async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(401).json({ error: "Server error" + err });
   }
 });
 

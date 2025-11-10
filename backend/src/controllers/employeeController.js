@@ -384,6 +384,223 @@ export const updateProfile = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error in update profile" });
+  }
+};
+
+// Create or Update Filter Data (Upsert)
+export const createFilterData = async (req, res) => {
+  try {
+    const { filterName, department, roles, level } = req.body;
+
+    // Validation
+    if (!filterName) {
+      return res.status(400).json({ message: "Filter name is required." });
+    }
+
+    if (!department && !roles && !level) {
+      return res
+        .status(400)
+        .json({ message: "At least one field is required." });
+    }
+
+    // Check if filter with the same name exists
+    const existingFilter = await prisma.filterData.findUnique({
+      where: { filterName },
+    });
+
+    let filter;
+
+    if (existingFilter) {
+      return res.status(400).json({ message: "Already filterName Exists" });
+    } else {
+      // ✅ Create new record
+      filter = await prisma.filterData.create({
+        data: {
+          filterName,
+          department: department || [],
+          roles: roles || [],
+          level: level || [],
+        },
+      });
+    }
+
+    res.status(201).json({
+      message: existingFilter
+        ? "Filter data updated successfully"
+        : "Filter data created successfully",
+      data: filter,
+    });
+  } catch (error) {
+    console.error("❌ error in createFilterData:", error);
+    res.status(500).json({ error: "Server error in createFilterData" });
+  }
+};
+
+// Get Latest or Specific Filter Data
+export const getFilteredData = async (req, res) => {
+  try {
+    const { filterName } = req.query;
+
+    let filterData;
+    if (filterName) {
+      filterData = await prisma.filterData.findUnique({
+        where: { filterName },
+      });
+    } else {
+      filterData = await prisma.filterData.findFirst({
+        orderBy: { createdAt: "desc" },
+      });
+    }
+
+    if (!filterData) {
+      return res.status(404).json({ message: "No filter data found." });
+    }
+
+    res.status(200).json({ filterData });
+  } catch (error) {
+    console.error("❌ error in getFilteredData:", error);
+    res.status(500).json({ error: "Server error in getFilteredData" });
+  }
+};
+
+// Edit Existing Filter Data by ID
+export const editFilteredData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let { department = [], roles = [], level = [] } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "FilterData ID is required." });
+    }
+
+    // 1️⃣ Fetch existing data
+    const existingFilter = await prisma.filterData.findUnique({
+      where: { id },
+    });
+
+    if (!existingFilter) {
+      return res.status(404).json({ message: "Filter data not found." });
+    }
+
+    // 2️⃣ Remove duplicates (case-insensitive for strings)
+    const uniqueDepartment = [
+      ...new Set(department.map((d) => d.trim().toUpperCase())),
+    ];
+    const uniqueRoles = [...new Set(roles.map((r) => r.trim().toUpperCase()))];
+    const uniqueLevel = [...new Set(level.map((lvl) => Number(lvl)))];
+
+    // 3️⃣ Compare arrays (check if anything actually changed)
+    const isSameArray = (a, b) =>
+      Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, i) => val === b[i]);
+
+    const isSameDepartment = isSameArray(
+      existingFilter.department.map((d) => d.toUpperCase()),
+      uniqueDepartment
+    );
+    const isSameRoles = isSameArray(
+      existingFilter.roles.map((r) => r.toUpperCase()),
+      uniqueRoles
+    );
+    const isSameLevel = isSameArray(existingFilter.level, uniqueLevel);
+
+    if (isSameDepartment && isSameRoles && isSameLevel) {
+      return res.status(400).json({
+        message: "No changes detected. Filter data is already up to date.",
+      });
+    }
+
+    // 4️⃣ Update record only if something changed
+    const updatedFilter = await prisma.filterData.update({
+      where: { id },
+      data: {
+        department: uniqueDepartment,
+        roles: uniqueRoles,
+        level: uniqueLevel,
+      },
+    });
+
+    res.status(200).json({
+      message: "Filter data updated successfully (duplicates removed)",
+      updatedFilter,
+    });
+  } catch (error) {
+    console.error("❌ error in editFilteredData:", error);
+    res.status(500).json({ error: "Server error in editFilteredData" });
+  }
+};
+
+// Delete specific values from department, roles, or level arrays
+export const deleteFilterData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let { department, roles, level } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: "FilterData ID is required." });
+    }
+
+    // Normalize all inputs into arrays
+    if (department && !Array.isArray(department)) department = [department];
+    if (roles && !Array.isArray(roles)) roles = [roles];
+    if (level && !Array.isArray(level)) level = [level];
+
+    // Fetch existing data
+    const existingFilter = await prisma.filterData.findUnique({
+      where: { id },
+    });
+    if (!existingFilter) {
+      return res.status(404).json({ message: "Filter data not found." });
+    }
+
+    // Remove only specified values (case-insensitive for strings)
+    const updatedData = {
+      department: department?.length
+        ? existingFilter.department.filter(
+            (dpt) =>
+              !department.some((d) => d.toLowerCase() === dpt.toLowerCase())
+          )
+        : existingFilter.department,
+
+      roles: roles?.length
+        ? existingFilter.roles.filter(
+            (r) => !roles.some((rr) => rr.toLowerCase() === r.toLowerCase())
+          )
+        : existingFilter.roles,
+
+      level: level?.length
+        ? existingFilter.level.filter((lvl) => !level.includes(lvl))
+        : existingFilter.level,
+    };
+
+    // If all arrays are empty, delete the record completely
+    if (
+      updatedData.department.length === 0 &&
+      updatedData.roles.length === 0 &&
+      updatedData.level.length === 0
+    ) {
+      await prisma.filterData.delete({ where: { id } });
+      return res.status(200).json({
+        message:
+          "All filter values removed — FilterData record deleted successfully",
+      });
+    }
+
+    // Update record otherwise
+    const updatedFilter = await prisma.filterData.update({
+      where: { id },
+      data: updatedData,
+    });
+
+    res.status(200).json({
+      message: "Specified filter values removed successfully",
+      updatedFilter,
+    });
+  } catch (error) {
+    console.error("❌ error in deleteFilterData:", error);
+    res.status(500).json({ error: "Server error in deleteFilterData" });
   }
 };

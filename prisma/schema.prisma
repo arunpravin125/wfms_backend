@@ -92,4 +92,13 @@ model LoginOTP {
   expiresAt DateTime
 }
 
+model FilterData {
+  id        String   @id @default(uuid())   // unique string ID
+  filterName String? @unique
+  department      String[]                        // text[] column
+  roles          String[]
+  level     Int[]                           // integer[] column
+  createdAt DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
 

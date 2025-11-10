@@ -43,6 +43,11 @@ export type FailedLoginAttempt = $Result.DefaultSelection<Prisma.$FailedLoginAtt
  * 
  */
 export type LoginOTP = $Result.DefaultSelection<Prisma.$LoginOTPPayload>
+/**
+ * Model FilterData
+ * 
+ */
+export type FilterData = $Result.DefaultSelection<Prisma.$FilterDataPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -221,6 +226,16 @@ export class PrismaClient<
     * ```
     */
   get loginOTP(): Prisma.LoginOTPDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.filterData`: Exposes CRUD operations for the **FilterData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FilterData
+    * const filterData = await prisma.filterData.findMany()
+    * ```
+    */
+  get filterData(): Prisma.FilterDataDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -667,7 +682,8 @@ export namespace Prisma {
     EmergencyContact: 'EmergencyContact',
     EmployeeSession: 'EmployeeSession',
     FailedLoginAttempt: 'FailedLoginAttempt',
-    LoginOTP: 'LoginOTP'
+    LoginOTP: 'LoginOTP',
+    FilterData: 'FilterData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -686,7 +702,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "employee" | "education" | "emergencyContact" | "employeeSession" | "failedLoginAttempt" | "loginOTP"
+      modelProps: "employee" | "education" | "emergencyContact" | "employeeSession" | "failedLoginAttempt" | "loginOTP" | "filterData"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1134,6 +1150,80 @@ export namespace Prisma {
           }
         }
       }
+      FilterData: {
+        payload: Prisma.$FilterDataPayload<ExtArgs>
+        fields: Prisma.FilterDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FilterDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FilterDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          findFirst: {
+            args: Prisma.FilterDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FilterDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          findMany: {
+            args: Prisma.FilterDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>[]
+          }
+          create: {
+            args: Prisma.FilterDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          createMany: {
+            args: Prisma.FilterDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FilterDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>[]
+          }
+          delete: {
+            args: Prisma.FilterDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          update: {
+            args: Prisma.FilterDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.FilterDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FilterDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FilterDataUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>[]
+          }
+          upsert: {
+            args: Prisma.FilterDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FilterDataPayload>
+          }
+          aggregate: {
+            args: Prisma.FilterDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFilterData>
+          }
+          groupBy: {
+            args: Prisma.FilterDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FilterDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FilterDataCountArgs<ExtArgs>
+            result: $Utils.Optional<FilterDataCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1236,6 +1326,7 @@ export namespace Prisma {
     employeeSession?: EmployeeSessionOmit
     failedLoginAttempt?: FailedLoginAttemptOmit
     loginOTP?: LoginOTPOmit
+    filterData?: FilterDataOmit
   }
 
   /* Types for Logging */
@@ -8382,6 +8473,1049 @@ export namespace Prisma {
 
 
   /**
+   * Model FilterData
+   */
+
+  export type AggregateFilterData = {
+    _count: FilterDataCountAggregateOutputType | null
+    _avg: FilterDataAvgAggregateOutputType | null
+    _sum: FilterDataSumAggregateOutputType | null
+    _min: FilterDataMinAggregateOutputType | null
+    _max: FilterDataMaxAggregateOutputType | null
+  }
+
+  export type FilterDataAvgAggregateOutputType = {
+    level: number | null
+  }
+
+  export type FilterDataSumAggregateOutputType = {
+    level: number[]
+  }
+
+  export type FilterDataMinAggregateOutputType = {
+    id: string | null
+    filterName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FilterDataMaxAggregateOutputType = {
+    id: string | null
+    filterName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FilterDataCountAggregateOutputType = {
+    id: number
+    filterName: number
+    department: number
+    roles: number
+    level: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FilterDataAvgAggregateInputType = {
+    level?: true
+  }
+
+  export type FilterDataSumAggregateInputType = {
+    level?: true
+  }
+
+  export type FilterDataMinAggregateInputType = {
+    id?: true
+    filterName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FilterDataMaxAggregateInputType = {
+    id?: true
+    filterName?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FilterDataCountAggregateInputType = {
+    id?: true
+    filterName?: true
+    department?: true
+    roles?: true
+    level?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FilterDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FilterData to aggregate.
+     */
+    where?: FilterDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilterData to fetch.
+     */
+    orderBy?: FilterDataOrderByWithRelationInput | FilterDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FilterDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilterData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilterData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FilterData
+    **/
+    _count?: true | FilterDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FilterDataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FilterDataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FilterDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FilterDataMaxAggregateInputType
+  }
+
+  export type GetFilterDataAggregateType<T extends FilterDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateFilterData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFilterData[P]>
+      : GetScalarType<T[P], AggregateFilterData[P]>
+  }
+
+
+
+
+  export type FilterDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FilterDataWhereInput
+    orderBy?: FilterDataOrderByWithAggregationInput | FilterDataOrderByWithAggregationInput[]
+    by: FilterDataScalarFieldEnum[] | FilterDataScalarFieldEnum
+    having?: FilterDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FilterDataCountAggregateInputType | true
+    _avg?: FilterDataAvgAggregateInputType
+    _sum?: FilterDataSumAggregateInputType
+    _min?: FilterDataMinAggregateInputType
+    _max?: FilterDataMaxAggregateInputType
+  }
+
+  export type FilterDataGroupByOutputType = {
+    id: string
+    filterName: string | null
+    department: string[]
+    roles: string[]
+    level: number[]
+    createdAt: Date
+    updatedAt: Date
+    _count: FilterDataCountAggregateOutputType | null
+    _avg: FilterDataAvgAggregateOutputType | null
+    _sum: FilterDataSumAggregateOutputType | null
+    _min: FilterDataMinAggregateOutputType | null
+    _max: FilterDataMaxAggregateOutputType | null
+  }
+
+  type GetFilterDataGroupByPayload<T extends FilterDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FilterDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FilterDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FilterDataGroupByOutputType[P]>
+            : GetScalarType<T[P], FilterDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FilterDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filterName?: boolean
+    department?: boolean
+    roles?: boolean
+    level?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["filterData"]>
+
+  export type FilterDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filterName?: boolean
+    department?: boolean
+    roles?: boolean
+    level?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["filterData"]>
+
+  export type FilterDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filterName?: boolean
+    department?: boolean
+    roles?: boolean
+    level?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["filterData"]>
+
+  export type FilterDataSelectScalar = {
+    id?: boolean
+    filterName?: boolean
+    department?: boolean
+    roles?: boolean
+    level?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type FilterDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filterName" | "department" | "roles" | "level" | "createdAt" | "updatedAt", ExtArgs["result"]["filterData"]>
+
+  export type $FilterDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FilterData"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      filterName: string | null
+      department: string[]
+      roles: string[]
+      level: number[]
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["filterData"]>
+    composites: {}
+  }
+
+  type FilterDataGetPayload<S extends boolean | null | undefined | FilterDataDefaultArgs> = $Result.GetResult<Prisma.$FilterDataPayload, S>
+
+  type FilterDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FilterDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FilterDataCountAggregateInputType | true
+    }
+
+  export interface FilterDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FilterData'], meta: { name: 'FilterData' } }
+    /**
+     * Find zero or one FilterData that matches the filter.
+     * @param {FilterDataFindUniqueArgs} args - Arguments to find a FilterData
+     * @example
+     * // Get one FilterData
+     * const filterData = await prisma.filterData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FilterDataFindUniqueArgs>(args: SelectSubset<T, FilterDataFindUniqueArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FilterData that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FilterDataFindUniqueOrThrowArgs} args - Arguments to find a FilterData
+     * @example
+     * // Get one FilterData
+     * const filterData = await prisma.filterData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FilterDataFindUniqueOrThrowArgs>(args: SelectSubset<T, FilterDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FilterData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataFindFirstArgs} args - Arguments to find a FilterData
+     * @example
+     * // Get one FilterData
+     * const filterData = await prisma.filterData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FilterDataFindFirstArgs>(args?: SelectSubset<T, FilterDataFindFirstArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FilterData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataFindFirstOrThrowArgs} args - Arguments to find a FilterData
+     * @example
+     * // Get one FilterData
+     * const filterData = await prisma.filterData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FilterDataFindFirstOrThrowArgs>(args?: SelectSubset<T, FilterDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FilterData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FilterData
+     * const filterData = await prisma.filterData.findMany()
+     * 
+     * // Get first 10 FilterData
+     * const filterData = await prisma.filterData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const filterDataWithIdOnly = await prisma.filterData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FilterDataFindManyArgs>(args?: SelectSubset<T, FilterDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FilterData.
+     * @param {FilterDataCreateArgs} args - Arguments to create a FilterData.
+     * @example
+     * // Create one FilterData
+     * const FilterData = await prisma.filterData.create({
+     *   data: {
+     *     // ... data to create a FilterData
+     *   }
+     * })
+     * 
+     */
+    create<T extends FilterDataCreateArgs>(args: SelectSubset<T, FilterDataCreateArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FilterData.
+     * @param {FilterDataCreateManyArgs} args - Arguments to create many FilterData.
+     * @example
+     * // Create many FilterData
+     * const filterData = await prisma.filterData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FilterDataCreateManyArgs>(args?: SelectSubset<T, FilterDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FilterData and returns the data saved in the database.
+     * @param {FilterDataCreateManyAndReturnArgs} args - Arguments to create many FilterData.
+     * @example
+     * // Create many FilterData
+     * const filterData = await prisma.filterData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FilterData and only return the `id`
+     * const filterDataWithIdOnly = await prisma.filterData.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FilterDataCreateManyAndReturnArgs>(args?: SelectSubset<T, FilterDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FilterData.
+     * @param {FilterDataDeleteArgs} args - Arguments to delete one FilterData.
+     * @example
+     * // Delete one FilterData
+     * const FilterData = await prisma.filterData.delete({
+     *   where: {
+     *     // ... filter to delete one FilterData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FilterDataDeleteArgs>(args: SelectSubset<T, FilterDataDeleteArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FilterData.
+     * @param {FilterDataUpdateArgs} args - Arguments to update one FilterData.
+     * @example
+     * // Update one FilterData
+     * const filterData = await prisma.filterData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FilterDataUpdateArgs>(args: SelectSubset<T, FilterDataUpdateArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FilterData.
+     * @param {FilterDataDeleteManyArgs} args - Arguments to filter FilterData to delete.
+     * @example
+     * // Delete a few FilterData
+     * const { count } = await prisma.filterData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FilterDataDeleteManyArgs>(args?: SelectSubset<T, FilterDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilterData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FilterData
+     * const filterData = await prisma.filterData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FilterDataUpdateManyArgs>(args: SelectSubset<T, FilterDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FilterData and returns the data updated in the database.
+     * @param {FilterDataUpdateManyAndReturnArgs} args - Arguments to update many FilterData.
+     * @example
+     * // Update many FilterData
+     * const filterData = await prisma.filterData.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FilterData and only return the `id`
+     * const filterDataWithIdOnly = await prisma.filterData.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FilterDataUpdateManyAndReturnArgs>(args: SelectSubset<T, FilterDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FilterData.
+     * @param {FilterDataUpsertArgs} args - Arguments to update or create a FilterData.
+     * @example
+     * // Update or create a FilterData
+     * const filterData = await prisma.filterData.upsert({
+     *   create: {
+     *     // ... data to create a FilterData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FilterData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FilterDataUpsertArgs>(args: SelectSubset<T, FilterDataUpsertArgs<ExtArgs>>): Prisma__FilterDataClient<$Result.GetResult<Prisma.$FilterDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FilterData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataCountArgs} args - Arguments to filter FilterData to count.
+     * @example
+     * // Count the number of FilterData
+     * const count = await prisma.filterData.count({
+     *   where: {
+     *     // ... the filter for the FilterData we want to count
+     *   }
+     * })
+    **/
+    count<T extends FilterDataCountArgs>(
+      args?: Subset<T, FilterDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FilterDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FilterData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FilterDataAggregateArgs>(args: Subset<T, FilterDataAggregateArgs>): Prisma.PrismaPromise<GetFilterDataAggregateType<T>>
+
+    /**
+     * Group by FilterData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FilterDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FilterDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FilterDataGroupByArgs['orderBy'] }
+        : { orderBy?: FilterDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FilterDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFilterDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FilterData model
+   */
+  readonly fields: FilterDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FilterData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FilterDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FilterData model
+   */
+  interface FilterDataFieldRefs {
+    readonly id: FieldRef<"FilterData", 'String'>
+    readonly filterName: FieldRef<"FilterData", 'String'>
+    readonly department: FieldRef<"FilterData", 'String[]'>
+    readonly roles: FieldRef<"FilterData", 'String[]'>
+    readonly level: FieldRef<"FilterData", 'Int[]'>
+    readonly createdAt: FieldRef<"FilterData", 'DateTime'>
+    readonly updatedAt: FieldRef<"FilterData", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FilterData findUnique
+   */
+  export type FilterDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter, which FilterData to fetch.
+     */
+    where: FilterDataWhereUniqueInput
+  }
+
+  /**
+   * FilterData findUniqueOrThrow
+   */
+  export type FilterDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter, which FilterData to fetch.
+     */
+    where: FilterDataWhereUniqueInput
+  }
+
+  /**
+   * FilterData findFirst
+   */
+  export type FilterDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter, which FilterData to fetch.
+     */
+    where?: FilterDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilterData to fetch.
+     */
+    orderBy?: FilterDataOrderByWithRelationInput | FilterDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FilterData.
+     */
+    cursor?: FilterDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilterData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilterData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FilterData.
+     */
+    distinct?: FilterDataScalarFieldEnum | FilterDataScalarFieldEnum[]
+  }
+
+  /**
+   * FilterData findFirstOrThrow
+   */
+  export type FilterDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter, which FilterData to fetch.
+     */
+    where?: FilterDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilterData to fetch.
+     */
+    orderBy?: FilterDataOrderByWithRelationInput | FilterDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FilterData.
+     */
+    cursor?: FilterDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilterData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilterData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FilterData.
+     */
+    distinct?: FilterDataScalarFieldEnum | FilterDataScalarFieldEnum[]
+  }
+
+  /**
+   * FilterData findMany
+   */
+  export type FilterDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter, which FilterData to fetch.
+     */
+    where?: FilterDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FilterData to fetch.
+     */
+    orderBy?: FilterDataOrderByWithRelationInput | FilterDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FilterData.
+     */
+    cursor?: FilterDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FilterData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FilterData.
+     */
+    skip?: number
+    distinct?: FilterDataScalarFieldEnum | FilterDataScalarFieldEnum[]
+  }
+
+  /**
+   * FilterData create
+   */
+  export type FilterDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * The data needed to create a FilterData.
+     */
+    data: XOR<FilterDataCreateInput, FilterDataUncheckedCreateInput>
+  }
+
+  /**
+   * FilterData createMany
+   */
+  export type FilterDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FilterData.
+     */
+    data: FilterDataCreateManyInput | FilterDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FilterData createManyAndReturn
+   */
+  export type FilterDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * The data used to create many FilterData.
+     */
+    data: FilterDataCreateManyInput | FilterDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FilterData update
+   */
+  export type FilterDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * The data needed to update a FilterData.
+     */
+    data: XOR<FilterDataUpdateInput, FilterDataUncheckedUpdateInput>
+    /**
+     * Choose, which FilterData to update.
+     */
+    where: FilterDataWhereUniqueInput
+  }
+
+  /**
+   * FilterData updateMany
+   */
+  export type FilterDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FilterData.
+     */
+    data: XOR<FilterDataUpdateManyMutationInput, FilterDataUncheckedUpdateManyInput>
+    /**
+     * Filter which FilterData to update
+     */
+    where?: FilterDataWhereInput
+    /**
+     * Limit how many FilterData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilterData updateManyAndReturn
+   */
+  export type FilterDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * The data used to update FilterData.
+     */
+    data: XOR<FilterDataUpdateManyMutationInput, FilterDataUncheckedUpdateManyInput>
+    /**
+     * Filter which FilterData to update
+     */
+    where?: FilterDataWhereInput
+    /**
+     * Limit how many FilterData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilterData upsert
+   */
+  export type FilterDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * The filter to search for the FilterData to update in case it exists.
+     */
+    where: FilterDataWhereUniqueInput
+    /**
+     * In case the FilterData found by the `where` argument doesn't exist, create a new FilterData with this data.
+     */
+    create: XOR<FilterDataCreateInput, FilterDataUncheckedCreateInput>
+    /**
+     * In case the FilterData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FilterDataUpdateInput, FilterDataUncheckedUpdateInput>
+  }
+
+  /**
+   * FilterData delete
+   */
+  export type FilterDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+    /**
+     * Filter which FilterData to delete.
+     */
+    where: FilterDataWhereUniqueInput
+  }
+
+  /**
+   * FilterData deleteMany
+   */
+  export type FilterDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FilterData to delete
+     */
+    where?: FilterDataWhereInput
+    /**
+     * Limit how many FilterData to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FilterData without action
+   */
+  export type FilterDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FilterData
+     */
+    select?: FilterDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FilterData
+     */
+    omit?: FilterDataOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8476,6 +9610,19 @@ export namespace Prisma {
   };
 
   export type LoginOTPScalarFieldEnum = (typeof LoginOTPScalarFieldEnum)[keyof typeof LoginOTPScalarFieldEnum]
+
+
+  export const FilterDataScalarFieldEnum: {
+    id: 'id',
+    filterName: 'filterName',
+    department: 'department',
+    roles: 'roles',
+    level: 'level',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FilterDataScalarFieldEnum = (typeof FilterDataScalarFieldEnum)[keyof typeof FilterDataScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -9018,6 +10165,70 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"LoginOTP"> | Date | string
   }
 
+  export type FilterDataWhereInput = {
+    AND?: FilterDataWhereInput | FilterDataWhereInput[]
+    OR?: FilterDataWhereInput[]
+    NOT?: FilterDataWhereInput | FilterDataWhereInput[]
+    id?: StringFilter<"FilterData"> | string
+    filterName?: StringNullableFilter<"FilterData"> | string | null
+    department?: StringNullableListFilter<"FilterData">
+    roles?: StringNullableListFilter<"FilterData">
+    level?: IntNullableListFilter<"FilterData">
+    createdAt?: DateTimeFilter<"FilterData"> | Date | string
+    updatedAt?: DateTimeFilter<"FilterData"> | Date | string
+  }
+
+  export type FilterDataOrderByWithRelationInput = {
+    id?: SortOrder
+    filterName?: SortOrderInput | SortOrder
+    department?: SortOrder
+    roles?: SortOrder
+    level?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FilterDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    filterName?: string
+    AND?: FilterDataWhereInput | FilterDataWhereInput[]
+    OR?: FilterDataWhereInput[]
+    NOT?: FilterDataWhereInput | FilterDataWhereInput[]
+    department?: StringNullableListFilter<"FilterData">
+    roles?: StringNullableListFilter<"FilterData">
+    level?: IntNullableListFilter<"FilterData">
+    createdAt?: DateTimeFilter<"FilterData"> | Date | string
+    updatedAt?: DateTimeFilter<"FilterData"> | Date | string
+  }, "id" | "filterName">
+
+  export type FilterDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    filterName?: SortOrderInput | SortOrder
+    department?: SortOrder
+    roles?: SortOrder
+    level?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FilterDataCountOrderByAggregateInput
+    _avg?: FilterDataAvgOrderByAggregateInput
+    _max?: FilterDataMaxOrderByAggregateInput
+    _min?: FilterDataMinOrderByAggregateInput
+    _sum?: FilterDataSumOrderByAggregateInput
+  }
+
+  export type FilterDataScalarWhereWithAggregatesInput = {
+    AND?: FilterDataScalarWhereWithAggregatesInput | FilterDataScalarWhereWithAggregatesInput[]
+    OR?: FilterDataScalarWhereWithAggregatesInput[]
+    NOT?: FilterDataScalarWhereWithAggregatesInput | FilterDataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FilterData"> | string
+    filterName?: StringNullableWithAggregatesFilter<"FilterData"> | string | null
+    department?: StringNullableListFilter<"FilterData">
+    roles?: StringNullableListFilter<"FilterData">
+    level?: IntNullableListFilter<"FilterData">
+    createdAt?: DateTimeWithAggregatesFilter<"FilterData"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FilterData"> | Date | string
+  }
+
   export type EmployeeCreateInput = {
     publicId: string
     username: string
@@ -9471,6 +10682,76 @@ export namespace Prisma {
     otp?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FilterDataCreateInput = {
+    id?: string
+    filterName?: string | null
+    department?: FilterDataCreatedepartmentInput | string[]
+    roles?: FilterDataCreaterolesInput | string[]
+    level?: FilterDataCreatelevelInput | number[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FilterDataUncheckedCreateInput = {
+    id?: string
+    filterName?: string | null
+    department?: FilterDataCreatedepartmentInput | string[]
+    roles?: FilterDataCreaterolesInput | string[]
+    level?: FilterDataCreatelevelInput | number[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FilterDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: FilterDataUpdatedepartmentInput | string[]
+    roles?: FilterDataUpdaterolesInput | string[]
+    level?: FilterDataUpdatelevelInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FilterDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: FilterDataUpdatedepartmentInput | string[]
+    roles?: FilterDataUpdaterolesInput | string[]
+    level?: FilterDataUpdatelevelInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FilterDataCreateManyInput = {
+    id?: string
+    filterName?: string | null
+    department?: FilterDataCreatedepartmentInput | string[]
+    roles?: FilterDataCreaterolesInput | string[]
+    level?: FilterDataCreatelevelInput | number[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FilterDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: FilterDataUpdatedepartmentInput | string[]
+    roles?: FilterDataUpdaterolesInput | string[]
+    level?: FilterDataUpdatelevelInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FilterDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    department?: FilterDataUpdatedepartmentInput | string[]
+    roles?: FilterDataUpdaterolesInput | string[]
+    level?: FilterDataUpdatelevelInput | number[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9988,6 +11269,54 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type IntNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    has?: number | IntFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type FilterDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    filterName?: SortOrder
+    department?: SortOrder
+    roles?: SortOrder
+    level?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FilterDataAvgOrderByAggregateInput = {
+    level?: SortOrder
+  }
+
+  export type FilterDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    filterName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FilterDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    filterName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FilterDataSumOrderByAggregateInput = {
+    level?: SortOrder
+  }
+
   export type EmployeeCreateNestedOneWithoutChildrenInput = {
     create?: XOR<EmployeeCreateWithoutChildrenInput, EmployeeUncheckedCreateWithoutChildrenInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutChildrenInput
@@ -10360,6 +11689,33 @@ export namespace Prisma {
     upsert?: EmployeeUpsertWithoutLoginOtpsInput
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLoginOtpsInput, EmployeeUpdateWithoutLoginOtpsInput>, EmployeeUncheckedUpdateWithoutLoginOtpsInput>
+  }
+
+  export type FilterDataCreatedepartmentInput = {
+    set: string[]
+  }
+
+  export type FilterDataCreaterolesInput = {
+    set: string[]
+  }
+
+  export type FilterDataCreatelevelInput = {
+    set: number[]
+  }
+
+  export type FilterDataUpdatedepartmentInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type FilterDataUpdaterolesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type FilterDataUpdatelevelInput = {
+    set?: number[]
+    push?: number | number[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {

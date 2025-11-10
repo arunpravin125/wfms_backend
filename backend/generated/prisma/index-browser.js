@@ -186,6 +186,16 @@ exports.Prisma.LoginOTPScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
+exports.Prisma.FilterDataScalarFieldEnum = {
+  id: 'id',
+  filterName: 'filterName',
+  department: 'department',
+  roles: 'roles',
+  level: 'level',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -208,7 +218,8 @@ exports.Prisma.ModelName = {
   EmergencyContact: 'EmergencyContact',
   EmployeeSession: 'EmployeeSession',
   FailedLoginAttempt: 'FailedLoginAttempt',
-  LoginOTP: 'LoginOTP'
+  LoginOTP: 'LoginOTP',
+  FilterData: 'FilterData'
 };
 
 /**
