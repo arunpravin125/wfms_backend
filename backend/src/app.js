@@ -1,29 +1,33 @@
 // backend/src/app.js
 import express from "express";
 import cookieParser from "cookie-parser";
-// import employeeRoutes from "./routes/employee.js";
-import { errorHandler } from "./middlewares/errorHandler.js";
+import cors from "cors";
 import dotenv from "dotenv";
+
+import { errorHandler } from "./middlewares/errorHandler.js";
 import { employeeRoutes } from "./routes/employeeRoutes.js";
-// import { authRoutes } from "./routes/authRoutes.js";
-// import { adminRoutes } from "./routes/adminRoutes.js";
-// import { developerRoutes } from "./routes/developerRoutes.js";
 import { superUserRouter } from "./routes/superUserRoutes.js";
 
 dotenv.config();
 
 const app = express();
+
+// ✅ Allow all or restrict specific origins
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Your frontend URL
+    credentials: true, // Allow cookies / auth headers
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/superUser", superUserRouter);
-app.use("/api/employee", employeeRoutes);
+// Routes
+app.use("/superUser", superUserRouter);
+app.use("/employee", employeeRoutes);
 
-// app.use("/api/developer", developerRoutes);
-
-// app.use("/api/auth", authRoutes);
-// app.use("/api/admin", adminRoutes);
-
+// Error Handler
 app.use(errorHandler);
 
 export default app;

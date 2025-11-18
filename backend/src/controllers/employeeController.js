@@ -8,7 +8,10 @@ import { shortId } from "../utils/generateId.js";
 
 import { saveOtp, verifyOtp, clearOtp } from "../services/otpServices.js";
 import { prisma } from "../db/prisma.js";
-const ACCESS_EXPIRES_SECONDS = 60 * 30; // 30 min
+import { MOCK_EMPLOYEE_LIST } from "../db/employees.js";
+
+import { sendMail } from "../utils/mailer.js";
+const ACCESS_EXPIRES_SECONDS = 60 * 30; // 8 hours
 const REFRESH_EXPIRES_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const JWT_SECRET = process.env.JWT_SECRET || "changeme";
 const COOKIE_NAME = "refresh_token";
@@ -28,21 +31,31 @@ function signRefreshToken(user) {
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
-  console.log("login" + { username, password });
+  console.log("login", username, password);
+
   try {
     if (!username || !password)
       return res.status(400).json({ error: "Missing username/password" });
 
-    const user = await prisma.employee.findUnique({ where: { username } });
+    const user = await prisma.employee.findUnique({
+      where: { username },
+      include: { educations: true, emergencyContacts: true },
+    });
+
     if (!user) return res.status(401).json({ error: "Invalid credentials" });
+
+    // Password check
+    // if (password !== user.passwordHash) {
+    //   return res.status(401).json({ error: "Invalid credentials" });
+    // }
 
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return res.status(401).json({ error: "Invalid credentials" });
 
-    // remove old sessions (as Django code did)
+    // Remove old sessions
     await prisma.employeeSession.deleteMany({ where: { employeeId: user.id } });
 
-    // mark login (update lastLogin)
+    // Update last login
     await prisma.employee.update({
       where: { id: user.id },
       data: { lastLogin: new Date() },
@@ -50,8 +63,8 @@ export const login = async (req, res) => {
 
     const refreshToken = signRefreshToken(user);
     const accessToken = signAccessToken(user);
-    console.log({ refreshToken, accessToken });
-    // store session
+
+    // Create new session
     await prisma.employeeSession.create({
       data: {
         sessionId: uuidv4(),
@@ -63,17 +76,18 @@ export const login = async (req, res) => {
       },
     });
 
-    // set refresh cookie (httpOnly)
+    // Set cookies
     res.cookie(COOKIE_NAME, refreshToken, {
       httpOnly: true,
       sameSite: "lax",
       maxAge: REFRESH_EXPIRES_SECONDS * 1000,
       secure: process.env.NODE_ENV === "production",
     });
+
     res.cookie("access_token", accessToken, {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 30 * 60 * 1000, // 30 mins
+      maxAge: 30 * 60 * 1000,
       secure: process.env.NODE_ENV === "production",
     });
 
@@ -83,7 +97,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log("error in login", error);
-    res.status(400).json({ error });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -116,7 +130,7 @@ export const createEmployee = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
     const newUser = await prisma.employee.create({
       data: {
-        publicId: shortId(8),
+        publicId: shortId(4),
         username,
         passwordHash: hashed,
         firstName,
@@ -134,13 +148,13 @@ export const createEmployee = async (req, res) => {
     });
     // Educations
     for (const e of educations) {
-      if (!e.degree) continue;
+      if (!e.degree_name) continue;
       await prisma.education.create({
         data: {
           employeeId: newUser.id,
-          degree: e.degree,
-          university: e.university || "",
-          graduationYear: e.graduationYear || "",
+          degree_name: e.degree_name,
+          university_name: e.university_name || "",
+          graduation_year: e.graduation_year || "",
         },
       });
     }
@@ -193,36 +207,78 @@ export const logout = async (req, res) => {
   return res.json({ message: "Logout successful" });
 };
 
+// forgotPassword with otp sent
 export const forgotPassword = async (req, res) => {
   const { username } = req.body;
-  if (!username) return res.status(400).json({ error: "username required" });
-  const user = await prisma.employee.findUnique({ where: { username } });
-  if (!user) return res.status(404).json({ error: "User not found" });
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  saveOtp(user.publicId, otp, 300);
-  // send OTP via email/sms (not implemented)
-  return res.json({ message: "OTP sent", publicId: user.publicId });
+  try {
+    if (!username) return res.status(400).json({ error: "username required" });
+
+    console.log("SMTP_USER =", process.env.SMTP_USER);
+    console.log("SMTP_PASS =", process.env.SMTP_PASS ? "LOADED" : "EMPTY");
+
+    const user = await prisma.employee.findUnique({ where: { username } });
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    await saveOtp(user.publicId, otp, 300);
+
+    // SEND EMAIL using correct function
+    await sendMail({
+      to: user.email,
+      subject: "Your OTP Code",
+      text: `Your OTP is ${otp}. It expires in 5 minutes.`,
+    });
+
+    return res.json({
+      message: "OTP sent successfully",
+      publicId: user.publicId,
+    });
+  } catch (error) {
+    console.log("error in forgotPassword", error);
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export async function resetPassword(req, res) {
   const { publicId, otp, newPassword } = req.body;
-  if (!verifyOtp(publicId, otp))
-    return res.status(400).json({ error: "Invalid OTP" });
-  const user = await prisma.employee.findUnique({ where: { publicId } });
-  if (!user) return res.status(404).json({ error: "User not found" });
-  const hashed = await bcrypt.hash(newPassword, 10);
-  await prisma.employee.update({
-    where: { publicId },
-    data: { password: hashed },
-  });
-  return res.json({ message: "Password reset successful" });
+  // console.log({ publicId });
+  try {
+    // if (!verifyOtp(publicId))
+    //   return res.status(400).json({ error: "Invalid OTP" });
+    const user = await prisma.employee.findUnique({ where: { publicId } });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    // const hashed = newPassword;
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await prisma.employee.update({
+      where: { publicId: user.publicId },
+      data: { passwordHash: hashed },
+    });
+    return res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.log("error in resetPassword", error);
+    res.status(500).json({ error: "error in resetPassword" + error });
+  }
 }
 
 export const me = async (req, res) => {
   if (!req.user) return res.status(401).json({ error: "Not authenticated" });
   // hide sensitive fields
+  const tokens = req.cookies;
+  //  tokens: { access: tokens.access_token, refresh: tokens.refresh_token }
+  console.log("me", { tokens });
   const { password, ...rest } = req.user;
-  return res.json({ user: rest });
+  const getCurrentUser = await prisma.employee.findFirst({
+    where: { publicId: req.user.publicId },
+    include: {
+      educations: true,
+      emergencyContacts: true,
+    },
+  });
+  const user = getCurrentUser;
+  return res.json({
+    user,
+    tokens: { access: tokens.access_token, refresh: tokens.refresh_token },
+  });
 };
 
 export const reauth = async (req, res) => {
@@ -362,31 +418,231 @@ export const verifyOtpController = async (req, res) => {
 // Update profile (used for /update-profile/)
 export const updateProfile = async (req, res) => {
   try {
-    const user = req.user;
-    const { firstName, lastName, email, phone, gender } = req.body;
+    const currentUser = req.user;
+    const tokens = req.cookies;
 
-    const updated = await prisma.employee.update({
-      where: { id: user.id },
-      data: { firstName, lastName, email, phone, gender },
+    // Allowed simple fields to update
+    const allowedFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "gender",
+      "username",
+      "department",
+      "role",
+      "level",
+      "dateOfBirth",
+      "address",
+    ];
+
+    const updateData = {};
+
+    // Build simple update object dynamically
+    for (let field of allowedFields) {
+      if (req.body[field] !== undefined && req.body[field] !== "") {
+        // 🔥 Special handling for dateOfBirth
+        if (field === "dateOfBirth") {
+          updateData.dateOfBirth = new Date(req.body.dateOfBirth).toISOString();
+        } else {
+          updateData[field] = req.body[field];
+        }
+      }
+    }
+
+    // ---------------------------
+    // 📌 HANDLE EDUCATIONS UPDATE
+    // ---------------------------
+    const educationData = req.body.educations;
+
+    if (educationData && Array.isArray(educationData)) {
+      updateData.educations = {
+        deleteMany: {}, // remove old
+        create: educationData.map((item) => ({
+          degree: item.degree,
+          university: item.university,
+          graduationYear: item.graduationYear || null,
+        })),
+      };
+    }
+
+    // ------------------------------------
+    // 📌 HANDLE EMERGENCY CONTACTS UPDATE
+    // ------------------------------------
+    const emergencyContacts = req.body.emergencyContacts;
+
+    if (emergencyContacts && Array.isArray(emergencyContacts)) {
+      updateData.emergencyContacts = {
+        deleteMany: {}, // remove old
+        create: emergencyContacts.map((item) => ({
+          name: item.name,
+          phone: item.phone,
+          address: item.address || null,
+        })),
+      };
+    }
+
+    console.log("Final Update Data:", updateData);
+
+    // ---------------------------
+    // 📌 UPDATE IN DATABASE
+    // ---------------------------
+    const user = await prisma.employee.update({
+      where: { publicId: currentUser.publicId },
+      data: updateData,
+      include: {
+        educations: true,
+        emergencyContacts: true,
+      },
     });
 
     return res.json({
       message: "Profile updated successfully",
-      employee: {
-        publicId: updated.publicId,
-        username: updated.username,
-        firstName: updated.firstName,
-        lastName: updated.lastName,
-        email: updated.email,
-        phone: updated.phone,
-        gender: updated.gender,
-      },
+      user,
+      tokens: { access: tokens.access_token, refresh: tokens.refresh_token },
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error in update profile" });
+    console.error("Profile Update Error:", err);
+    return res
+      .status(500)
+      .json({ error: "Server error in update profile: " + err });
   }
 };
+
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const currentUser = req.user;
+//     const tokens = req.cookies;
+
+//     // Allowed simple fields to update (NOT relational fields)
+//     const allowedFields = [
+//       "firstName",
+//       "lastName",
+//       "email",
+//       "phone",
+//       "gender",
+//       "username",
+//       "department",
+//       "role",
+//       "level",
+//       "dateOfBirth",
+//       "address",
+//     ];
+
+//     // Build simple update object dynamically
+//     const updateData = {};
+//     for (let field of allowedFields) {
+//       if (req.body[field] !== undefined && req.body[field] !== "") {
+//         updateData[field] = req.body[field];
+//       }
+//     }
+
+//     // ---------------------------
+//     // 📌 HANDLE EDUCATIONS UPDATE
+//     // ---------------------------
+//    const isoDob = dateOfBirth ? new Date(dateOfBirth).toISOString() : null;
+//     let educationData = req.body.educations; // array of { degree, university, graduationYear }
+
+//     if (educationData && Array.isArray(educationData)) {
+//       updateData.educations = {
+//         deleteMany: {}, // remove old
+//         create: educationData.map((item) => ({
+//           degree: item.degree,
+//           university: item.university,
+//           graduationYear: item.graduationYear || null,
+//         })),
+//       };
+//     }
+
+//     // ------------------------------------
+//     // 📌 HANDLE EMERGENCY CONTACTS UPDATE
+//     // ------------------------------------
+
+//     let emergencyContacts = req.body.emergencyContacts; // array of { name, phone, address }
+
+//     if (emergencyContacts && Array.isArray(emergencyContacts)) {
+//       updateData.emergencyContacts = {
+//         deleteMany: {}, // remove old
+//         create: emergencyContacts.map((item) => ({
+//           name: item.name,
+//           phone: item.phone,
+//           address: item.address || null,
+//         })),
+//       };
+//     }
+
+//     console.log("Final Update Data:", updateData);
+
+//     // Update in DB
+//     const user = await prisma.employee.update({
+//       where: { publicId: currentUser.publicId },
+//       data: updateData,
+//       include: {
+//         educations: true,
+//         emergencyContacts: true,
+//       },
+//     });
+
+//     return res.json({
+//       message: "Profile updated successfully",
+//       user,
+//       tokens: { access: tokens.access_token, refresh: tokens.refresh_token },
+//     });
+//   } catch (err) {
+//     console.error("Profile Update Error:", err);
+//     return res
+//       .status(500)
+//       .json({ error: "Server error in update profile" + err });
+//   }
+// };
+
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const user = req.user;
+
+//     // Allowed fields to update
+//     const allowedFields = [
+//       "firstName",
+//       "lastName",
+//       "email",
+//       "phone",
+//       "gender",
+//       "username",
+//       "profilePic",
+//       "department",
+//       "role",
+//       "level",
+//       "dateOfBirth",
+//       "educations",
+//       "emergencyContact",
+//       "address",
+//     ];
+
+//     // Build update object dynamically
+//     const updateData = {};
+//     for (let field of allowedFields) {
+//       if (req.body[field] !== undefined && req.body[field] !== "") {
+//         updateData[field] = req.body[field];
+//       }
+//     }
+
+//     console.log("Dynamic Update Data:", updateData);
+
+//     // Update in DB
+//     const updated = await prisma.employee.update({
+//       where: { publicId: user.publicId },
+//       data: updateData,
+//     });
+
+//     return res.json({
+//       message: "Profile updated successfully",
+//       updated,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Server error in update profile" });
+//   }
+// };
 
 // Create or Update Filter Data (Upsert)
 export const createFilterData = async (req, res) => {
@@ -602,5 +858,89 @@ export const deleteFilterData = async (req, res) => {
   } catch (error) {
     console.error("❌ error in deleteFilterData:", error);
     res.status(500).json({ error: "Server error in deleteFilterData" });
+  }
+};
+
+// import employees from "./employees.json"; // or wherever your data is stored
+export const addBulkData = async (req, res) => {
+  try {
+    for (const emp of MOCK_EMPLOYEE_LIST) {
+      await prisma.employee.upsert({
+        where: { username: emp.username }, // unique field
+        update: {}, // no update on conflict
+
+        create: {
+          publicId: emp.public_id,
+          username: emp.username,
+          email: emp.email,
+          phone: emp.phone,
+
+          firstName: emp.first_Name,
+          lastName: emp.last_Name,
+
+          // ⚠ store hashed password in production
+          passwordHash: emp.password,
+
+          role: emp.role,
+          department: emp.department,
+          level: emp.level,
+
+          dateOfBirth: emp.date_of_birth ? new Date(emp.date_of_birth) : null,
+          gender: emp.gender,
+          address: emp.address,
+
+          // ====== NESTED EDUCATIONS ======
+          educations: {
+            create:
+              emp.education?.map((e) => ({
+                degree: e.degree_name,
+                university: e.university_name,
+                graduationYear: e.graduation_year
+                  ? String(e.graduation_year)
+                  : null,
+              })) || [],
+          },
+
+          // ====== NESTED EMERGENCY CONTACTS ======
+          emergencyContacts: {
+            create:
+              emp.emergency_contacts?.map((c) => ({
+                name: c.name,
+                phone: c.phone,
+                address: c.address,
+              })) || [],
+          },
+        },
+      });
+    }
+
+    return res.status(200).json({
+      message: "Bulk Insert Completed Successfully!",
+    });
+  } catch (err) {
+    console.error("❌ Bulk Insert Error:", err);
+    return res.status(500).json({
+      error: "Bulk Insert Failed",
+      details: err.message,
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+export const getEmployeesData = async (req, res) => {
+  try {
+    const getAllEmployee = await prisma.employee.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    res.status(200).json(getAllEmployee);
+  } catch (error) {
+    console.log("error in getEmployeesData", error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch employees", details: error.message });
   }
 };

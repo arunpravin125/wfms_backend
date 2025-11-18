@@ -89,6 +89,7 @@ model LoginOTP {
 
 model FilterData {
   id         String   @id @default(uuid()) // unique string ID
+  filterName String?  @unique
   department String[] // text[] column
   roles      String[]
   level      Int[] // integer[] column
