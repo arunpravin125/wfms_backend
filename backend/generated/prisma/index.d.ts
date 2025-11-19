@@ -1758,7 +1758,7 @@ export namespace Prisma {
     email: string | null
     phone: string | null
     firstName: string | null
-    lastName: string | null
+    lastName: string
     passwordHash: string | null
     isActive: boolean
     isStaff: boolean
@@ -1936,7 +1936,7 @@ export namespace Prisma {
       email: string | null
       phone: string | null
       firstName: string | null
-      lastName: string | null
+      lastName: string
       passwordHash: string | null
       isActive: boolean
       isStaff: boolean
@@ -2993,72 +2993,76 @@ export namespace Prisma {
 
   export type EducationAvgAggregateOutputType = {
     id: number | null
+    graduationYear: number | null
     employeeId: number | null
   }
 
   export type EducationSumAggregateOutputType = {
     id: number | null
+    graduationYear: number | null
     employeeId: number | null
   }
 
   export type EducationMinAggregateOutputType = {
     id: number | null
-    employeeId: number | null
     degree: string | null
     university: string | null
-    graduationYear: string | null
+    graduationYear: number | null
+    employeeId: number | null
   }
 
   export type EducationMaxAggregateOutputType = {
     id: number | null
-    employeeId: number | null
     degree: string | null
     university: string | null
-    graduationYear: string | null
+    graduationYear: number | null
+    employeeId: number | null
   }
 
   export type EducationCountAggregateOutputType = {
     id: number
-    employeeId: number
     degree: number
     university: number
     graduationYear: number
+    employeeId: number
     _all: number
   }
 
 
   export type EducationAvgAggregateInputType = {
     id?: true
+    graduationYear?: true
     employeeId?: true
   }
 
   export type EducationSumAggregateInputType = {
     id?: true
+    graduationYear?: true
     employeeId?: true
   }
 
   export type EducationMinAggregateInputType = {
     id?: true
-    employeeId?: true
     degree?: true
     university?: true
     graduationYear?: true
+    employeeId?: true
   }
 
   export type EducationMaxAggregateInputType = {
     id?: true
-    employeeId?: true
     degree?: true
     university?: true
     graduationYear?: true
+    employeeId?: true
   }
 
   export type EducationCountAggregateInputType = {
     id?: true
-    employeeId?: true
     degree?: true
     university?: true
     graduationYear?: true
+    employeeId?: true
     _all?: true
   }
 
@@ -3150,10 +3154,10 @@ export namespace Prisma {
 
   export type EducationGroupByOutputType = {
     id: number
-    employeeId: number
     degree: string
     university: string
-    graduationYear: string | null
+    graduationYear: number
+    employeeId: number
     _count: EducationCountAggregateOutputType | null
     _avg: EducationAvgAggregateOutputType | null
     _sum: EducationSumAggregateOutputType | null
@@ -3177,40 +3181,40 @@ export namespace Prisma {
 
   export type EducationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
     degree?: boolean
     university?: boolean
     graduationYear?: boolean
+    employeeId?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
     degree?: boolean
     university?: boolean
     graduationYear?: boolean
+    employeeId?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
     degree?: boolean
     university?: boolean
     graduationYear?: boolean
+    employeeId?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["education"]>
 
   export type EducationSelectScalar = {
     id?: boolean
-    employeeId?: boolean
     degree?: boolean
     university?: boolean
     graduationYear?: boolean
+    employeeId?: boolean
   }
 
-  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "degree" | "university" | "graduationYear", ExtArgs["result"]["education"]>
+  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "degree" | "university" | "graduationYear" | "employeeId", ExtArgs["result"]["education"]>
   export type EducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -3228,10 +3232,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      employeeId: number
       degree: string
       university: string
-      graduationYear: string | null
+      graduationYear: number
+      employeeId: number
     }, ExtArgs["result"]["education"]>
     composites: {}
   }
@@ -3657,10 +3661,10 @@ export namespace Prisma {
    */
   interface EducationFieldRefs {
     readonly id: FieldRef<"Education", 'Int'>
-    readonly employeeId: FieldRef<"Education", 'Int'>
     readonly degree: FieldRef<"Education", 'String'>
     readonly university: FieldRef<"Education", 'String'>
-    readonly graduationYear: FieldRef<"Education", 'String'>
+    readonly graduationYear: FieldRef<"Education", 'Int'>
+    readonly employeeId: FieldRef<"Education", 'Int'>
   }
     
 
@@ -9558,10 +9562,10 @@ export namespace Prisma {
 
   export const EducationScalarFieldEnum: {
     id: 'id',
-    employeeId: 'employeeId',
     degree: 'degree',
     university: 'university',
-    graduationYear: 'graduationYear'
+    graduationYear: 'graduationYear',
+    employeeId: 'employeeId'
   };
 
   export type EducationScalarFieldEnum = (typeof EducationScalarFieldEnum)[keyof typeof EducationScalarFieldEnum]
@@ -9730,7 +9734,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Employee"> | string | null
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
-    lastName?: StringNullableFilter<"Employee"> | string | null
+    lastName?: StringFilter<"Employee"> | string
     passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
@@ -9761,7 +9765,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
+    lastName?: SortOrder
     passwordHash?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
@@ -9795,7 +9799,7 @@ export namespace Prisma {
     NOT?: EmployeeWhereInput | EmployeeWhereInput[]
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
-    lastName?: StringNullableFilter<"Employee"> | string | null
+    lastName?: StringFilter<"Employee"> | string
     passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
@@ -9826,7 +9830,7 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     firstName?: SortOrderInput | SortOrder
-    lastName?: SortOrderInput | SortOrder
+    lastName?: SortOrder
     passwordHash?: SortOrderInput | SortOrder
     isActive?: SortOrder
     isStaff?: SortOrder
@@ -9858,7 +9862,7 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     firstName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    lastName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    lastName?: StringWithAggregatesFilter<"Employee"> | string
     passwordHash?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
     isStaff?: BoolWithAggregatesFilter<"Employee"> | boolean
@@ -9880,19 +9884,19 @@ export namespace Prisma {
     OR?: EducationWhereInput[]
     NOT?: EducationWhereInput | EducationWhereInput[]
     id?: IntFilter<"Education"> | number
-    employeeId?: IntFilter<"Education"> | number
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: StringNullableFilter<"Education"> | string | null
+    graduationYear?: IntFilter<"Education"> | number
+    employeeId?: IntFilter<"Education"> | number
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
 
   export type EducationOrderByWithRelationInput = {
     id?: SortOrder
-    employeeId?: SortOrder
     degree?: SortOrder
     university?: SortOrder
-    graduationYear?: SortOrderInput | SortOrder
+    graduationYear?: SortOrder
+    employeeId?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
 
@@ -9901,19 +9905,19 @@ export namespace Prisma {
     AND?: EducationWhereInput | EducationWhereInput[]
     OR?: EducationWhereInput[]
     NOT?: EducationWhereInput | EducationWhereInput[]
-    employeeId?: IntFilter<"Education"> | number
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: StringNullableFilter<"Education"> | string | null
+    graduationYear?: IntFilter<"Education"> | number
+    employeeId?: IntFilter<"Education"> | number
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
 
   export type EducationOrderByWithAggregationInput = {
     id?: SortOrder
-    employeeId?: SortOrder
     degree?: SortOrder
     university?: SortOrder
-    graduationYear?: SortOrderInput | SortOrder
+    graduationYear?: SortOrder
+    employeeId?: SortOrder
     _count?: EducationCountOrderByAggregateInput
     _avg?: EducationAvgOrderByAggregateInput
     _max?: EducationMaxOrderByAggregateInput
@@ -9926,10 +9930,10 @@ export namespace Prisma {
     OR?: EducationScalarWhereWithAggregatesInput[]
     NOT?: EducationScalarWhereWithAggregatesInput | EducationScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Education"> | number
-    employeeId?: IntWithAggregatesFilter<"Education"> | number
     degree?: StringWithAggregatesFilter<"Education"> | string
     university?: StringWithAggregatesFilter<"Education"> | string
-    graduationYear?: StringNullableWithAggregatesFilter<"Education"> | string | null
+    graduationYear?: IntWithAggregatesFilter<"Education"> | number
+    employeeId?: IntWithAggregatesFilter<"Education"> | number
   }
 
   export type EmergencyContactWhereInput = {
@@ -10235,7 +10239,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -10265,7 +10269,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -10294,7 +10298,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -10324,7 +10328,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -10354,7 +10358,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -10377,7 +10381,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -10400,7 +10404,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -10420,53 +10424,53 @@ export namespace Prisma {
   export type EducationCreateInput = {
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
     employee: EmployeeCreateNestedOneWithoutEducationsInput
   }
 
   export type EducationUncheckedCreateInput = {
     id?: number
-    employeeId: number
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
+    employeeId: number
   }
 
   export type EducationUpdateInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
     employee?: EmployeeUpdateOneRequiredWithoutEducationsNestedInput
   }
 
   export type EducationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    employeeId?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EducationCreateManyInput = {
     id?: number
-    employeeId: number
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
+    employeeId: number
   }
 
   export type EducationUpdateManyMutationInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
   }
 
   export type EducationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    employeeId?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
+    employeeId?: IntFieldUpdateOperationsInput | number
   }
 
   export type EmergencyContactCreateInput = {
@@ -11098,35 +11102,37 @@ export namespace Prisma {
 
   export type EducationCountOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
     degree?: SortOrder
     university?: SortOrder
     graduationYear?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EducationAvgOrderByAggregateInput = {
     id?: SortOrder
+    graduationYear?: SortOrder
     employeeId?: SortOrder
   }
 
   export type EducationMaxOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
     degree?: SortOrder
     university?: SortOrder
     graduationYear?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EducationMinOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
     degree?: SortOrder
     university?: SortOrder
     graduationYear?: SortOrder
+    employeeId?: SortOrder
   }
 
   export type EducationSumOrderByAggregateInput = {
     id?: SortOrder
+    graduationYear?: SortOrder
     employeeId?: SortOrder
   }
 
@@ -11925,7 +11931,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -11954,7 +11960,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -11987,7 +11993,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12016,7 +12022,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12051,14 +12057,14 @@ export namespace Prisma {
   export type EducationCreateWithoutEmployeeInput = {
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
   }
 
   export type EducationUncheckedCreateWithoutEmployeeInput = {
     id?: number
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
   }
 
   export type EducationCreateOrConnectWithoutEmployeeInput = {
@@ -12182,7 +12188,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12211,7 +12217,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12259,7 +12265,7 @@ export namespace Prisma {
     email?: StringNullableFilter<"Employee"> | string | null
     phone?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringNullableFilter<"Employee"> | string | null
-    lastName?: StringNullableFilter<"Employee"> | string | null
+    lastName?: StringFilter<"Employee"> | string
     passwordHash?: StringNullableFilter<"Employee"> | string | null
     isActive?: BoolFilter<"Employee"> | boolean
     isStaff?: BoolFilter<"Employee"> | boolean
@@ -12297,10 +12303,10 @@ export namespace Prisma {
     OR?: EducationScalarWhereInput[]
     NOT?: EducationScalarWhereInput | EducationScalarWhereInput[]
     id?: IntFilter<"Education"> | number
-    employeeId?: IntFilter<"Education"> | number
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: StringNullableFilter<"Education"> | string | null
+    graduationYear?: IntFilter<"Education"> | number
+    employeeId?: IntFilter<"Education"> | number
   }
 
   export type EmergencyContactUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -12418,7 +12424,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12447,7 +12453,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12491,7 +12497,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12520,7 +12526,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12548,7 +12554,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12577,7 +12583,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12621,7 +12627,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12650,7 +12656,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12678,7 +12684,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12707,7 +12713,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12751,7 +12757,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12780,7 +12786,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12808,7 +12814,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12837,7 +12843,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12881,7 +12887,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12910,7 +12916,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -12938,7 +12944,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -12967,7 +12973,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -13011,7 +13017,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -13040,7 +13046,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -13069,7 +13075,7 @@ export namespace Prisma {
     email?: string | null
     phone?: string | null
     firstName?: string | null
-    lastName?: string | null
+    lastName: string
     passwordHash?: string | null
     isActive?: boolean
     isStaff?: boolean
@@ -13089,7 +13095,7 @@ export namespace Prisma {
     id?: number
     degree: string
     university: string
-    graduationYear?: string | null
+    graduationYear: number
   }
 
   export type EmergencyContactCreateManyEmployeeInput = {
@@ -13127,7 +13133,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -13156,7 +13162,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -13185,7 +13191,7 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: NullableStringFieldUpdateOperationsInput | string | null
-    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: StringFieldUpdateOperationsInput | string
     passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     isStaff?: BoolFieldUpdateOperationsInput | boolean
@@ -13204,21 +13210,21 @@ export namespace Prisma {
   export type EducationUpdateWithoutEmployeeInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
   }
 
   export type EducationUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
   }
 
   export type EducationUncheckedUpdateManyWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: NullableStringFieldUpdateOperationsInput | string | null
+    graduationYear?: IntFieldUpdateOperationsInput | number
   }
 
   export type EmergencyContactUpdateWithoutEmployeeInput = {

@@ -10,29 +10,28 @@ datasource db {
 }
 
 model Employee {
-  id           Int        @id @default(autoincrement())
-  publicId     String     @unique
-  username     String     @unique
-  email        String?    @unique
-  phone        String?
-  firstName    String?
-  lastName     String?
-  passwordHash String?
-  isActive     Boolean    @default(true)
-  isStaff      Boolean    @default(false)
-  isSuperuser  Boolean    @default(false)
-  role         String?
-  department   String?
-  level        Int        @default(1)
-  parentId     Int?
-  parent       Employee?  @relation("ParentChildren", fields: [parentId], references: [id])
-  children     Employee[] @relation("ParentChildren")
-  dateOfBirth  DateTime?
-  gender       String?
-  address      String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
+  id                Int                  @id @default(autoincrement())
+  publicId          String               @unique
+  username          String               @unique
+  email             String?              @unique
+  phone             String?
+  firstName         String?
+  lastName          String
+  passwordHash      String?
+  isActive          Boolean              @default(true)
+  isStaff           Boolean              @default(false)
+  isSuperuser       Boolean              @default(false)
+  role              String?
+  department        String?
+  level             Int                  @default(1)
+  parentId          Int?
+  parent            Employee?            @relation("ParentChildren", fields: [parentId], references: [id])
+  children          Employee[]           @relation("ParentChildren")
+  dateOfBirth       DateTime?
+  gender            String?
+  address           String?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
   educations        Education[]
   emergencyContacts EmergencyContact[]
   sessions          EmployeeSession[]
@@ -43,11 +42,11 @@ model Employee {
 
 model Education {
   id             Int      @id @default(autoincrement())
-  employee       Employee @relation(fields: [employeeId], references: [id])
-  employeeId     Int
   degree         String
   university     String
-  graduationYear String?
+  graduationYear Int // change from String? to Int?
+  employeeId     Int
+  employee       Employee @relation(fields: [employeeId], references: [id])
 }
 
 model EmergencyContact {

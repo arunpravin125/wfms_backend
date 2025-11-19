@@ -17,6 +17,7 @@ import {
   deleteFilterData,
   addBulkData,
   getEmployeesData,
+  createEmployeeOTP,
 } from "../controllers/employeeController.js";
 import { requireAuth, requireL1OrHOD } from "../middlewares/authMiddleware.js";
 
@@ -40,6 +41,13 @@ employeeRoutes.post(
   requireAuth,
   requireL1OrHOD,
   createEmployee
+);
+// create employee OTP
+employeeRoutes.post(
+  "/createEmployee/OTP",
+  requireAuth,
+  requireL1OrHOD,
+  createEmployeeOTP
 );
 // filters list
 employeeRoutes.post(

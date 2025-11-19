@@ -147,10 +147,10 @@ exports.Prisma.EmployeeScalarFieldEnum = {
 
 exports.Prisma.EducationScalarFieldEnum = {
   id: 'id',
-  employeeId: 'employeeId',
   degree: 'degree',
   university: 'university',
-  graduationYear: 'graduationYear'
+  graduationYear: 'graduationYear',
+  employeeId: 'employeeId'
 };
 
 exports.Prisma.EmergencyContactScalarFieldEnum = {
