@@ -18,6 +18,7 @@ import {
   addBulkData,
   getEmployeesData,
   createEmployeeOTP,
+  getPaginationEmployeesData,
 } from "../controllers/employeeController.js";
 import { requireAuth, requireL1OrHOD } from "../middlewares/authMiddleware.js";
 
@@ -79,9 +80,17 @@ employeeRoutes.delete(
 );
 // add bulk data
 employeeRoutes.post("/addBulkdata", requireAuth, requireL1OrHOD, addBulkData);
+// get all employee
 employeeRoutes.get(
   "/getEmployees",
   requireAuth,
   requireL1OrHOD,
   getEmployeesData
+);
+// pagination
+employeeRoutes.get(
+  "/getPaginationEmployeesData",
+  requireAuth,
+  requireL1OrHOD,
+  getPaginationEmployeesData
 );

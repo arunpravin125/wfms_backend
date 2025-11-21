@@ -237,7 +237,7 @@ export const createEmployee = async (req, res) => {
           employeeId: newUser.id,
           degree: e.degree,
           university: e.university || "",
-          graduationYear: graduationYear || e.graduationYear,
+          graduationYear: graduationYear || "",
         },
       });
     }
@@ -629,47 +629,47 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+// const { filterName, department, roles, level } = req.body;
 // Create or Update Filter Data (Upsert)
 export const createFilterData = async (req, res) => {
   try {
-    const { filterName, department, roles, level } = req.body;
+    const filterName = "filterData";
 
-    // Validation
-    if (!filterName) {
-      return res.status(400).json({ message: "Filter name is required." });
-    }
+    const employees = await prisma.employee.findMany({
+      orderBy: { id: "asc" },
+    });
 
-    if (!department && !roles && !level) {
-      return res
-        .status(400)
-        .json({ message: "At least one field is required." });
-    }
+    const unique = (arr) => [...new Set(arr.filter(Boolean))];
 
-    // Check if filter with the same name exists
-    const existingFilter = await prisma.filterData.findUnique({
+    const departments = [
+      "All Departments",
+      ...unique(employees.map((e) => e.department)),
+    ];
+    const roles = ["All Roles", ...unique(employees.map((e) => e.role))];
+    const levels = [
+      "All Levels",
+      ...unique(employees.map((e) => e.level.toString())),
+    ].sort((a, b) => a - b);
+
+    const existing = await prisma.filterData.findUnique({
       where: { filterName },
     });
 
     let filter;
 
-    if (existingFilter) {
-      return res.status(400).json({ message: "Already filterName Exists" });
+    if (existing) {
+      filter = await prisma.filterData.update({
+        where: { filterName },
+        data: { department: departments, roles, level: levels },
+      });
     } else {
-      // ✅ Create new record
       filter = await prisma.filterData.create({
-        data: {
-          filterName,
-          department: department || [],
-          roles: roles || [],
-          level: level || [],
-        },
+        data: { filterName, department: departments, roles, level: levels },
       });
     }
 
-    res.status(201).json({
-      message: existingFilter
-        ? "Filter data updated successfully"
-        : "Filter data created successfully",
+    res.status(200).json({
+      message: existing ? "Updated" : "Created",
       data: filter,
     });
   } catch (error) {
@@ -681,7 +681,7 @@ export const createFilterData = async (req, res) => {
 // Get Latest or Specific Filter Data
 export const getFilteredData = async (req, res) => {
   try {
-    const { filterName } = req.query;
+    const filterName = "filterData";
 
     let filterData;
     if (filterName) {
@@ -877,7 +877,7 @@ export const addBulkData = async (req, res) => {
           // ====== NESTED EDUCATIONS ======
           educations: {
             create:
-              emp.education?.map((e) => ({
+              emp.educations?.map((e) => ({
                 degree: e.degree_name,
                 university: e.university_name,
                 graduationYear: e.graduation_year
@@ -913,11 +913,16 @@ export const addBulkData = async (req, res) => {
   }
 };
 
+// get all employee
 export const getEmployeesData = async (req, res) => {
   try {
     const getAllEmployee = await prisma.employee.findMany({
       orderBy: {
         id: "asc",
+      },
+      include: {
+        educations: true,
+        emergencyContacts: true,
       },
     });
 
@@ -927,5 +932,44 @@ export const getEmployeesData = async (req, res) => {
     res
       .status(500)
       .json({ error: "Failed to fetch employees", details: error.message });
+  }
+};
+
+// get pagination
+export const getPaginationEmployeesData = async (req, res) => {
+  try {
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+
+    const skip = (page - 1) * limit;
+
+    const employees = await prisma.employee.findMany({
+      skip,
+      take: limit,
+      orderBy: { id: "desc" },
+      include: {
+        educations: true,
+        emergencyContacts: true,
+      },
+    });
+
+    const totalEmployees = await prisma.employee.count();
+
+    const hasMore = skip + employees.length < totalEmployees;
+
+    res.status(200).json({
+      data: employees,
+      totalEmployees,
+      page,
+      limit,
+      hasMore,
+      totalPage: Math.ceil(totalEmployees / limit),
+    });
+  } catch (error) {
+    console.log("error in getEmployeesData", error);
+    res.status(500).json({
+      error: "Failed to fetch employees",
+      message: error.message,
+    });
   }
 };

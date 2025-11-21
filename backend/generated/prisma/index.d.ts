@@ -2993,13 +2993,11 @@ export namespace Prisma {
 
   export type EducationAvgAggregateOutputType = {
     id: number | null
-    graduationYear: number | null
     employeeId: number | null
   }
 
   export type EducationSumAggregateOutputType = {
     id: number | null
-    graduationYear: number | null
     employeeId: number | null
   }
 
@@ -3007,7 +3005,7 @@ export namespace Prisma {
     id: number | null
     degree: string | null
     university: string | null
-    graduationYear: number | null
+    graduationYear: string | null
     employeeId: number | null
   }
 
@@ -3015,7 +3013,7 @@ export namespace Prisma {
     id: number | null
     degree: string | null
     university: string | null
-    graduationYear: number | null
+    graduationYear: string | null
     employeeId: number | null
   }
 
@@ -3031,13 +3029,11 @@ export namespace Prisma {
 
   export type EducationAvgAggregateInputType = {
     id?: true
-    graduationYear?: true
     employeeId?: true
   }
 
   export type EducationSumAggregateInputType = {
     id?: true
-    graduationYear?: true
     employeeId?: true
   }
 
@@ -3156,7 +3152,7 @@ export namespace Prisma {
     id: number
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
     employeeId: number
     _count: EducationCountAggregateOutputType | null
     _avg: EducationAvgAggregateOutputType | null
@@ -3234,7 +3230,7 @@ export namespace Prisma {
       id: number
       degree: string
       university: string
-      graduationYear: number
+      graduationYear: string
       employeeId: number
     }, ExtArgs["result"]["education"]>
     composites: {}
@@ -3663,7 +3659,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Education", 'Int'>
     readonly degree: FieldRef<"Education", 'String'>
     readonly university: FieldRef<"Education", 'String'>
-    readonly graduationYear: FieldRef<"Education", 'Int'>
+    readonly graduationYear: FieldRef<"Education", 'String'>
     readonly employeeId: FieldRef<"Education", 'Int'>
   }
     
@@ -8482,18 +8478,8 @@ export namespace Prisma {
 
   export type AggregateFilterData = {
     _count: FilterDataCountAggregateOutputType | null
-    _avg: FilterDataAvgAggregateOutputType | null
-    _sum: FilterDataSumAggregateOutputType | null
     _min: FilterDataMinAggregateOutputType | null
     _max: FilterDataMaxAggregateOutputType | null
-  }
-
-  export type FilterDataAvgAggregateOutputType = {
-    level: number | null
-  }
-
-  export type FilterDataSumAggregateOutputType = {
-    level: number[]
   }
 
   export type FilterDataMinAggregateOutputType = {
@@ -8521,14 +8507,6 @@ export namespace Prisma {
     _all: number
   }
 
-
-  export type FilterDataAvgAggregateInputType = {
-    level?: true
-  }
-
-  export type FilterDataSumAggregateInputType = {
-    level?: true
-  }
 
   export type FilterDataMinAggregateInputType = {
     id?: true
@@ -8593,18 +8571,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: FilterDataAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: FilterDataSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: FilterDataMinAggregateInputType
@@ -8635,23 +8601,19 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: FilterDataCountAggregateInputType | true
-    _avg?: FilterDataAvgAggregateInputType
-    _sum?: FilterDataSumAggregateInputType
     _min?: FilterDataMinAggregateInputType
     _max?: FilterDataMaxAggregateInputType
   }
 
   export type FilterDataGroupByOutputType = {
     id: string
-    filterName: string | null
+    filterName: string
     department: string[]
     roles: string[]
-    level: number[]
+    level: string[]
     createdAt: Date
     updatedAt: Date
     _count: FilterDataCountAggregateOutputType | null
-    _avg: FilterDataAvgAggregateOutputType | null
-    _sum: FilterDataSumAggregateOutputType | null
     _min: FilterDataMinAggregateOutputType | null
     _max: FilterDataMaxAggregateOutputType | null
   }
@@ -8717,10 +8679,10 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      filterName: string | null
+      filterName: string
       department: string[]
       roles: string[]
-      level: number[]
+      level: string[]
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["filterData"]>
@@ -9150,7 +9112,7 @@ export namespace Prisma {
     readonly filterName: FieldRef<"FilterData", 'String'>
     readonly department: FieldRef<"FilterData", 'String[]'>
     readonly roles: FieldRef<"FilterData", 'String[]'>
-    readonly level: FieldRef<"FilterData", 'Int[]'>
+    readonly level: FieldRef<"FilterData", 'String[]'>
     readonly createdAt: FieldRef<"FilterData", 'DateTime'>
     readonly updatedAt: FieldRef<"FilterData", 'DateTime'>
   }
@@ -9886,7 +9848,7 @@ export namespace Prisma {
     id?: IntFilter<"Education"> | number
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: IntFilter<"Education"> | number
+    graduationYear?: StringFilter<"Education"> | string
     employeeId?: IntFilter<"Education"> | number
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }
@@ -9907,7 +9869,7 @@ export namespace Prisma {
     NOT?: EducationWhereInput | EducationWhereInput[]
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: IntFilter<"Education"> | number
+    graduationYear?: StringFilter<"Education"> | string
     employeeId?: IntFilter<"Education"> | number
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
   }, "id">
@@ -9932,7 +9894,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Education"> | number
     degree?: StringWithAggregatesFilter<"Education"> | string
     university?: StringWithAggregatesFilter<"Education"> | string
-    graduationYear?: IntWithAggregatesFilter<"Education"> | number
+    graduationYear?: StringWithAggregatesFilter<"Education"> | string
     employeeId?: IntWithAggregatesFilter<"Education"> | number
   }
 
@@ -10174,17 +10136,17 @@ export namespace Prisma {
     OR?: FilterDataWhereInput[]
     NOT?: FilterDataWhereInput | FilterDataWhereInput[]
     id?: StringFilter<"FilterData"> | string
-    filterName?: StringNullableFilter<"FilterData"> | string | null
+    filterName?: StringFilter<"FilterData"> | string
     department?: StringNullableListFilter<"FilterData">
     roles?: StringNullableListFilter<"FilterData">
-    level?: IntNullableListFilter<"FilterData">
+    level?: StringNullableListFilter<"FilterData">
     createdAt?: DateTimeFilter<"FilterData"> | Date | string
     updatedAt?: DateTimeFilter<"FilterData"> | Date | string
   }
 
   export type FilterDataOrderByWithRelationInput = {
     id?: SortOrder
-    filterName?: SortOrderInput | SortOrder
+    filterName?: SortOrder
     department?: SortOrder
     roles?: SortOrder
     level?: SortOrder
@@ -10200,24 +10162,22 @@ export namespace Prisma {
     NOT?: FilterDataWhereInput | FilterDataWhereInput[]
     department?: StringNullableListFilter<"FilterData">
     roles?: StringNullableListFilter<"FilterData">
-    level?: IntNullableListFilter<"FilterData">
+    level?: StringNullableListFilter<"FilterData">
     createdAt?: DateTimeFilter<"FilterData"> | Date | string
     updatedAt?: DateTimeFilter<"FilterData"> | Date | string
   }, "id" | "filterName">
 
   export type FilterDataOrderByWithAggregationInput = {
     id?: SortOrder
-    filterName?: SortOrderInput | SortOrder
+    filterName?: SortOrder
     department?: SortOrder
     roles?: SortOrder
     level?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FilterDataCountOrderByAggregateInput
-    _avg?: FilterDataAvgOrderByAggregateInput
     _max?: FilterDataMaxOrderByAggregateInput
     _min?: FilterDataMinOrderByAggregateInput
-    _sum?: FilterDataSumOrderByAggregateInput
   }
 
   export type FilterDataScalarWhereWithAggregatesInput = {
@@ -10225,10 +10185,10 @@ export namespace Prisma {
     OR?: FilterDataScalarWhereWithAggregatesInput[]
     NOT?: FilterDataScalarWhereWithAggregatesInput | FilterDataScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"FilterData"> | string
-    filterName?: StringNullableWithAggregatesFilter<"FilterData"> | string | null
+    filterName?: StringWithAggregatesFilter<"FilterData"> | string
     department?: StringNullableListFilter<"FilterData">
     roles?: StringNullableListFilter<"FilterData">
-    level?: IntNullableListFilter<"FilterData">
+    level?: StringNullableListFilter<"FilterData">
     createdAt?: DateTimeWithAggregatesFilter<"FilterData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FilterData"> | Date | string
   }
@@ -10424,7 +10384,7 @@ export namespace Prisma {
   export type EducationCreateInput = {
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
     employee: EmployeeCreateNestedOneWithoutEducationsInput
   }
 
@@ -10432,14 +10392,14 @@ export namespace Prisma {
     id?: number
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
     employeeId: number
   }
 
   export type EducationUpdateInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
     employee?: EmployeeUpdateOneRequiredWithoutEducationsNestedInput
   }
 
@@ -10447,7 +10407,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
     employeeId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -10455,21 +10415,21 @@ export namespace Prisma {
     id?: number
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
     employeeId: number
   }
 
   export type EducationUpdateManyMutationInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
   }
 
   export type EducationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
     employeeId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -10690,70 +10650,70 @@ export namespace Prisma {
 
   export type FilterDataCreateInput = {
     id?: string
-    filterName?: string | null
+    filterName: string
     department?: FilterDataCreatedepartmentInput | string[]
     roles?: FilterDataCreaterolesInput | string[]
-    level?: FilterDataCreatelevelInput | number[]
+    level?: FilterDataCreatelevelInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FilterDataUncheckedCreateInput = {
     id?: string
-    filterName?: string | null
+    filterName: string
     department?: FilterDataCreatedepartmentInput | string[]
     roles?: FilterDataCreaterolesInput | string[]
-    level?: FilterDataCreatelevelInput | number[]
+    level?: FilterDataCreatelevelInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FilterDataUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    filterName?: StringFieldUpdateOperationsInput | string
     department?: FilterDataUpdatedepartmentInput | string[]
     roles?: FilterDataUpdaterolesInput | string[]
-    level?: FilterDataUpdatelevelInput | number[]
+    level?: FilterDataUpdatelevelInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FilterDataUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    filterName?: StringFieldUpdateOperationsInput | string
     department?: FilterDataUpdatedepartmentInput | string[]
     roles?: FilterDataUpdaterolesInput | string[]
-    level?: FilterDataUpdatelevelInput | number[]
+    level?: FilterDataUpdatelevelInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FilterDataCreateManyInput = {
     id?: string
-    filterName?: string | null
+    filterName: string
     department?: FilterDataCreatedepartmentInput | string[]
     roles?: FilterDataCreaterolesInput | string[]
-    level?: FilterDataCreatelevelInput | number[]
+    level?: FilterDataCreatelevelInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FilterDataUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    filterName?: StringFieldUpdateOperationsInput | string
     department?: FilterDataUpdatedepartmentInput | string[]
     roles?: FilterDataUpdaterolesInput | string[]
-    level?: FilterDataUpdatelevelInput | number[]
+    level?: FilterDataUpdatelevelInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FilterDataUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    filterName?: NullableStringFieldUpdateOperationsInput | string | null
+    filterName?: StringFieldUpdateOperationsInput | string
     department?: FilterDataUpdatedepartmentInput | string[]
     roles?: FilterDataUpdaterolesInput | string[]
-    level?: FilterDataUpdatelevelInput | number[]
+    level?: FilterDataUpdatelevelInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11110,7 +11070,6 @@ export namespace Prisma {
 
   export type EducationAvgOrderByAggregateInput = {
     id?: SortOrder
-    graduationYear?: SortOrder
     employeeId?: SortOrder
   }
 
@@ -11132,7 +11091,6 @@ export namespace Prisma {
 
   export type EducationSumOrderByAggregateInput = {
     id?: SortOrder
-    graduationYear?: SortOrder
     employeeId?: SortOrder
   }
 
@@ -11283,14 +11241,6 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
-  export type IntNullableListFilter<$PrismaModel = never> = {
-    equals?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    has?: number | IntFieldRefInput<$PrismaModel> | null
-    hasEvery?: number[] | ListIntFieldRefInput<$PrismaModel>
-    hasSome?: number[] | ListIntFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type FilterDataCountOrderByAggregateInput = {
     id?: SortOrder
     filterName?: SortOrder
@@ -11299,10 +11249,6 @@ export namespace Prisma {
     level?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type FilterDataAvgOrderByAggregateInput = {
-    level?: SortOrder
   }
 
   export type FilterDataMaxOrderByAggregateInput = {
@@ -11317,10 +11263,6 @@ export namespace Prisma {
     filterName?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type FilterDataSumOrderByAggregateInput = {
-    level?: SortOrder
   }
 
   export type EmployeeCreateNestedOneWithoutChildrenInput = {
@@ -11706,7 +11648,7 @@ export namespace Prisma {
   }
 
   export type FilterDataCreatelevelInput = {
-    set: number[]
+    set: string[]
   }
 
   export type FilterDataUpdatedepartmentInput = {
@@ -11720,8 +11662,8 @@ export namespace Prisma {
   }
 
   export type FilterDataUpdatelevelInput = {
-    set?: number[]
-    push?: number | number[]
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -12057,14 +11999,14 @@ export namespace Prisma {
   export type EducationCreateWithoutEmployeeInput = {
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
   }
 
   export type EducationUncheckedCreateWithoutEmployeeInput = {
     id?: number
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
   }
 
   export type EducationCreateOrConnectWithoutEmployeeInput = {
@@ -12305,7 +12247,7 @@ export namespace Prisma {
     id?: IntFilter<"Education"> | number
     degree?: StringFilter<"Education"> | string
     university?: StringFilter<"Education"> | string
-    graduationYear?: IntFilter<"Education"> | number
+    graduationYear?: StringFilter<"Education"> | string
     employeeId?: IntFilter<"Education"> | number
   }
 
@@ -13095,7 +13037,7 @@ export namespace Prisma {
     id?: number
     degree: string
     university: string
-    graduationYear: number
+    graduationYear: string
   }
 
   export type EmergencyContactCreateManyEmployeeInput = {
@@ -13210,21 +13152,21 @@ export namespace Prisma {
   export type EducationUpdateWithoutEmployeeInput = {
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
   }
 
   export type EducationUncheckedUpdateWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
   }
 
   export type EducationUncheckedUpdateManyWithoutEmployeeInput = {
     id?: IntFieldUpdateOperationsInput | number
     degree?: StringFieldUpdateOperationsInput | string
     university?: StringFieldUpdateOperationsInput | string
-    graduationYear?: IntFieldUpdateOperationsInput | number
+    graduationYear?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmergencyContactUpdateWithoutEmployeeInput = {

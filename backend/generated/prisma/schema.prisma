@@ -44,7 +44,7 @@ model Education {
   id             Int      @id @default(autoincrement())
   degree         String
   university     String
-  graduationYear Int // change from String? to Int?
+  graduationYear String // change from String? to Int?
   employeeId     Int
   employee       Employee @relation(fields: [employeeId], references: [id])
 }
@@ -87,11 +87,11 @@ model LoginOTP {
 }
 
 model FilterData {
-  id         String   @id @default(uuid()) // unique string ID
-  filterName String?  @unique
-  department String[] // text[] column
+  id         String   @id @default(uuid())
+  filterName String   @unique // ← remove "?"
+  department String[]
   roles      String[]
-  level      Int[] // integer[] column
+  level      String[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
